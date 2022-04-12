@@ -1,4 +1,24 @@
 #BlueJ class context
 comment0.target=SmartTV
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ SmartTV\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-numComments=1
+comment1.params=
+comment1.target=SmartTV()
+comment10.params=
+comment10.target=java.lang.String\ toString()
+comment2.params=id\ brand\ dailyConsumption\ installationCost\ on\ volume\ resolution
+comment2.target=SmartTV(java.lang.String,\ java.lang.String,\ int,\ float,\ boolean,\ int,\ int)
+comment3.params=o
+comment3.target=SmartTV(SmartTV)
+comment4.params=
+comment4.target=int\ getVolume()
+comment5.params=volume
+comment5.target=void\ setVolume(int)
+comment6.params=
+comment6.target=int\ getResolution()
+comment7.params=resolution
+comment7.target=void\ setResolution(int)
+comment8.params=o
+comment8.target=boolean\ equals(java.lang.Object)
+comment9.params=
+comment9.target=SmartTV\ clone()
+numComments=11
