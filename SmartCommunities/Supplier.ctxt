@@ -1,4 +1,24 @@
 #BlueJ class context
 comment0.target=Supplier
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Supplier\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-numComments=1
+comment0.text=\n\ Write\ a\ description\ of\ class\ Supplier\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=
+comment1.target=Supplier()
+comment10.params=
+comment10.target=java.lang.String\ toString()
+comment2.params=price\ dailyCost
+comment2.target=Supplier(float,\ int)
+comment3.params=s
+comment3.target=Supplier(Supplier)
+comment4.params=
+comment4.target=float\ getPrice()
+comment5.params=price
+comment5.target=void\ setPrice(float)
+comment6.params=
+comment6.target=int\ getDailyCost()
+comment7.params=dailyCost
+comment7.target=void\ setDailyCost(int)
+comment8.params=o
+comment8.target=boolean\ equals(java.lang.Object)
+comment9.params=
+comment9.target=Supplier\ clone()
+numComments=11

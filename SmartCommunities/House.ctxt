@@ -1,4 +1,29 @@
 #BlueJ class context
 comment0.target=House
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ House\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-numComments=1
+comment0.text=\n\ Write\ a\ description\ of\ class\ House\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=
+comment1.target=House()
+comment10.params=
+comment10.target=java.util.Map\ getRooms()
+comment11.params=rooms
+comment11.target=void\ setRooms(java.util.Map)
+comment12.params=
+comment12.target=House\ clone()
+comment12.text=\n\ \ \ \ public\ boolean\ equals(Object\ o)\ {\n\ \ \ \ \ \ \ \ if\ (this\ \=\=\ o)\ return\ true;\ \n\ \ \ \ \ \ \ \ if\ ((o\ \=\=\ null)\ ||\ (this.getClass()\ \!\=\ o.getClass()))\ return\ false;\ \n\ \ \ \ \ \ \ \ House\ h\ \=\ (House)\ o;\ \n\ \ \ \ \ \ \ \ return\ price\ \=\=\ s.price\ &&\ \n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dailyCost\ \=\=\ s.dailyCost;\ \n\ \ \ \ }\n
+comment2.params=address\ ownerName\ devices\ rooms
+comment2.target=House(java.lang.String,\ java.lang.String,\ java.util.Map,\ java.util.Map)
+comment3.params=h
+comment3.target=House(House)
+comment4.params=
+comment4.target=java.lang.String\ getAddress()
+comment5.params=address
+comment5.target=void\ setAddress(java.lang.String)
+comment6.params=
+comment6.target=java.lang.String\ getOwnerName()
+comment7.params=ownerName
+comment7.target=void\ setOwnerName(java.lang.String)
+comment8.params=
+comment8.target=java.util.Map\ getDevices()
+comment9.params=devices
+comment9.target=void\ setDevices(java.util.Map)
+numComments=13
