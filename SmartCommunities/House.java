@@ -1,7 +1,6 @@
-import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+
 
 /**
  * Write a description of class House here.
@@ -10,30 +9,31 @@ import java.util.List;
  * @version (a version number or a date)
  */
 public class House {
+
     private String address;
     private String ownerName;
     private Map<String, SmartDevice> devices;
-    private Map<String, List<String>> rooms;
+    private Map<String, Map<String, SmartDevice>> rooms;
     
     public House(){
-        this.address = "";
-        this.ownerName = "";
+        this.address = "Rua Das Cruzetas";
+        this.ownerName = "Antonio Variacoes";
         this.devices = new HashMap<>();
         this.rooms = new HashMap<>();
     }
     
-    public House(String address, String ownerName, Map<String, SmartDevice> devices, Map<String, List<String>> rooms){
+    public House(String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms){
         this.address = address;
         this.ownerName = ownerName;
         this.devices = devices;
         this.rooms = rooms;
-    } 
+    }   
     
-    public House(House h){
-        this.address = h.getAddress();
-        this.ownerName = h.getOwnerName();
-        this.devices = h.getDevices();
-        this.rooms = h.getRooms();
+    public House(House o){
+        this.address = o.getAddress();
+        this.ownerName = o.getOwnerName();
+        this.devices = o.getDevices();
+        this.rooms = o.getRooms();
     }
     
     public String getAddress(){
@@ -45,7 +45,7 @@ public class House {
     }
     
     public String getOwnerName(){
-        return this.address;
+        return this.ownerName;
     }
     
     public void setOwnerName(String ownerName){
@@ -54,48 +54,87 @@ public class House {
     
     public Map<String, SmartDevice> getDevices(){
        return this.devices;
-       //return this.devices.values().stream().collect(Collectors.toMap(id.SmartDevice :: getId, id.SmartDevice::clone));
     }
     
     public void setDevices(Map<String, SmartDevice> devices){
         this.devices = devices;
     }
     
-    public Map<String, List<String>> getRooms(){
+    public Map<String, Map<String, SmartDevice>> getRooms(){
        return this.rooms;
     }
     
-    public void setRooms(Map<String, List<String>> rooms){
+    public void setRooms(Map<String, Map<String, SmartDevice>> rooms){
         this.rooms = rooms;
     }
-    
-    /*
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true; 
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         House h = (House) o; 
-        return price == s.price && 
-               dailyCost == s.dailyCost; 
+        return address == h.address && 
+               ownerName == h.ownerName &&
+               devices == h.devices &&
+               rooms == h.rooms; 
     }
-    */
    
+    @Override
     public House clone() {
         return new House(this);    
     }
     
-    /*
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nHouse:")
-            .append("\nAddress: ")
+        sb.append("\nAddress: ")
             .append(this.getAddress())
             .append("\nOwner's Name: ")
-            .append(this.getOwnerName());
-        for(SmartDevice sd : devices){
-            
-        }
-            
+            .append(this.getOwnerName())
+            .append("\nDevices: ");
+            for (SmartDevice o : devices.values()) {
+                 sb.append(o.toString());
+            }
+            sb.append("\nRooms: ");
+            for (String room : rooms.keySet()) {
+                sb.append(room);
+           }
         return sb.toString();
     }
-    */
+
+    public boolean existsDevice(String deviceId) {
+        return this.devices.keySet().contains(deviceId);
+    }
+    
+    public void addDevice(SmartDevice o) {
+        this.devices.put(o.getId(), o);
+    }
+
+    public void setDeviceOn(String deviceId) {
+        this.devices.get(deviceId).turnOn();
+    }
+
+    public void setDeviceOff(String deviceId) {
+        this.devices.get(deviceId).turnOn();
+    }
+
+    public void setAllOn() {
+        this.devices.values().forEach(SmartDevice::turnOn);
+    }
+
+    public void setAllOff() {
+        this.devices.values().forEach(SmartDevice::turnOff);
+    }
+
+    public void addRoom(String room) {
+        this.rooms.put(room, new HashMap<>());
+    }
+
+    public void addToRoom (String room, String deviceId) {
+        this.rooms.get(room).put(deviceId, devices.get(deviceId));
+    }
+
+
+
+
 }

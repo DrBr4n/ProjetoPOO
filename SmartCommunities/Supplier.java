@@ -6,12 +6,13 @@
  * @version (a version number or a date)
  */
 public class Supplier {
+    
     private float price;
     private int dailyCost;
     
     public Supplier() {
-        this.price = 0;
-        this.dailyCost = 0;
+        this.price = 5;
+        this.dailyCost = 50;
     }
     
     public Supplier(float price, int dailyCost){
@@ -19,9 +20,9 @@ public class Supplier {
         this.dailyCost = dailyCost;
     }
     
-    public Supplier(Supplier s){
-        this.price = s.getPrice();
-        this.dailyCost = s.getDailyCost();
+    public Supplier(Supplier o){
+        this.price = o.getPrice();
+        this.dailyCost = o.getDailyCost();
     }
     
     public float getPrice() {
