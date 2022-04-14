@@ -6,18 +6,20 @@
  * @version (a version number or a date)
  */
 public class Supplier {
+
     /**
     * Contrutores da classe Supplier.
     * Variáveis de instância. 
     */
+
     private float price;
     private int dailyCost;
     /**
      * Construtor vazio do Supplier. 
      */  
     public Supplier() {
-        this.price = 0;
-        this.dailyCost = 0;
+        this.price = 5;
+        this.dailyCost = 50;
     }
     /**
      * Construtor parametrizado de Supplier.
@@ -28,14 +30,17 @@ public class Supplier {
         this.price = price;
         this.dailyCost = dailyCost;
     }
+
     /**
      * Construtor de cópia Supplier.
      * Aceita como parametro um objeto Supplier e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
      */
-    public Supplier(Supplier s){
-        this.price = s.getPrice();
-        this.dailyCost = s.getDailyCost();
+
+    public Supplier(Supplier o){
+        this.price = o.getPrice();
+        this.dailyCost = o.getDailyCost();
+
     }
     /**
      * Devolve o valor do preço.
