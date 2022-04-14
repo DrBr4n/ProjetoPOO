@@ -22,6 +22,13 @@ public class House {
         this.rooms = new HashMap<>();
     }
     
+    public House(String address, String ownerName){
+        this.address = address;
+        this.ownerName = ownerName;
+        this.devices = new HashMap<>();
+        this.rooms = new HashMap<>();
+    }
+    
     public House(String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms){
         this.address = address;
         this.ownerName = ownerName;
@@ -130,10 +137,13 @@ public class House {
         this.rooms.put(room, new HashMap<>());
     }
 
-    public void addToRoom (String room, String deviceId) {
+    public void addDeviceToRoom (String room, String deviceId) {
         this.rooms.get(room).put(deviceId, devices.get(deviceId));
     }
-
+    
+    public boolean existRoom(String room){
+        return this.rooms.containsKey(room);
+    }
 
 
 

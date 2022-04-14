@@ -20,6 +20,14 @@ public class SmartDevice {
         this.on = false;
     }
 
+    public SmartDevice(String id, String brand) {
+        this.id = id;
+        this.brand = brand;
+        this.dailyConsumption = 0;
+        this.installationCost = 0.0f;
+        this.on = false;
+    }
+    
     public SmartDevice(String id, String brand, int dailyConsumption, float installationCost, boolean on) {
         this.id = id;
         this.brand = brand;

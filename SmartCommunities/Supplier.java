@@ -7,22 +7,34 @@
  */
 public class Supplier {
     
+    private String name;
     private float price;
     private int dailyCost;
     
     public Supplier() {
+        this.name = "EDP";
         this.price = 5;
         this.dailyCost = 50;
     }
     
-    public Supplier(float price, int dailyCost){
+    public Supplier(String name, float price, int dailyCost){
+        this.name = name;
         this.price = price;
         this.dailyCost = dailyCost;
     }
     
     public Supplier(Supplier o){
+        this.name = o.getName();
         this.price = o.getPrice();
         this.dailyCost = o.getDailyCost();
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     public float getPrice() {
@@ -45,7 +57,8 @@ public class Supplier {
         if (this == o) return true; 
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         Supplier s = (Supplier) o; 
-        return price == s.price && 
+        return name == s.name &&
+               price == s.price && 
                dailyCost == s.dailyCost; 
     }
 
@@ -56,6 +69,8 @@ public class Supplier {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nSupplier:")
+            .append("\nName: ")
+            .append(this.getName())
             .append("\nPrice: ")
             .append(this.getPrice())
             .append("\nDaily Cost: ")
