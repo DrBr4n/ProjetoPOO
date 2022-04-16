@@ -1,7 +1,6 @@
 import java.util.Map;
 import java.util.HashMap;
 
-
 /**
  * Write a description of class House here.
  *
@@ -13,7 +12,7 @@ public class House {
     private String address;
     private String ownerName;
     private Map<String, SmartDevice> devices;
-    private Map<String, Map<String, SmartDevice>> rooms;
+    private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
     
     public House(){
         this.address = "Rua Das Cruzetas";
@@ -134,7 +133,8 @@ public class House {
     }
 
     public void addRoom(String room) {
-        this.rooms.put(room, new HashMap<>());
+        Map<String, SmartDevice> emptyMap = new HashMap<>();
+        this.rooms.put(room, emptyMap);
     }
 
     public void addDeviceToRoom (String room, String deviceId) {

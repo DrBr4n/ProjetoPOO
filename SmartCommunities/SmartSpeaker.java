@@ -27,7 +27,7 @@ public class SmartSpeaker extends SmartDevice {
      * @param radio estação de rádio em que se encontra o SmartSpeaker.
      * @param volume do SmartSpeaker. 
      */
-    public SmartSpeaker(String id, String brand, int dailyConsumption, float installationCost, boolean on, int volume, String radio) {
+    public SmartSpeaker(String id, String brand, int dailyConsumption, float installationCost, boolean on, String radio, int volume) {
         super(id, brand, dailyConsumption, installationCost, on);
         this.radio = radio;
         this.volume = volume;
