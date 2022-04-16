@@ -20,6 +20,7 @@ public class View
         System.out.println("7 - Gerar fatura");
         System.out.println("8 - Ver estatisticas");
         System.out.println("9 - Carregar ficheiro");
+        System.out.println("10 - Guardar estado num ficheiro");
         System.out.println("\n0 - Terminar");
         System.out.print("Indique a opcao: ");
 
@@ -129,10 +130,12 @@ public class View
         prop[0] = String.valueOf(option);
         if(option == 1 ){
             System.out.println("Indique a divisao que pretende adicionar:");
+            sc.nextLine();
             prop[1] = sc.nextLine();
             prop[2] = null;
         } else if (option == 2) {
             System.out.println("Indique a divisao a que pretende adicionar o dispositivo:");
+            sc.nextLine();
             prop[1] = sc.nextLine();
             System.out.println("Indique o id do dispositivo que pretende adicionar:");
             prop[2] = sc.nextLine();

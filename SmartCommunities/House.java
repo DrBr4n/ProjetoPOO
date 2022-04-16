@@ -9,26 +9,30 @@ import java.util.HashMap;
  */
 public class House {
 
+    private String id;
     private String address;
     private String ownerName;
     private Map<String, SmartDevice> devices;
     private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
     
     public House(){
+        this.id = "h0";
         this.address = "Rua Das Cruzetas";
         this.ownerName = "Antonio Variacoes";
         this.devices = new HashMap<>();
         this.rooms = new HashMap<>();
     }
     
-    public House(String address, String ownerName){
+    public House(String id, String address, String ownerName){
+        this.id = id;
         this.address = address;
         this.ownerName = ownerName;
         this.devices = new HashMap<>();
         this.rooms = new HashMap<>();
     }
     
-    public House(String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms){
+    public House(String id, String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms){
+        this.id = id;
         this.address = address;
         this.ownerName = ownerName;
         this.devices = devices;
@@ -36,12 +40,21 @@ public class House {
     }   
     
     public House(House o){
+        this.id = o.getId();
         this.address = o.getAddress();
         this.ownerName = o.getOwnerName();
         this.devices = o.getDevices();
         this.rooms = o.getRooms();
     }
     
+    public String getId(){
+        return this.id;
+    }
+    
+    public void setId(String id){
+        this.id = id;
+    }
+
     public String getAddress(){
         return this.address;
     }
@@ -79,7 +92,8 @@ public class House {
         if (this == o) return true; 
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         House h = (House) o; 
-        return address == h.address && 
+        return id == h.id &&
+               address == h.address && 
                ownerName == h.ownerName &&
                devices == h.devices &&
                rooms == h.rooms; 
@@ -93,7 +107,9 @@ public class House {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nAddress: ")
+        sb.append("\nIdentifier: ")
+            .append(this.getId())
+            .append("\nAddress: ")
             .append(this.getAddress())
             .append("\nOwner's Name: ")
             .append(this.getOwnerName())

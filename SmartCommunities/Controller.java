@@ -1,3 +1,6 @@
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -12,16 +15,17 @@ import java.util.HashMap;
 public class Controller {
 
     private View view;
-    private ArrayList<Community> community; 
+    private Community community; 
     private Map<String, Supplier> suppliers;
     private Map<String, SmartDevice> smartDevices;
     private Map<String, House> houses;
+    private int houseCounter;
     private int deviceCounter;
     private boolean run;
 
     public static void main(String[] args) {
        Controller cont = new Controller();
-       
+       Community community = new Community();
         do {
             cont.displayMenu();
 
@@ -32,7 +36,7 @@ public class Controller {
     
     public Controller() {
         this.view = new View();
-        this.community = new ArrayList<>();
+        this.community = new Community();
         this.suppliers = new HashMap<>();
         this.houses = new HashMap<>();
         this.smartDevices = new HashMap<>();
@@ -56,6 +60,9 @@ public class Controller {
                 break;
             case 3:
                 createSupplier();
+                break;
+            case 10:
+                writeFile();
                 break;
             case 99:
                 viewDevices();
@@ -101,7 +108,12 @@ public class Controller {
 
     public void createHouse() {
         String [] ids = this.view.createHouse();
-        House house = new House(ids[0], ids[1], Collections.emptyMap(), Collections.emptyMap());
+        
+        Map<String, SmartDevice> emptyDevicesMap = new HashMap<>();
+        Map<String, Map<String, SmartDevice>> emptyRoomMap = new HashMap<>();
+
+        House house = new House('h' + String.valueOf(this.houseCounter++), ids[0], ids[1], emptyDevicesMap, emptyRoomMap);
+        
         boolean editing = true;
         
         do {
@@ -128,6 +140,7 @@ public class Controller {
         } while (editing);
         
         houses.put(house.getAddress(), house);
+        community.addHouse(house);
     }
 
     public void createSupplier() {
@@ -146,6 +159,22 @@ public class Controller {
 
     public void viewSuppliers() {
         suppliers.values().stream().map(Supplier::toString).forEach(System.out::println);
+    }
+
+    public Map<String, House> getHouses(){
+        return this.houses;
+    }
+
+    public void writeFile(){
+        try{
+            FileOutputStream fos = new FileOutputStream("state.txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(community);
+            oos.close();
+            fos.close();
+        }catch(IOException i){
+            i.printStackTrace();
+        }
     }
 
     @Override
