@@ -19,6 +19,7 @@ public class SmartBulb extends SmartDevice {
         this.mode = 0;
         this.size = 8;
     }
+
     /**
      * Construtor parametrizado de SmartBulb.
      * @param super chama o construtor super Classe .
@@ -31,6 +32,7 @@ public class SmartBulb extends SmartDevice {
         this.mode = mode;
         this.size = size;
     }
+
     /**
      * Construtor de cópia SmartBulb.
      * Aceita como parametro um objeto SmartBulb e utiliza os seus métodos
@@ -41,6 +43,7 @@ public class SmartBulb extends SmartDevice {
         this.mode = o.getMode();
         this.size = o.getSize();
     }
+
     /**
      * Devolve a tonalidade.
      * @return mode(tonalidade da SmartBulb).
@@ -48,6 +51,7 @@ public class SmartBulb extends SmartDevice {
     public int getMode() {
         return this.mode;
     }
+
     /**
      * Actualiza o valor do mode ou seja uma nova tonalidade.
      * @param novo mode.
@@ -55,6 +59,7 @@ public class SmartBulb extends SmartDevice {
     public void setMode(int mode) {
         this.mode = mode;
     }
+
     /**
      * Devolve o valor do tamanho da SmartBulb.
      * @return o valor do tamanho.
@@ -62,6 +67,7 @@ public class SmartBulb extends SmartDevice {
     public int getSize() {
         return this.size;
     }
+
     /**
      * Actualiza o valor do tamanho.
      * @param novo tamanho.
@@ -69,6 +75,7 @@ public class SmartBulb extends SmartDevice {
     public void setSize(int size) {
         this.size = size;
     }
+
     /** 
      *Testa a veracidade entre a comparação de dois objetos.
      */
@@ -78,17 +85,19 @@ public class SmartBulb extends SmartDevice {
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         SmartBulb d = (SmartBulb) o; 
         return super.equals(d) &&
-               this.mode == d.mode && 
-               this.size == d.size; 
+        this.mode == d.mode && 
+        this.size == d.size; 
     }
+
     /**
      * Método que cria uma cópia do objecto SmartBulb.
      * @return objecto clone do SmartBulb.
-    */
+     */
     @Override
     public SmartBulb clone() {
         return new SmartBulb(this);    
     }
+
     /**
      * Metodo que devolve a representação em Sting da SmartBulb.
      * @return String com as variáveis de instância de SmartBulb.
@@ -97,13 +106,12 @@ public class SmartBulb extends SmartDevice {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString())
-            .append("\nMode: ")
-            .append(this.getMode())
-            .append("\nSize: ")
-            .append(this.getSize());
+        .append("\nMode: ")
+        .append(this.getMode())
+        .append("\nSize: ")
+        .append(this.getSize());
 
         return sb.toString();
     }
-
 
 }

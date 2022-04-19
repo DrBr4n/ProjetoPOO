@@ -6,9 +6,9 @@
  */
 public class SmartSpeaker extends SmartDevice {
     /**
-    * Contrutores da classe SmartSpeaker.
-    * Variáveis de instância. 
-    */
+     * Contrutores da classe SmartSpeaker.
+     * Variáveis de instância. 
+     */
     public static final int MAX = 100;
 
     private String radio;
@@ -21,6 +21,7 @@ public class SmartSpeaker extends SmartDevice {
         this.radio = "9.35";
         this.volume = 40;
     }
+
     /**
      * Construtor parametrizado de SmartSpeaker.
      * @param super chama o construtor super Classe.
@@ -32,6 +33,7 @@ public class SmartSpeaker extends SmartDevice {
         this.radio = radio;
         this.volume = volume;
     }
+
     /**
      * Construtor de cópia SmartSpeaker.
      * Aceita como parametro um objeto SmartSpeaker e utiliza os seus métodos
@@ -42,6 +44,7 @@ public class SmartSpeaker extends SmartDevice {
         this.radio = o.getRadio();
         this.volume = o.getVolume();
     }
+
     /**
      * Devolve a estação de rádio.
      * @return a estação de rádio.
@@ -49,6 +52,7 @@ public class SmartSpeaker extends SmartDevice {
     public String getRadio() {
         return this.radio;
     }
+
     /**
      * Actualiza a estação de rádio.
      * @param nova estação de rádio.
@@ -56,6 +60,7 @@ public class SmartSpeaker extends SmartDevice {
     public void setRadio(String radio) {
         this.radio = radio;
     }
+
     /**
      * Devolve o volume atual do SmartSpeaker.
      * @return o volume .
@@ -63,6 +68,7 @@ public class SmartSpeaker extends SmartDevice {
     public int getVolume() {
         return this.volume;
     }
+
     /**
      * Actualiza o valor volume.
      * @param novo valor de volume.
@@ -71,6 +77,7 @@ public class SmartSpeaker extends SmartDevice {
         if (volume >= 0 && volume <= MAX)
             this.volume = volume;
     }
+
     /**
      * Aumenta o volume do SmartSpeaker sem ultrapassar o seu máximo.
      */
@@ -78,6 +85,7 @@ public class SmartSpeaker extends SmartDevice {
         if (this.volume < MAX) 
             this.volume++;
     }
+
     /**
      * Diminui o volume do SmartSpeaker sem ultrapassar o seu mínimo.
      */
@@ -85,6 +93,7 @@ public class SmartSpeaker extends SmartDevice {
         if (this.volume > 0) 
             this.volume--;
     }
+
     /** 
      *Testa a veracidade entre a comparação de dois objetos.
      */
@@ -94,17 +103,19 @@ public class SmartSpeaker extends SmartDevice {
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         SmartSpeaker d = (SmartSpeaker) o; 
         return super.equals(d) &&
-               this.radio == d.radio && 
-               this.volume == d.volume; 
+        this.radio == d.radio && 
+        this.volume == d.volume; 
     }
+
     /**
      * Método que cria uma cópia do objecto SmartTV.
      * @return objecto clone do SmartTV.
-    */
+     */
     @Override
     public SmartSpeaker clone() {
         return new SmartSpeaker(this);    
     }
+
     /**
      * Metodo que devolve a representação em Sting dos SmartSpeaker.
      * @return String com as variáveis de instância de SmartSpeaker.
@@ -113,10 +124,10 @@ public class SmartSpeaker extends SmartDevice {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString())
-            .append("\nRadio: ")
-            .append(this.getRadio())
-            .append("\nVolume: ")
-            .append(this.getVolume());
+        .append("\nRadio: ")
+        .append(this.getRadio())
+        .append("\nVolume: ")
+        .append(this.getVolume());
 
         return sb.toString();
     }

@@ -6,9 +6,9 @@
  */
 public class SmartAC extends SmartDevice {
     /**
-    * Contrutores da classe SmartAC.
-    * Variáveis de instância. 
-    */
+     * Contrutores da classe SmartAC.
+     * Variáveis de instância. 
+     */
     private int mode;
     private int temperature;
     /**
@@ -18,6 +18,7 @@ public class SmartAC extends SmartDevice {
         super();
         this.mode = 0;
     }
+
     /**
      * Construtor parametrizado de SmartBulb.
      * @param super chama o construtor super Classe .
@@ -28,6 +29,7 @@ public class SmartAC extends SmartDevice {
         this.mode = mode;
         this.temperature = temperature;
     }    
+
     /**
      * Construtor de cópia SmartAC.
      * Aceita como parametro um objeto SmartAC e utiliza os seus métodos
@@ -38,6 +40,7 @@ public class SmartAC extends SmartDevice {
         this.mode = o.getMode();
         this.temperature = o.getTemperature();
     }
+
     /**
      * Devolve mode quente ou frio .
      * @return mode.
@@ -45,6 +48,7 @@ public class SmartAC extends SmartDevice {
     public int getMode() {
         return this.mode;
     }
+
     /**
      * Actualiza o mode para quente ou frio .
      * @param novo mode.
@@ -52,6 +56,7 @@ public class SmartAC extends SmartDevice {
     public void setMode(int mode) {
         this.mode = mode;
     }
+
     /**
      * Devolve a temperatura.
      * @return temperatura.
@@ -59,6 +64,7 @@ public class SmartAC extends SmartDevice {
     public int getTemperature() {
         return this.temperature;
     }
+
     /**
      * Actualiza a temperatura do SmartAC.
      * @param nova temperatura.
@@ -66,6 +72,7 @@ public class SmartAC extends SmartDevice {
     public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
+
     /** 
      *Testa a veracidade entre a comparação de dois objetos.
      */
@@ -75,17 +82,19 @@ public class SmartAC extends SmartDevice {
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         SmartAC d = (SmartAC) o; 
         return super.equals(d) &&
-               this.mode == d.mode && 
-               this.temperature == d.temperature; 
+        this.mode == d.mode && 
+        this.temperature == d.temperature; 
     }
+
     /**
      * Método que cria uma cópia do objecto SmartAC.
      * @return objecto clone do SmartAC.
-    */
+     */
     @Override
     public SmartAC clone() {
         return new SmartAC(this);    
     }
+
     /**
      * Metodo que devolve a representação em Sting do Supplier.
      * @return String com as variáveis de instância de Supplier.
@@ -94,10 +103,10 @@ public class SmartAC extends SmartDevice {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString())
-            .append("\nMode: ")
-            .append(this.getMode())
-            .append("\nTemperature: ")
-            .append(this.getTemperature());
+        .append("\nMode: ")
+        .append(this.getMode())
+        .append("\nTemperature: ")
+        .append(this.getTemperature());
 
         return sb.toString();
     }

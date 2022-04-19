@@ -1,15 +1,10 @@
+import java.io.Serializable;
 
-/**
- * Write a description of class Supplier here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class Supplier {
+public class Supplier implements Serializable {
     /**
-    * Contrutores da classe Supplier.
-    * Variáveis de instância. 
-    */
+     * Contrutores da classe Supplier.
+     * Variáveis de instância. 
+     */
     private String name;
     private float price;
     private int dailyCost;
@@ -21,7 +16,7 @@ public class Supplier {
         this.price = 5;
         this.dailyCost = 50;
     }
-    
+
     /**
      * Construtor parametrizado de Supplier.
      * @param name nome do fornecedor
@@ -33,7 +28,6 @@ public class Supplier {
         this.price = price;
         this.dailyCost = dailyCost;
     }
-   
 
     /**
      * Construtor de cópia Supplier.
@@ -47,7 +41,7 @@ public class Supplier {
         this.dailyCost = o.getDailyCost();
 
     }
-    
+
     public String getName() {
         return this.name;
     }
@@ -55,7 +49,7 @@ public class Supplier {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     /**
      * Devolve o valor do preço.
      * @return o valor do preço.
@@ -63,6 +57,7 @@ public class Supplier {
     public float getPrice() {
         return this.price;
     }
+
     /**
      * Actualiza o valor do preço.
      * @param novo preço.
@@ -70,6 +65,7 @@ public class Supplier {
     public void setPrice(float price) {
         this.price = price;
     }
+
     /**
      * Devolve o valor do custo diário.
      * @return o valor do custo diário.
@@ -77,6 +73,7 @@ public class Supplier {
     public int getDailyCost() {
         return this.dailyCost;
     }
+
     /**
      * Actualiza o valor do custo diário.
      * @param novo custo diário.
@@ -84,6 +81,7 @@ public class Supplier {
     public void setDailyCost(int dailyCost) {
         this.dailyCost = dailyCost;
     }
+
     /** 
      *Testa a veracidade entre a comparação de dois objetos.
      */
@@ -92,16 +90,18 @@ public class Supplier {
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         Supplier s = (Supplier) o; 
         return name == s.name &&
-               price == s.price && 
-               dailyCost == s.dailyCost; 
+        price == s.price && 
+        dailyCost == s.dailyCost; 
     }
+
     /**
      * Método que cria uma cópia do objecto Supplier.
      * @return objecto clone do Supplier.
-    */
+     */
     public Supplier clone() {
         return new Supplier(this);    
     }
+
     /**
      * Metodo que devolve a representação em Sting do Supplier.
      * @return String com as variáveis de instância de Supplier.
@@ -109,13 +109,13 @@ public class Supplier {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nSupplier:")
-            .append("\nName: ")
-            .append(this.getName())
-            .append("\nPrice: ")
-            .append(this.getPrice())
-            .append("\nDaily Cost: ")
-            .append(this.getDailyCost());
-            
+        .append("\nName: ")
+        .append(this.getName())
+        .append("\nPrice: ")
+        .append(this.getPrice())
+        .append("\nDaily Cost: ")
+        .append(this.getDailyCost());
+
         return sb.toString();
     }
 }

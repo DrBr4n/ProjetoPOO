@@ -1,14 +1,10 @@
-/**
- * Write a description of class SmartDevice here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class SmartDevice {
+import java.io.Serializable;
+
+public class SmartDevice implements Serializable{
     /**
-    * Contrutores da classe SmartDevice.
-    * Variáveis de instância. 
-    */
+     * Contrutores da classe SmartDevice.
+     * Variáveis de instância. 
+     */
     private String id;
     private String brand;
     private int dailyConsumption;
@@ -26,7 +22,6 @@ public class SmartDevice {
         this.on = false;
     }
 
-       
     /**
      * Construtor parametrizado de SmartDevice.
      * @param id identificador do smart device.
@@ -56,7 +51,7 @@ public class SmartDevice {
         this.installationCost = o.getInstallationCost();
         this.on = o.getOn();
     }
-    
+
     /**
      * Devolve o valor do identificador.
      * @return valor do id.
@@ -64,7 +59,7 @@ public class SmartDevice {
     public String getId() {
         return this.id;
     }
-    
+
     /**
      * Actualiza o valor do id.
      * @param novo identificador.
@@ -72,7 +67,7 @@ public class SmartDevice {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     /**
      * Devolve a marca.
      * @return nome da marca.
@@ -80,7 +75,7 @@ public class SmartDevice {
     public String getBrand() {
         return this.brand;
     }
-    
+
     /**
      * Actualiza a marca.
      * @param nova marca.
@@ -88,7 +83,7 @@ public class SmartDevice {
     public void setBrand(String brand) {
         this.brand = brand;
     }
-    
+
     /**
      * Devolve o consumo diário.
      * @return valor do consumo diário.
@@ -96,7 +91,7 @@ public class SmartDevice {
     public int getDailyConsumption() {
         return this.dailyConsumption;
     }
-    
+
     /**
      * Actualiza o valor do consumo diário.
      * @param novo consumo diário.
@@ -104,7 +99,7 @@ public class SmartDevice {
     public void setDailyConsumption(int dailyConsumption) {
         this.dailyConsumption = dailyConsumption;
     }
-    
+
     /**
      * Devolve o valor do custo de intalação.
      * @return valor do custo de instalação.
@@ -112,7 +107,7 @@ public class SmartDevice {
     public float getInstallationCost() {
         return this.installationCost;
     }
-    
+
     /**
      * Actualiza o valor do custo de instalação.
      * @param novo custo de instalação.
@@ -120,7 +115,7 @@ public class SmartDevice {
     public void setInstallationCost(float installationCost) {
         this.installationCost = installationCost;
     }
-    
+
     /**
      * Devolve o estado do smartdevice.
      * @return estado smartdevice.
@@ -128,7 +123,7 @@ public class SmartDevice {
     public boolean getOn() {
         return this.on;
     }
-    
+
     /**
      * Actualiza o estado do smartdevice.
      * @param novo estado .
@@ -136,21 +131,21 @@ public class SmartDevice {
     public void setOn(boolean on) {
         this.on = on;
     }
-    
+
     /**
      * Atualiza o estado de on para True
      */
     public void turnOn(){
         this.on = true;
     }
-    
+
     /**
      * Atualiza o estado de on para False 
      */
     public void turnOff(){
         this.on = false;
     }
-    
+
     /** 
      *Testa a veracidade entre a comparação de dois objetos.
      */
@@ -160,40 +155,61 @@ public class SmartDevice {
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         SmartDevice d = (SmartDevice) o; 
         return id == d.id && 
-               brand == d.brand &&
-               dailyConsumption == d.dailyConsumption &&               
-               installationCost == d.installationCost && 
-               on == d.on; 
+        brand == d.brand &&
+        dailyConsumption == d.dailyConsumption &&               
+        installationCost == d.installationCost && 
+        on == d.on; 
     }
-    
+
     /**
      * Método que cria uma cópia do objecto SmartDevice.
      * @return objecto clone do SmartDevice.
-    */
+     */
     @Override
     public SmartDevice clone() {
         return new SmartDevice(this);    
     }
-    
+
     /**
      * Metodo que devolve a representação em Sting dos SmartDevice.
      * @return String com as variáveis de instância de SmartDevice.
      */
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nSmartDeviceId: ")
-            .append(this.getId())
-            .append("\nBrand: ")
-            .append(this.getBrand())
-            .append("\nDailyConsumption: ")
-            .append(this.getDailyConsumption())
-            .append("\nInstallationCost: ")
-            .append(this.getInstallationCost())
-            .append("\nOn: ")
-            .append(this.getOn());
+        .append(this.getId())
+        .append("\nBrand: ")
+        .append(this.getBrand())
+        .append("\nDailyConsumption: ")
+        .append(this.getDailyConsumption())
+        .append("\nInstallationCost: ")
+        .append(this.getInstallationCost())
+        .append("\nOn: ")
+        .append(this.getOn());
 
         return sb.toString();
+    }
+
+    public SmartDevice createDevice(int option, String [] props) {
+        switch (option) {
+            case 1:
+                SmartAC ac = new SmartAC('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                return ac;
+            case 2:
+                SmartTV tv = new SmartTV('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                return tv;
+            case 3:
+                SmartSpeaker sp = new SmartSpeaker('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, props[3], Integer.parseInt(props[4]));
+                return sp;
+            case 4:
+                SmartBulb bb = new SmartBulb('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                return bb;
+            case 5:
+                SmartCamera cm = new SmartCamera('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                return cm;
+            default:
+                return null;
+        }
     }
 }

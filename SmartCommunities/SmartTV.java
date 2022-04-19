@@ -6,9 +6,9 @@
  */
 public class SmartTV extends SmartDevice {
     /**
-    * Contrutores da classe SmartTV.
-    * Variáveis de instância. 
-    */
+     * Contrutores da classe SmartTV.
+     * Variáveis de instância. 
+     */
     public static final int MAX = 100;
 
     private int resolution;
@@ -21,6 +21,7 @@ public class SmartTV extends SmartDevice {
         this.volume = 40;
         this.resolution = 2160;
     }
+
     /**
      * Construtor parametrizado de SmarTV.
      * @param super chama o construtor super Classe .
@@ -32,6 +33,7 @@ public class SmartTV extends SmartDevice {
         this.volume = volume;
         this.resolution = resolution;
     }
+
     /**
      * Construtor de cópia SmartTV.
      * Aceita como parametro um objeto SmartTV e utiliza os seus métodos
@@ -42,6 +44,7 @@ public class SmartTV extends SmartDevice {
         this.volume = o.getVolume();
         this.resolution = o.getResolution();
     }
+
     /**
      * Devolve o volume da SmartTV.
      * @return volume da SmartTV.
@@ -49,6 +52,7 @@ public class SmartTV extends SmartDevice {
     public int getVolume() {
         return this.volume;
     }
+
     /**
      * Actualiza o volume da SmartTV.
      * @param novo valor do volume.
@@ -57,6 +61,7 @@ public class SmartTV extends SmartDevice {
         if (volume >= 0 && volume <= MAX)
             this.volume = volume;
     }
+
     /**
      * Aumenta o volume do SmartSpeaker sem ultrapassar o seu máximo.
      */
@@ -64,6 +69,7 @@ public class SmartTV extends SmartDevice {
         if (this.volume < MAX) 
             this.volume++;
     }
+
     /**
      * Diminui o volume do SmartSpeaker sem ultrapassar o seu mínimo.
      */
@@ -71,6 +77,7 @@ public class SmartTV extends SmartDevice {
         if (this.volume > 0) 
             this.volume--;
     }
+
     /**
      * Devolve a resolução da SmartTV.
      * @return resolução.
@@ -78,6 +85,7 @@ public class SmartTV extends SmartDevice {
     public int getResolution() {
         return this.resolution;
     }
+
     /**
      * Actualiza a resolução da SmartTV.
      * @param nova resolução.
@@ -85,6 +93,7 @@ public class SmartTV extends SmartDevice {
     public void setResolution(int resolution) {
         this.resolution = resolution;
     }
+
     /** 
      *Testa a veracidade entre a comparação de dois objetos.
      */
@@ -94,17 +103,19 @@ public class SmartTV extends SmartDevice {
         if ((o == null) || (this.getClass() != o.getClass())) return false; 
         SmartTV d = (SmartTV) o; 
         return super.equals(d) &&
-               this.resolution == d.resolution && 
-               this.volume == d.volume; 
+        this.resolution == d.resolution && 
+        this.volume == d.volume; 
     }
+
     /**
      * Método que cria uma cópia do objecto SmartTV.
      * @return objecto clone do SmartTV.
-    */
+     */
     @Override
     public SmartTV clone() {
         return new SmartTV(this);    
     }
+
     /**
      * Metodo que devolve a representação em Sting dos SmartTV.
      * @return String com as variáveis de instância de SmartTV.
@@ -113,10 +124,10 @@ public class SmartTV extends SmartDevice {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString())
-            .append("\nResolution: ")
-            .append(this.getResolution())
-            .append("\nVolume: ")
-            .append(this.getVolume());
+        .append("\nResolution: ")
+        .append(this.getResolution())
+        .append("\nVolume: ")
+        .append(this.getVolume());
 
         return sb.toString();
     }
