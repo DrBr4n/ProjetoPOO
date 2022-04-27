@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.io.Serializable;
 
@@ -7,6 +8,7 @@ public class House implements Serializable{
     private String id;
     private String address;
     private String ownerName;
+    private int deviceCounter;
     private Map<String, SmartDevice> devices;
     private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
     //add nif
@@ -71,6 +73,12 @@ public class House implements Serializable{
         return this.devices;
     }
 
+    public Map<String, SmartDevice> getDevicess(){
+        Map<String, SmartDevice> devicesMap = new HashMap<>();
+        this.rooms.values().stream().forEach(s -> devices.putAll(s));
+        return devicesMap; 
+    }
+
     public void setDevices(Map<String, SmartDevice> devices){
         this.devices = devices;
     }
@@ -108,14 +116,11 @@ public class House implements Serializable{
         .append("\nAddress: ")
         .append(this.getAddress())
         .append("\nOwner's Name: ")
-        .append(this.getOwnerName())
-        .append("\nDevices: ");
-        for (SmartDevice o : devices.values()) {
-            sb.append(o.toString());
-        }
+        .append(this.getOwnerName());
         sb.append("\nRooms: ");
         for (String room : rooms.keySet()) {
             sb.append(room);
+            this.getRooms().get(room).values().stream().map(SmartDevice::toString).forEach(sb::append);
         }
         return sb.toString();
     }
@@ -149,12 +154,19 @@ public class House implements Serializable{
         this.rooms.put(room, emptyMap);
     }
 
-    public void addDeviceToRoom (String room, String deviceId) {
-        this.rooms.get(room).put(deviceId, devices.get(deviceId));
+    public void addDeviceToRoom (String room, SmartDevice device) {
+        this.rooms.get(room).put(device.getId(), device);
     }
 
     public boolean existRoom(String room){
         return this.rooms.containsKey(room);
+    }
+
+    public void createDevice(String [] props) {
+        SmartDevice device = new SmartDevice();
+        props[3] = String.valueOf(this.deviceCounter++);
+        //this.addDevice(device.createDevice(props));
+        this.addDeviceToRoom(props[1], device.createDevice(props));
     }
 
 }

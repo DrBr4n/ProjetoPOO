@@ -191,22 +191,24 @@ public class SmartDevice implements Serializable{
         return sb.toString();
     }
 
-    public SmartDevice createDevice(int option, String [] props) {
+    public SmartDevice createDevice(String [] props) {
+        // {OptionCreateOrEdit, Room, DeviceType, DeviceId, Marca, ConsumoDiario, Custo, Rng1, Rng2}
+        int option = Integer.parseInt(props[2]);
         switch (option) {
             case 1:
-                SmartAC ac = new SmartAC('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                SmartAC ac = new SmartAC('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
                 return ac;
             case 2:
-                SmartTV tv = new SmartTV('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                SmartTV tv = new SmartTV('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
                 return tv;
             case 3:
-                SmartSpeaker sp = new SmartSpeaker('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, props[3], Integer.parseInt(props[4]));
+                SmartSpeaker sp = new SmartSpeaker('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, props[7], Integer.parseInt(props[8]));
                 return sp;
             case 4:
-                SmartBulb bb = new SmartBulb('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                SmartBulb bb = new SmartBulb('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
                 return bb;
             case 5:
-                SmartCamera cm = new SmartCamera('d' + props[5], props[0], Integer.parseInt(props[1]), Float.parseFloat(props[2]), false, Integer.parseInt(props[3]), Integer.parseInt(props[4]));
+                SmartCamera cm = new SmartCamera('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
                 return cm;
             default:
                 return null;

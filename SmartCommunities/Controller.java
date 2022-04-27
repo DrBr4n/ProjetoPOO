@@ -12,12 +12,12 @@ public class Controller {
     private boolean run;
 
     public static void main(String[] args) {
-        Controller cont = new Controller();
+        Controller controller = new Controller();
 
         do {
-            cont.displayMenu();
+            controller.displayMenu();
 
-        } while (cont.run);
+        } while (controller.run);
 
     }
 
@@ -34,45 +34,27 @@ public class Controller {
                 this.run = false;
                 break;
             case 1:
-                createDevice();
-                break;
-            case 2:
                 createHouse();
                 break;
-            case 3:
+            case 2:
                 createSupplier();
                 break;
-            case 9:
+            case 8:
                 loadState();
                 break;
-            case 10:
+            case 9:
                 saveState();
                 break;
-            case 99:
-                this.community.viewDevices();
-                break;
             case 100:
-                System.out.print(this.toString());
+                this.community.toString();
                 break;
             default:
                 break;
         }
     }
 
-    public void createDevice() {
-        int option = this.view.choseDevice();
-        String [] props = this.view.deviceProps(option);
-    
-        if (option < 1 || option > 5) {
-            this.view.invalidOption();   
-        } else {
-            community.createDevice(option, props);
-        }
-    }
-
     public void createHouse() {
-        String [] ids = this.view.createHouse();
-        String houseId = community.createHouse(ids);
+        String houseId = community.createHouse(this.view.createHouse());
         boolean editing = true;
         do {
             String [] props = this.view.houseProps();
@@ -80,10 +62,10 @@ public class Controller {
                 case 0:
                     this.view.success();
                     break;
-                case 2:
+                case 1:
                     this.view.invalidOperation();
                     break;
-                case 3:
+                case 2:
                     editing = false;
                     break;
                 default:
