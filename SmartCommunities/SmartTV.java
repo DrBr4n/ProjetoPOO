@@ -28,7 +28,7 @@ public class SmartTV extends SmartDevice {
      * @param volume volume da SmartTv.
      * @param resolution resolução da SmartTV. 
      */
-    public SmartTV(String id, String brand, int dailyConsumption, float installationCost, boolean on,  int volume, int resolution) {
+    public SmartTV(String id, String brand, double dailyConsumption, float installationCost, boolean on,  int volume, int resolution) {
         super(id, brand, dailyConsumption, installationCost, on);
         this.volume = volume;
         this.resolution = resolution;

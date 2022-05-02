@@ -9,14 +9,14 @@ public class SmartCamera extends SmartDevice {
      * Contrutores da classe SmartCamera.
      * Variáveis de instância. 
      */
-    private int resolution;
+    private String resolution;
     private int fileSize;
     /**
      * Construtor vazio de SmartCamera.
      */
     public SmartCamera() {
         super();
-        this.resolution = 1440;
+        this.resolution = "(1280x720)";
         this.fileSize = 35;
     }
 
@@ -26,7 +26,7 @@ public class SmartCamera extends SmartDevice {
      * @param resolution resolução da SmartCamera.
      * @param fileSize tamanho dos ficheiros. 
      */
-    public SmartCamera(String id, String brand, int dailyConsumption, float installationCost, boolean on, int resolution, int fileSize) {
+    public SmartCamera(String id, String brand, double dailyConsumption, float installationCost, boolean on, String resolution, int fileSize) {
         super(id, brand, dailyConsumption, installationCost, on);
         this.resolution = resolution;
         this.fileSize = fileSize;
@@ -47,7 +47,7 @@ public class SmartCamera extends SmartDevice {
      * Devolve a resolução da SmartCamera.
      * @return a resolução.
      */
-    public int getResolution() {
+    public String getResolution() {
         return this.resolution;
     }
 
@@ -56,7 +56,7 @@ public class SmartCamera extends SmartDevice {
      * @param novo valor de resolução.
      */
 
-    public void setResolution(int resolution) {
+    public void setResolution(String resolution) {
         this.resolution = resolution;
     }
 

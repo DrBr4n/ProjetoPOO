@@ -27,7 +27,7 @@ public class SmartBulb extends SmartDevice {
      * @param size tamanhos em centímetro SmartBulb. 
      * @param on estado do smart device.
      */
-    public SmartBulb(String id, String brand, int dailyConsumption, float installationCost, boolean on, int mode, int size) {
+    public SmartBulb(String id, String brand, double dailyConsumption, float installationCost, boolean on, int mode, int size) {
         super(id, brand, dailyConsumption, installationCost, on);
         this.mode = mode;
         this.size = size;

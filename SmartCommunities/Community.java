@@ -6,6 +6,7 @@ public class Community implements Serializable{
 
     private String name;
     private int houseCounter;
+    private int deviceCounter;
     private Map<String, House> houses;
     private Map<String, Supplier> suppliers;
 
@@ -14,6 +15,7 @@ public class Community implements Serializable{
         this.houses = new HashMap<>();
         this.suppliers = new HashMap<>();
         this.houseCounter = 0;
+        this.deviceCounter = 0;
     }
 
     public Community(String name){
@@ -21,6 +23,7 @@ public class Community implements Serializable{
         this.houses = new HashMap<>();
         this.suppliers = new HashMap<>();
         this.houseCounter = 0;
+        this.deviceCounter = 0;
     }
 
     public Community(Community o){
@@ -28,6 +31,7 @@ public class Community implements Serializable{
         this.houses = o.getHouses();
         this.suppliers = o.getSuppliers();
         this.houseCounter = o.getHouseCounter();
+        this.deviceCounter = o.getDeviceCounter();
     }
 
     public String getName(){
@@ -54,12 +58,24 @@ public class Community implements Serializable{
         this.suppliers = suppliers;
     }
 
+    public void addSupplier(Supplier s) {
+        this.suppliers.put(s.getName(), s);
+    }
+
     public int getHouseCounter() {
         return this.houseCounter;
     }
 
     public void setHouseCounter(int houseCounter) {
         this.houseCounter = houseCounter;
+    }
+
+    public int getDeviceCounter() {
+        return this.deviceCounter;
+    }
+
+    public void setDeviceCounter(int deviceCounter) {
+        this.deviceCounter = deviceCounter;
     }
 
     @Override
@@ -85,13 +101,17 @@ public class Community implements Serializable{
         return name == c.name &&
         houses == c.houses && 
         suppliers == c.suppliers &&
-        houseCounter == c.houseCounter;
+        houseCounter == c.houseCounter &&
+        deviceCounter == c.deviceCounter;
     }
 
-    public String createHouse(String[] ids) {
-        House house = new House('h' + String.valueOf(this.houseCounter++), ids[0], ids[1]);
+    //public String createHouse(String[] ids) {
+    //    House house = new House('h' + String.valueOf(this.houseCounter++), ids[0], ids[1]);
+    //    this.houses.put(house.getId(), house);
+    //    return house.getId();
+    //}
+    public void addHouse(House house) {
         this.houses.put(house.getId(), house);
-        return house.getId();
     }
 
     public int editHouse(String houseId, String [] props) {
@@ -116,6 +136,11 @@ public class Community implements Serializable{
                 break;
         }
         return result;
+    }
+
+    public void createSupplier(String name) {
+        Supplier s = new Supplier(name, 5, 5);
+        suppliers.put(name, s);
     }
 
     public void createSupplier(String[] props) {

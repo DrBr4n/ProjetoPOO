@@ -7,7 +7,7 @@ public class SmartDevice implements Serializable{
      */
     private String id;
     private String brand;
-    private int dailyConsumption;
+    private double dailyConsumption;
     private float installationCost;
     private boolean on;
     /**
@@ -31,7 +31,7 @@ public class SmartDevice implements Serializable{
      * @param on estado do smart device.
      */
 
-    public SmartDevice(String id, String brand, int dailyConsumption, float installationCost, boolean on) {
+    public SmartDevice(String id, String brand, double dailyConsumption, float installationCost, boolean on) {
         this.id = id;
         this.brand = brand;
         this.dailyConsumption = dailyConsumption;
@@ -88,7 +88,7 @@ public class SmartDevice implements Serializable{
      * Devolve o consumo diário.
      * @return valor do consumo diário.
      */
-    public int getDailyConsumption() {
+    public double getDailyConsumption() {
         return this.dailyConsumption;
     }
 
@@ -96,7 +96,7 @@ public class SmartDevice implements Serializable{
      * Actualiza o valor do consumo diário.
      * @param novo consumo diário.
      */
-    public void setDailyConsumption(int dailyConsumption) {
+    public void setDailyConsumption(double dailyConsumption) {
         this.dailyConsumption = dailyConsumption;
     }
 
@@ -196,19 +196,19 @@ public class SmartDevice implements Serializable{
         int option = Integer.parseInt(props[2]);
         switch (option) {
             case 1:
-                SmartAC ac = new SmartAC('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
+                SmartAC ac = new SmartAC('d' + props[3], props[4], Double.parseDouble(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
                 return ac;
             case 2:
-                SmartTV tv = new SmartTV('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
+                SmartTV tv = new SmartTV('d' + props[3], props[4], Double.parseDouble(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
                 return tv;
             case 3:
-                SmartSpeaker sp = new SmartSpeaker('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, props[7], Integer.parseInt(props[8]));
+                SmartSpeaker sp = new SmartSpeaker('d' + props[3], props[4], Double.parseDouble(props[5]), Float.parseFloat(props[6]), false, props[7], Integer.parseInt(props[8]));
                 return sp;
             case 4:
-                SmartBulb bb = new SmartBulb('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
+                SmartBulb bb = new SmartBulb('d' + props[3], props[4], Double.parseDouble(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
                 return bb;
             case 5:
-                SmartCamera cm = new SmartCamera('d' + props[3], props[4], Integer.parseInt(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
+                SmartCamera cm = new SmartCamera('d' + props[3], props[4], Double.parseDouble(props[5]), Float.parseFloat(props[6]), false, props[7], Integer.parseInt(props[8]));
                 return cm;
             default:
                 return null;
