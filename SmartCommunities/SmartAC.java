@@ -24,7 +24,7 @@ public class SmartAC extends SmartDevice {
      * @param super chama o construtor super Classe .
      * @param mode altera a temperatura para quente ou frio.
      */
-    public SmartAC(String id, String brand, double dailyConsumption, float installationCost, boolean on, int mode, int temperature) {
+    public SmartAC(String id, String brand, float dailyConsumption, float installationCost, boolean on, int mode, int temperature) {
         super(id, brand, dailyConsumption, installationCost, on);
         this.mode = mode;
         this.temperature = temperature;

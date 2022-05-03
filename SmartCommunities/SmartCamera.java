@@ -26,7 +26,7 @@ public class SmartCamera extends SmartDevice {
      * @param resolution resolução da SmartCamera.
      * @param fileSize tamanho dos ficheiros. 
      */
-    public SmartCamera(String id, String brand, double dailyConsumption, float installationCost, boolean on, String resolution, int fileSize) {
+    public SmartCamera(String id, String brand, float dailyConsumption, float installationCost, boolean on, String resolution, int fileSize) {
         super(id, brand, dailyConsumption, installationCost, on);
         this.resolution = resolution;
         this.fileSize = fileSize;

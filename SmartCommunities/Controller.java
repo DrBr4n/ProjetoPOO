@@ -16,13 +16,14 @@ public class Controller {
     private View view;
     private Community community; 
     private boolean run;
+    
 
     public static void main(String[] args) {
         Controller controller = new Controller();
 
         do {
             controller.displayMenu();
-
+            
         } while (controller.run);
 
     }
@@ -173,7 +174,7 @@ public class Controller {
                 else if (smartBulbM.group(2).equalsIgnoreCase("neutral")) device.setMode(1);
                 else if (smartBulbM.group(2).equalsIgnoreCase("warm")) device.setMode(2);
                 device.setSize(Integer.parseInt(smartBulbM.group(3)));
-                device.setDailyConsumption(Double.parseDouble(smartBulbM.group(4)));
+                device.setDailyConsumption(Float.parseFloat(smartBulbM.group(4)));
                 currentHouse.addDeviceToRoom(currentRoom.toString(), device);
             } else if (smartSpeakerM.find()) {
                 SmartSpeaker device = new SmartSpeaker();
@@ -182,7 +183,7 @@ public class Controller {
                 device.setVolume(Integer.parseInt(smartSpeakerM.group(2)));
                 device.setRadio(smartSpeakerM.group(3));
                 device.setBrand(smartSpeakerM.group(4));
-                device.setDailyConsumption(Double.parseDouble(smartSpeakerM.group(5)));
+                device.setDailyConsumption(Float.parseFloat(smartSpeakerM.group(5)));
                 currentHouse.addDeviceToRoom(currentRoom.toString(), device);
             } else if (smartCameraM.find()) {
                 SmartCamera device = new SmartCamera();
@@ -190,10 +191,11 @@ public class Controller {
                 this.community.setDeviceCounter(this.community.getDeviceCounter() + 1);
                 device.setResolution(smartCameraM.group(2));
                 device.setFileSize(Integer.parseInt(smartCameraM.group(3)));
-                device.setDailyConsumption(Double.parseDouble(smartCameraM.group(4)));
+                device.setDailyConsumption(Float.parseFloat(smartCameraM.group(4)));
                 currentHouse.addDeviceToRoom(currentRoom.toString(), device);
             }
         }
         if (sc != null) sc.close(); 
+
     }
 }
