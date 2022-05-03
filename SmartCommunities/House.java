@@ -1,5 +1,4 @@
 import java.util.Map;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.io.Serializable;
 
@@ -80,21 +79,7 @@ public class House implements Serializable{
     public void setNif(String nif){
         this.nif = nif;
     }
-
-    public Map<String, SmartDevice> getDevices(){
-        return this.devices;
-    }
-
-    public Map<String, SmartDevice> getDevicess(){
-        Map<String, SmartDevice> devicesMap = new HashMap<>();
-        this.rooms.values().stream().forEach(s -> devices.putAll(s));
-        return devicesMap; 
-    }
-
-    public void setDevices(Map<String, SmartDevice> devices){
-        this.devices = devices;
-    }
-
+    
     public Map<String, Map<String, SmartDevice>> getRooms(){
         return this.rooms;
     }
@@ -106,10 +91,13 @@ public class House implements Serializable{
     public void setSupplier(String supplier) {
         this.supplier = supplier;
     }
+     
     public String getSupplier() {
         return this.supplier;
     }
 
+    
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true; 
@@ -122,7 +110,7 @@ public class House implements Serializable{
         devices == h.devices &&
         rooms == h.rooms; 
     }
-
+    
     @Override
     public House clone() {
         return new House(this);    
@@ -146,29 +134,39 @@ public class House implements Serializable{
         }
         return sb.toString();
     }
+    
+    public Map<String, SmartDevice> getDevices(){
+        Map<String, SmartDevice> devicesMap = new HashMap<>();
+        this.rooms.values().stream().forEach(s -> devices.putAll(s));
+        return devicesMap; 
+    }
 
     public boolean existsDevice(String deviceId) {
-        return this.devices.keySet().contains(deviceId);
+        return this.rooms.values().stream().anyMatch(room -> room.keySet().contains(deviceId));
     }
 
-    public void addDevice(SmartDevice o) {
-        this.devices.put(o.getId(), o);
+    public void turnDeviceOn(String deviceId) {
+        this.rooms.values().stream().forEach(room -> room.get(deviceId).turnOn());
+        //this.rooms.values().forEach(room -> room.get(deviceId).turnOn());
     }
 
-    public void setDeviceOn(String deviceId) {
-        this.devices.get(deviceId).turnOn();
+    public void turnDeviceOff(String deviceId) {
+        this.rooms.values().stream().forEach(room -> room.get(deviceId).turnOff());
+        //this.rooms.values().forEach(room -> room.get(deviceId).turnOff());
     }
 
-    public void setDeviceOff(String deviceId) {
-        this.devices.get(deviceId).turnOn();
+    public void turnAllOn() {
+        this.rooms.values().stream().forEach(room -> room.values().stream().forEach(SmartDevice::turnOn));
+        //this.rooms.values().forEach(room -> room.values().forEach(SmartDevice::turnOn));
     }
 
-    public void setAllOn() {
-        this.devices.values().forEach(SmartDevice::turnOn);
+    public void turnAllOff() {
+        this.rooms.values().stream().forEach(room -> room.values().stream().forEach(SmartDevice::turnOff));
+        //this.rooms.values().forEach(room -> room.values().forEach(SmartDevice::turnOff));
     }
 
-    public void setAllOff() {
-        this.devices.values().forEach(SmartDevice::turnOff);
+    public boolean existRoom(String room){
+        return this.rooms.containsKey(room);
     }
 
     public void addRoom(String room) {
@@ -178,10 +176,6 @@ public class House implements Serializable{
 
     public void addDeviceToRoom (String room, SmartDevice device) {
         this.rooms.get(room).put(device.getId(), device);
-    }
-
-    public boolean existRoom(String room){
-        return this.rooms.containsKey(room);
     }
 
     public void createDevice(String [] props) {

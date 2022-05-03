@@ -91,6 +91,22 @@ public class Controller {
         community.createSupplier(props);
     }
 
+    public void turnHouseOn(String houseId) {
+        this.community.getHouses().get(houseId).turnAllOn();
+    }
+
+    public void turnHouseOff(String houseId) {
+        this.community.getHouses().get(houseId).turnAllOff();
+    }
+
+    public void turnDeviceOn(String houseId, String deviceId) {
+        this.community.getHouses().get(houseId).getDevices().get(deviceId).turnOn();
+    }
+
+    public void turnDeviceOff(String houseId, String deviceId) {
+        this.community.getHouses().get(houseId).getDevices().get(deviceId).turnOn();
+    }
+
     public void saveState(){
         try{
             FileOutputStream fos = new FileOutputStream("state");
@@ -162,7 +178,7 @@ public class Controller {
                 house.setNif(houseM.group(3));
                 house.setSupplier(houseM.group(4));
                 this.community.addHouse(house);
-                currentHouse = new House(house); //use clone or not?
+                currentHouse = new House(house);
             } else if (roomM.find()) {
                 currentHouse.addRoom(roomM.group(2));
                 currentRoom.replace(0, currentRoom.length(), roomM.group(2));
