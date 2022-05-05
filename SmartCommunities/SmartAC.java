@@ -110,4 +110,15 @@ public class SmartAC extends SmartDevice {
 
         return sb.toString();
     }
+
+    @Override
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SmartAC:")
+            .append(super.toLog() + ",")
+            .append(this.getMode() + ",")
+            .append(this.getTemperature())
+            .append("\n");
+        return sb.toString();
+    }
 }

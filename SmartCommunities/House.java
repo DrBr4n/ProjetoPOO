@@ -8,43 +8,48 @@ public class House implements Serializable{
     private String address;
     private String ownerName;
     private String nif;
-    private int deviceCounter;
-    private Map<String, SmartDevice> devices;
-    private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
     private String supplier;
+    private int deviceCounter;
+    //private Map<String, SmartDevice> devices;
+    private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
 
     public House(){
         this.id = "404";
         this.address = "Rua Das Cruzetas";
         this.ownerName = "Antonio Variacoes";
-        this.devices = new HashMap<>();
+        this.nif = "999999999";
+        this.supplier = "EDP";
+        //this.devices = new HashMap<>();
         this.rooms = new HashMap<>();
     }
 
-    public House(String id, String address, String ownerName, String nif){
+    public House(String id, String address, String ownerName, String nif, String supplier){
         this.id = id;
         this.address = address;
         this.ownerName = ownerName;
         this.nif = nif;
-        this.devices = new HashMap<>();
+        this.supplier = supplier;
+        //this.devices = new HashMap<>();
         this.rooms = new HashMap<>();
     }
 
-    public House(String id, String nif, String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms){
+    public House(String id, String nif, String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms, String supplier){
         this.id = id;
         this.address = address;
         this.ownerName = ownerName;
         this.nif = nif;
-        this.devices = devices;
+        this.supplier = supplier;
+        //this.devices = devices;
         this.rooms = rooms;
     }   
 
     public House(House o){
         this.id = o.getId();
-        this.nif = o.getNif();
         this.address = o.getAddress();
-        this.devices = o.getDevices();
         this.ownerName = o.getOwnerName();
+        this.nif = o.getNif();
+        this.supplier = o.getSupplier();
+        //this.devices = o.getDevices();
         this.rooms = o.getRooms();
     }
 
@@ -80,14 +85,6 @@ public class House implements Serializable{
         this.nif = nif;
     }
     
-    public Map<String, Map<String, SmartDevice>> getRooms(){
-        return this.rooms;
-    }
-
-    public void setRooms(Map<String, Map<String, SmartDevice>> rooms){
-        this.rooms = rooms;
-    }
-
     public void setSupplier(String supplier) {
         this.supplier = supplier;
     }
@@ -96,8 +93,14 @@ public class House implements Serializable{
         return this.supplier;
     }
 
-    
-    
+    public Map<String, Map<String, SmartDevice>> getRooms(){
+        return this.rooms;
+    }
+
+    public void setRooms(Map<String, Map<String, SmartDevice>> rooms){
+        this.rooms = rooms;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true; 
@@ -107,7 +110,8 @@ public class House implements Serializable{
         address == h.address && 
         ownerName == h.ownerName &&  
         nif == h.nif &&
-        devices == h.devices &&
+        supplier == h.supplier &&
+        //devices == h.devices &&
         rooms == h.rooms; 
     }
     
@@ -127,6 +131,8 @@ public class House implements Serializable{
         .append(this.getOwnerName())
         .append("\nNif: ")
         .append(this.getNif())
+        .append("\nSupplier: ")
+        .append(this.getSupplier())
         .append("\nRooms: ");
         for (String room : rooms.keySet()) {
             sb.append(room);
@@ -141,19 +147,19 @@ public class House implements Serializable{
             .append(this.getId() + ",")
             .append(this.getAddress() + ",")
             .append(this.getOwnerName() + ",")
-            .append(this.getNif())
+            .append(this.getNif() + ",")
+            .append(this.getSupplier())
             .append("\n");
         for (String room : this.getRooms().keySet()) {
             sb.append("Room:").append(room).append("\n");
             this.getRooms().get(room).values().stream().map(SmartDevice::toLog).forEach(sb::append);
         }
-
         return sb.toString();
     }
     
     public Map<String, SmartDevice> getDevices(){
         Map<String, SmartDevice> devicesMap = new HashMap<>();
-        this.rooms.values().stream().forEach(s -> devices.putAll(s));
+        this.rooms.values().stream().forEach(s -> devicesMap.putAll(s));
         return devicesMap; 
     }
 
@@ -194,10 +200,10 @@ public class House implements Serializable{
         this.rooms.get(room).put(device.getId(), device);
     }
 
-    public void createDevice(String [] props) {
+    /* public void createDevice(String [] props) {
         SmartDevice device = new SmartDevice();
         props[3] = String.valueOf(this.deviceCounter++);
         //this.addDevice(device.createDevice(props));
         this.addDeviceToRoom(props[1], device.createDevice(props));
-    }
+    } */
 }

@@ -58,10 +58,6 @@ public class Community implements Serializable{
         this.suppliers = suppliers;
     }
 
-    public void addSupplier(Supplier s) {
-        this.suppliers.put(s.getName(), s);
-    }
-
     public int getHouseCounter() {
         return this.houseCounter;
     }
@@ -96,6 +92,7 @@ public class Community implements Serializable{
     public String toLog() {
         StringBuilder sb = new StringBuilder();
         sb.append("Community:").append(this.getName()).append("\n");
+        this.getSuppliers().values().stream().map(Supplier::toLog).forEach(sb::append);
         this.getHouses().values().stream().map(House::toLog).forEach(sb::append);
         return sb.toString();
     }
@@ -112,55 +109,19 @@ public class Community implements Serializable{
         deviceCounter == c.deviceCounter;
     }
 
-    //public String createHouse(String[] ids) {
-    //    House house = new House('h' + String.valueOf(this.houseCounter++), ids[0], ids[1]);
-    //    this.houses.put(house.getId(), house);
-    //    return house.getId();
-    //}
     public void addHouse(House house) {
         this.houses.put(house.getId(), house);
     }
 
-    public int editHouse(String houseId, String [] props) {
-        House house = houses.get(houseId);
-        int result = 0;
-        switch (Integer.parseInt(props[0])) {
-            case 0:
-                result = 2;
-                break;
-            case 1:
-                house.addRoom(props[1]);
-                break;
-            case 2:
-                if (house.existRoom(props[1])) {
-                    house.createDevice(props);
-                } else {
-                    result = 1;
-                }
-                break;
-            default:
-                result = 3;
-                break;
-        }
-        return result;
+    public void addSupplier(Supplier supplier) {
+        this.suppliers.put(supplier.getName(), supplier);
     }
 
-    public void createSupplier(String name) {
-        Supplier s = new Supplier(name, 5, 5);
-        suppliers.put(name, s);
+    public void increaseHouseCounter() {
+        this.houseCounter += 1;
     }
 
-    public void createSupplier(String[] props) {
-        Supplier s = new Supplier(props[0], Float.parseFloat(props[1]), Integer.parseInt(props[2]));
-        suppliers.put(s.getName(), s);
+    public void increaseDeviceCounter() {
+        this.deviceCounter += 1;
     }
-
-    public void viewHouses() {
-        houses.values().stream().map(House::toString).forEach(System.out::println);
-    }
-
-    public void viewSuppliers() {
-        suppliers.values().stream().map(Supplier::toString).forEach(System.out::println);
-    }
-
 }

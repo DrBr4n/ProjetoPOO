@@ -31,25 +31,30 @@ public class View
 
     public String[] createHouse() {
         Scanner sc = new Scanner(System.in);
-        String [] houseInput = new String[2];
+        String [] houseInput = new String[4];
         System.out.println("-------Criar Casa-------");
         System.out.print("Indique a morada da casa: ");
         houseInput[0] = sc.nextLine();
         System.out.print("Indique o nome do dono da casa: ");
         houseInput[1] = sc.nextLine();
+        System.out.print("Indique o NIF do dono da casa: ");
+        houseInput[2] = sc.nextLine();
+        System.out.print("Indique o fornecedor da casa: ");
+        houseInput[3] = sc.nextLine();
         sc.close();
         return houseInput;
     }
 
-    public String[] houseProps() {
+    public String[] editHouse() {
         Scanner sc = new Scanner(System.in);
         System.out.println("-------Criar Casa-------");
         System.out.println("1 - Adicionar Divisoes");
         System.out.println("2 - Adicionar Dispositivos");
+        System.out.println("3 - Alterar Fornecedor");
         System.out.println("0 - Voltar ao menu inicial");
         System.out.print("Indique a opcao: ");
         int option = sc.nextInt();
-        String [] properties = new String[9]; // {OptionCreateOrEdit, Room, DeviceType, DeviceId, Marca, ConsumoDiario, Custo, Rng1, Rng2}
+        String [] properties = new String[2]; // {OptionCreateOrEdit, Room, DeviceType, DeviceId, Marca, ConsumoDiario, Custo, Rng1, Rng2}
         properties[0] = String.valueOf(option);
         if(option == 1 ){
             System.out.print("Indique a divisao que pretende adicionar: ");
@@ -59,15 +64,18 @@ public class View
             System.out.print("Indique a divisao a que pretende adicionar o dispositivo: ");
             sc.nextLine();
             properties[1] = sc.nextLine();
-            System.out.print("Indique o dispositivo que pretende adicionar: ");
-            this.deviceProps(this.choseDevice(), properties);
+        } else if (option == 3) {
+            System.out.println("Indique o nome do novo fornecedor:");
+            sc.nextLine();
+            properties[1] = sc.nextLine();
         }
         sc.close();
         return properties;
     }
-
+    
     public int choseDevice() {
         Scanner sc = new Scanner(System.in);
+        System.out.print("Indique o dispositivo que pretende adicionar: ");
         System.out.println("1 - SmartAC");
         System.out.println("2 - SmartTV");
         System.out.println("3 - SmartSpeaker");
@@ -85,55 +93,55 @@ public class View
         return option;
     }
 
-    public void deviceProps(int option, String[] properties) {
+    public String[] deviceProps(int option) {
+        String[] properties = new String[6];
         Scanner sc = new Scanner(System.in);
-        properties[2] = String.valueOf(option);
+
         System.out.print("Indique a marca do dispositivo: ");
-        properties[4] = sc.nextLine();
+        properties[0] = sc.nextLine();
         System.out.print("Indique o consumo diario do dispositivo: ");
-        properties[5] = sc.nextLine();
+        properties[1] = sc.nextLine();
         System.out.print("Indique o custo da instalaçao do dispositivo: ");
-        properties[6] = sc.nextLine();
+        properties[2] = sc.nextLine();
+        System.out.print("Indique se o dispositivo esta ligado: /n true - ligado/n false - desligado");
+        properties[3] = sc.nextLine();
 
         switch (option) {
             case 1:
                 System.out.print("Indique o modo do dispositivo: ");
-                properties[7] = sc.nextLine();
+                properties[4] = sc.nextLine();
                 System.out.print("Indique a temperatura do dispositivo: ");
-                properties[8] = sc.nextLine();
-
+                properties[5] = sc.nextLine();
                 break;
             case 2:
                 System.out.print("Indique a resolucao do dispositivo: ");
-                properties[7] = sc.nextLine();
+                properties[4] = sc.nextLine();
                 System.out.print("Indique o volume do dispositivo: ");
-                properties[8] = sc.nextLine();
-
+                properties[5] = sc.nextLine();
                 break;
             case 3:
                 System.out.print("Indique a radio do dispositivo: ");
-                properties[7] = sc.nextLine();
+                properties[4] = sc.nextLine();
                 System.out.print("Indique o volume do dispositivo: ");
-                properties[8] = sc.nextLine();  
-
+                properties[5] = sc.nextLine();  
                 break;
             case 4:
                 System.out.print("Indique o modo do dispositivo: ");
-                properties[7] = sc.nextLine();
+                properties[4] = sc.nextLine();
                 System.out.print("Indique o tamanho do dispositivo: ");
-                properties[8] = sc.nextLine();
-
+                properties[5] = sc.nextLine();
                 break;
             case 5:
                 System.out.print("Indique a resolucao do dispositivo: ");
-                properties[7] = sc.nextLine();
+                properties[4] = sc.nextLine();
                 System.out.print("Indique o tamanho de ficheiros do dispositivo: ");
-                properties[8] = sc.nextLine();
+                properties[5] = sc.nextLine();
                 break;
             default:
                 break;  
         }
         sc.close();
+        return properties;
     }
 
     public String[] createSupplier() {

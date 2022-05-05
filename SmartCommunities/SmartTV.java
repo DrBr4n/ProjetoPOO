@@ -131,4 +131,15 @@ public class SmartTV extends SmartDevice {
 
         return sb.toString();
     }
+
+    @Override
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SmartBulb:")
+            .append(super.toLog() + ",")
+            .append(this.getResolution() + ",")
+            .append(this.getVolume())
+            .append("\n");
+        return sb.toString();
+    }
 }

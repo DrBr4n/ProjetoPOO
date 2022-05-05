@@ -118,5 +118,15 @@ public class Supplier implements Serializable {
 
         return sb.toString();
     }
-}
+
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Supplier:")
+            .append(this.getName() + ",")
+            .append(this.getPrice() + ",")
+            .append(this.getDailyCost())
+            .append("\n");
+        return sb.toString();
+    }
+} 
 

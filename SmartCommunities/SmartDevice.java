@@ -200,28 +200,4 @@ public class SmartDevice implements Serializable{
             .append(this.getOn());
         return sb.toString();
     }
-
-    public SmartDevice createDevice(String [] props) {
-        // {OptionCreateOrEdit, Room, DeviceType, DeviceId, Marca, ConsumoDiario, Custo, Rng1, Rng2}
-        int option = Integer.parseInt(props[2]);
-        switch (option) {
-            case 1:
-                SmartAC ac = new SmartAC('d' + props[3], props[4], Float.parseFloat(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
-                return ac;
-            case 2:
-                SmartTV tv = new SmartTV('d' + props[3], props[4], Float.parseFloat(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
-                return tv;
-            case 3:
-                SmartSpeaker sp = new SmartSpeaker('d' + props[3], props[4], Float.parseFloat(props[5]), Float.parseFloat(props[6]), false, props[7], Integer.parseInt(props[8]));
-                return sp;
-            case 4:
-                SmartBulb bb = new SmartBulb('d' + props[3], props[4], Float.parseFloat(props[5]), Float.parseFloat(props[6]), false, Integer.parseInt(props[7]), Integer.parseInt(props[8]));
-                return bb;
-            case 5:
-                SmartCamera cm = new SmartCamera('d' + props[3], props[4], Float.parseFloat(props[5]), Float.parseFloat(props[6]), false, props[7], Integer.parseInt(props[8]));
-                return cm;
-            default:
-                return null;
-        }
-    }
 }
