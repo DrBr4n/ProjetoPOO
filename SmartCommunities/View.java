@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class View
 {
-    public int menu() {
+    public String menu() {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Smart Community--------");
         System.out.println("1 - Criar Casas");
@@ -23,7 +23,7 @@ public class View
         System.out.println("0 - Terminar");
         System.out.print("Indique a opcao: ");
 
-        int option = sc.nextInt();
+        String option = sc.next();
 
         sc.close();
         return option;

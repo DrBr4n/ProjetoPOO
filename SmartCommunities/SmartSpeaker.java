@@ -131,4 +131,15 @@ public class SmartSpeaker extends SmartDevice {
 
         return sb.toString();
     }
+
+    @Override
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SmartSpeaker:")
+            .append(super.toLog() + ",")
+            .append(this.getRadio() + ",")
+            .append(this.getVolume())
+            .append("\n");
+        return sb.toString();
+    }
 }

@@ -191,6 +191,16 @@ public class SmartDevice implements Serializable{
         return sb.toString();
     }
 
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getId() + ",")
+            .append(this.getBrand() + ",")
+            .append(this.getDailyConsumption() + ",")
+            .append(this.getInstallationCost() + ",")
+            .append(this.getOn());
+        return sb.toString();
+    }
+
     public SmartDevice createDevice(String [] props) {
         // {OptionCreateOrEdit, Room, DeviceType, DeviceId, Marca, ConsumoDiario, Custo, Rng1, Rng2}
         int option = Integer.parseInt(props[2]);

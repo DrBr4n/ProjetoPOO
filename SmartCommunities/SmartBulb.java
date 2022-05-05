@@ -114,4 +114,15 @@ public class SmartBulb extends SmartDevice {
         return sb.toString();
     }
 
+    @Override
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SmartBulb:")
+            .append(super.toLog() + ",")
+            .append(this.getMode() + ",")
+            .append(this.getSize())
+            .append("\n");
+        return sb.toString();
+    }
+
 }

@@ -114,4 +114,15 @@ public class SmartCamera extends SmartDevice {
 
         return sb.toString();
     }
+
+    @Override
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SmartCamera:")
+            .append(super.toLog() + ",")
+            .append(this.getResolution() + ",")
+            .append(this.getFileSize())
+            .append("\n");
+        return sb.toString();
+    }
 }

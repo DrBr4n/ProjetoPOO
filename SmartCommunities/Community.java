@@ -93,6 +93,13 @@ public class Community implements Serializable{
         return sb.toString();
     }
 
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Community:").append(this.getName()).append("\n");
+        this.getHouses().values().stream().map(House::toLog).forEach(sb::append);
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true; 

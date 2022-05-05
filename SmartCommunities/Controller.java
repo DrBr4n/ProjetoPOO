@@ -35,7 +35,7 @@ public class Controller {
     }
 
     public void displayMenu() {
-        int option = this.view.menu();
+        int option = Integer.parseInt(this.view.menu());
         switch (option) {
             case 0:
                 this.run = false;
@@ -52,11 +52,14 @@ public class Controller {
             case 9:
                 saveState();
                 break;
-            case 100:
-                System.out.println(this.community.toString());
-                break;
             case 99:
                 loadFromLog();
+                break;
+            case 100:
+                System.out.println(this.community.toLog());
+                break;
+            case 101:
+                System.out.println(this.community.toString());
                 break;
             default:
                 break;
@@ -136,7 +139,7 @@ public class Controller {
     public void loadFromLog() {
         Scanner sc = null;
         try {
-            sc = new Scanner(new File("log.txt"));
+            sc = new Scanner(new File("sLog.txt"));
         }
         catch (FileNotFoundException e) {
                 e.printStackTrace();

@@ -134,6 +134,22 @@ public class House implements Serializable{
         }
         return sb.toString();
     }
+
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("House:")
+            .append(this.getId() + ",")
+            .append(this.getAddress() + ",")
+            .append(this.getOwnerName() + ",")
+            .append(this.getNif())
+            .append("\n");
+        for (String room : this.getRooms().keySet()) {
+            sb.append("Room:").append(room).append("\n");
+            this.getRooms().get(room).values().stream().map(SmartDevice::toLog).forEach(sb::append);
+        }
+
+        return sb.toString();
+    }
     
     public Map<String, SmartDevice> getDevices(){
         Map<String, SmartDevice> devicesMap = new HashMap<>();
