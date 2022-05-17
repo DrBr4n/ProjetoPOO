@@ -8,7 +8,8 @@ public class House implements Serializable{
     private String address;
     private String ownerName;
     private String nif;
-    private String supplier;
+    //Mudei isto para o supplier em todo o lado
+    private Supplier supplier;
     private int deviceCounter;
     //private Map<String, SmartDevice> devices;
     private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
@@ -18,7 +19,7 @@ public class House implements Serializable{
         this.address = "Rua Das Cruzetas";
         this.ownerName = "Antonio Variacoes";
         this.nif = "999999999";
-        this.supplier = "EDP";
+        this.supplier = new Supplier();
         //this.devices = new HashMap<>();
         this.rooms = new HashMap<>();
     }
@@ -28,12 +29,12 @@ public class House implements Serializable{
         this.address = address;
         this.ownerName = ownerName;
         this.nif = nif;
-        this.supplier = supplier;
+        this.supplier = new Supplier();
         //this.devices = new HashMap<>();
         this.rooms = new HashMap<>();
     }
 
-    public House(String id, String nif, String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms, String supplier){
+    public House(String id, String nif, String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms, Supplier supplier){
         this.id = id;
         this.address = address;
         this.ownerName = ownerName;
@@ -85,11 +86,11 @@ public class House implements Serializable{
         this.nif = nif;
     }
     
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = new Supplier(supplier);
     }
      
-    public String getSupplier() {
+    public Supplier getSupplier() {
         return this.supplier;
     }
 
@@ -132,7 +133,7 @@ public class House implements Serializable{
         .append("\nNif: ")
         .append(this.getNif())
         .append("\nSupplier: ")
-        .append(this.getSupplier())
+        .append(this.getSupplier().toString())
         .append("\nRooms: ");
         for (String room : rooms.keySet()) {
             sb.append(room);
@@ -148,7 +149,7 @@ public class House implements Serializable{
             .append(this.getAddress() + ",")
             .append(this.getOwnerName() + ",")
             .append(this.getNif() + ",")
-            .append(this.getSupplier())
+            .append(this.getSupplier().toString())
             .append("\n");
         for (String room : this.getRooms().keySet()) {
             sb.append("Room:").append(room).append("\n");
@@ -206,4 +207,17 @@ public class House implements Serializable{
         //this.addDevice(device.createDevice(props));
         this.addDeviceToRoom(props[1], device.createDevice(props));
     } */
+
+    //EU - calcula o consumo da casa
+    public float calcConsumption(){
+        float consum = 0;
+        //Map<String, SmartDevice> devices = (Map<String, SmartDevice>) this.rooms.values();
+        Map<String, SmartDevice> devices = this.getDevices();
+        for(SmartDevice sd: devices.values()){
+            consum += (this.supplier.getPrice() * sd.getDailyConsumption() * (1+this.supplier.getTax()))*0.9;
+        }
+        return consum;
+    }
+
+    //EU
 }

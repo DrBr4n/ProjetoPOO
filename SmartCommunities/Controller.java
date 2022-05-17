@@ -10,6 +10,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.lang.Boolean;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 
 
 public class Controller {
@@ -57,7 +60,7 @@ public class Controller {
                 loadFromLog();
                 break;
             case 100:
-                System.out.println(this.community.toLog());
+                //System.out.println(this.community.toLog());
                 break;
             case 101:
                 System.out.println(this.community.toString());
@@ -119,7 +122,7 @@ public class Controller {
                     house.addDeviceToRoom(props[1], sd);
                     break;
                 case 3:
-                    house.setSupplier(props[1]);
+                    //house.setSupplier(props[1]);
                     break;
                 default:
                     this.view.invalidOption();
@@ -130,7 +133,7 @@ public class Controller {
 
     public void createSupplier() {
         String[] props = this.view.createSupplier();
-        Supplier supplier = new Supplier(props[0], Float.parseFloat(props[1]), Integer.parseInt(props[2]));
+        Supplier supplier = new Supplier(props[0], Float.parseFloat(props[1]), Integer.parseInt(props[2]), Integer.parseInt(props[3]));
         this.community.addSupplier(supplier);
     }
 
@@ -149,6 +152,13 @@ public class Controller {
     public void turnDeviceOff(String houseId, String deviceId) {
         this.community.getHouses().get(houseId).getDevices().get(deviceId).turnOn();
     }
+
+    //EU
+    public void calculateConsumption(String houseId, LocalDateTime dateI, LocalDateTime dateF){
+        long days = ChronoUnit.DAYS.between(dateI, dateF);
+        this.community.getHouses().get(houseId).calcConsumption();
+    }
+
 
     public void saveState(){
         try{
@@ -219,7 +229,7 @@ public class Controller {
                 this.community.increaseHouseCounter();
                 house.setOwnerName(houseM.group(2));
                 house.setNif(houseM.group(3));
-                house.setSupplier(houseM.group(4));
+                //house.setSupplier(houseM.group(4));
                 this.community.addHouse(house);
                 currentHouse = new House(house);
             } else if (roomM.find()) {

@@ -144,19 +144,33 @@ public class View
         return properties;
     }
 
+    //acrescentei prop[3]
     public String[] createSupplier() {
         Scanner sc = new Scanner(System.in);
-        String [] prop = new String[3];
+        String [] prop = new String[4];
         System.out.print("Indique o nome do fornecedor de energia: ");
         prop[0] = sc.nextLine();
         System.out.print("Indique o preço a que vende a energia: ");
         prop[1] = sc.nextLine();
         System.out.print("Indique o valor base do custo diario: ");
         prop[2] = sc.nextLine();
+        System.out.print("Indique o valor da taxa de imposto(0% a 100%): ");
+        prop[3] = sc.nextLine();
         sc.close();
         return prop; 
     }
 
+    //Eu
+    public String[] calculateConsumption(){
+        Scanner sc = new Scanner(System.in);
+        String [] prop = new String[1];
+        System.out.print("Indique o identificador da casa da qual pretende calcular o consumo: ");
+        prop[0] = sc.nextLine();
+        sc.close();
+        return prop;
+    }
+    
+    
     public void invalidOption() {
         System.out.println("Opcao invalida.");
     }

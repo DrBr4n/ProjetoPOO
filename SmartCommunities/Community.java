@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class Community implements Serializable{
@@ -9,6 +10,8 @@ public class Community implements Serializable{
     private int deviceCounter;
     private Map<String, House> houses;
     private Map<String, Supplier> suppliers;
+    //adicionei em todo o lado
+    private LocalDateTime data;
 
     public Community(){
         this.name = "Aveiro";
@@ -16,6 +19,7 @@ public class Community implements Serializable{
         this.suppliers = new HashMap<>();
         this.houseCounter = 0;
         this.deviceCounter = 0;
+        this.data = LocalDateTime.now();
     }
 
     public Community(String name){
@@ -24,6 +28,7 @@ public class Community implements Serializable{
         this.suppliers = new HashMap<>();
         this.houseCounter = 0;
         this.deviceCounter = 0;
+        this.data = LocalDateTime.now();
     }
 
     public Community(Community o){
@@ -32,6 +37,7 @@ public class Community implements Serializable{
         this.suppliers = o.getSuppliers();
         this.houseCounter = o.getHouseCounter();
         this.deviceCounter = o.getDeviceCounter();
+        this.data = o.getData();
     }
 
     public String getName(){
@@ -74,6 +80,14 @@ public class Community implements Serializable{
         this.deviceCounter = deviceCounter;
     }
 
+    public LocalDateTime getData(){
+        return this.data;
+    }
+
+    public void setData(LocalDateTime data){
+        this.data = data;
+    }
+
     @Override
     public Community clone(){
         return new Community(this);
@@ -86,16 +100,23 @@ public class Community implements Serializable{
         .append(this.getName())
         .append("\nHouses: ");
         this.getHouses().values().stream().map(House::toString).forEach(sb::append);
+        sb.append("\nData: ")
+        .append(this.getData());
         return sb.toString();
     }
-
+    /*
+    //tens de mudar isto, porque o supplier ja nao e string
     public String toLog() {
         StringBuilder sb = new StringBuilder();
         sb.append("Community:").append(this.getName()).append("\n");
-        this.getSuppliers().values().stream().map(Supplier::toLog).forEach(sb::append);
+        
+        //this.getSuppliers().values().stream().map(Supplier::toLog).forEach(sb::append);
         this.getHouses().values().stream().map(House::toLog).forEach(sb::append);
+        //Nao sei se afeta os logs:
+        //sb.append("\nData: ").append(this.getData());
         return sb.toString();
     }
+    */
 
     @Override
     public boolean equals(Object o) {
@@ -106,7 +127,8 @@ public class Community implements Serializable{
         houses == c.houses && 
         suppliers == c.suppliers &&
         houseCounter == c.houseCounter &&
-        deviceCounter == c.deviceCounter;
+        deviceCounter == c.deviceCounter &&
+        data == c.data;
     }
 
     public void addHouse(House house) {
@@ -124,4 +146,6 @@ public class Community implements Serializable{
     public void increaseDeviceCounter() {
         this.deviceCounter += 1;
     }
+
+
 }

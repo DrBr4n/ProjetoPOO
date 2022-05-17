@@ -8,6 +8,8 @@ public class Supplier implements Serializable {
     private String name;
     private float price;
     private int dailyCost;
+    //adicionei em todo o lado
+    private int tax; //de 0% a 100% 
     /**
      * Construtor vazio do Supplier. 
      */  
@@ -15,6 +17,7 @@ public class Supplier implements Serializable {
         this.name = "EDP";
         this.price = 5;
         this.dailyCost = 50;
+        this.tax = 30;
     }
 
     /**
@@ -22,11 +25,13 @@ public class Supplier implements Serializable {
      * @param name nome do fornecedor
      * @param price preço do fornecedor.
      * @param dailyCost custo diário.
+     * @param tax taxa de imposto
      */
-    public Supplier(String name, float price, int dailyCost){
+    public Supplier(String name, float price, int dailyCost, int tax){
         this.name = name;
         this.price = price;
         this.dailyCost = dailyCost;
+        this.tax = tax;
     }
 
     /**
@@ -39,9 +44,10 @@ public class Supplier implements Serializable {
         this.name = o.getName();
         this.price = o.getPrice();
         this.dailyCost = o.getDailyCost();
+        this.tax = o.getTax();
 
     }
-
+    
     public String getName() {
         return this.name;
     }
@@ -82,6 +88,22 @@ public class Supplier implements Serializable {
         this.dailyCost = dailyCost;
     }
 
+    /**
+     * Devolve o valor da taxa de imposto.
+     * @return o valor da taxa de imposto.
+     */
+    public int getTax() {
+        return this.tax;
+    }
+
+    /**
+     * Actualiza o valor da taxa de imposto.
+     * @param nova taxa de imposto.
+     */
+    public void setTax(int tax) {
+        this.tax = tax;
+    }
+
     /** 
      *Testa a veracidade entre a comparação de dois objetos.
      */
@@ -91,7 +113,8 @@ public class Supplier implements Serializable {
         Supplier s = (Supplier) o; 
         return name == s.name &&
         price == s.price && 
-        dailyCost == s.dailyCost; 
+        dailyCost == s.dailyCost &&
+        tax == s.tax; 
     }
 
     /**
@@ -114,19 +137,10 @@ public class Supplier implements Serializable {
         .append("\nPrice: ")
         .append(this.getPrice())
         .append("\nDaily Cost: ")
-        .append(this.getDailyCost());
+        .append(this.getDailyCost())
+        .append("\nTax: ")
+        .append(this.getTax());
 
         return sb.toString();
     }
-
-    public String toLog() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Supplier:")
-            .append(this.getName() + ",")
-            .append(this.getPrice() + ",")
-            .append(this.getDailyCost())
-            .append("\n");
-        return sb.toString();
-    }
-} 
-
+}
