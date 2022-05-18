@@ -129,6 +129,7 @@ public class Supplier implements Serializable {
      * Metodo que devolve a representação em Sting do Supplier.
      * @return String com as variáveis de instância de Supplier.
      */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\nSupplier:")
@@ -141,6 +142,17 @@ public class Supplier implements Serializable {
         .append("\nTax: ")
         .append(this.getTax());
 
+        return sb.toString();
+    }
+    
+    public String toLog() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Supplier:")
+            .append(this.getName() + ",")
+            .append(this.getPrice() + ",")
+            .append(this.getDailyCost() + ",")
+            .append(this.getTax())
+            .append("\n");
         return sb.toString();
     }
 }

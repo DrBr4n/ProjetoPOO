@@ -54,7 +54,7 @@ public class View
         System.out.println("0 - Voltar ao menu inicial");
         System.out.print("Indique a opcao: ");
         int option = sc.nextInt();
-        String [] properties = new String[2]; // {OptionCreateOrEdit, Room, DeviceType, DeviceId, Marca, ConsumoDiario, Custo, Rng1, Rng2}
+        String [] properties = new String[2]; 
         properties[0] = String.valueOf(option);
         if(option == 1 ){
             System.out.print("Indique a divisao que pretende adicionar: ");
@@ -144,7 +144,17 @@ public class View
         return properties;
     }
 
-    //acrescentei prop[3]
+    public String[] changeDeviceState() {
+        Scanner sc = new Scanner(System.in);
+        String[] ids = new String[2];
+        System.out.print("Indique o id da casa do dispositivo que pertende alterar: ");
+        ids[0] = sc.nextLine();
+        System.out.print("Indique o id do dispositivo que pertende alterar: ");
+        ids[1] = sc.nextLine();
+        sc.close();
+        return ids;
+    }
+
     public String[] createSupplier() {
         Scanner sc = new Scanner(System.in);
         String [] prop = new String[4];
@@ -160,7 +170,6 @@ public class View
         return prop; 
     }
 
-    //Eu
     public String[] calculateConsumption(){
         Scanner sc = new Scanner(System.in);
         String [] prop = new String[1];
@@ -169,7 +178,22 @@ public class View
         sc.close();
         return prop;
     }
-    
+
+    public String fileToLoad() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Identifique o nome do ficheiro que pretende carregar: ");
+        String name = sc.nextLine();
+        sc.close();
+        return name;
+    }
+
+    public String fileToSave() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Identifique o nome do ficheiro em que pretende guardar o log: ");
+        String name = sc.nextLine();
+        sc.close();
+        return name;
+    }
     
     public void invalidOption() {
         System.out.println("Opcao invalida.");

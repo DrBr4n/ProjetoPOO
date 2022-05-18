@@ -104,20 +104,16 @@ public class Community implements Serializable{
         .append(this.getData());
         return sb.toString();
     }
-    /*
-    //tens de mudar isto, porque o supplier ja nao e string
+    
     public String toLog() {
         StringBuilder sb = new StringBuilder();
         sb.append("Community:").append(this.getName()).append("\n");
-        
-        //this.getSuppliers().values().stream().map(Supplier::toLog).forEach(sb::append);
+        sb.append("Date: ").append(this.getData()).append("\n");
+        this.getSuppliers().values().stream().map(Supplier::toLog).forEach(sb::append);
         this.getHouses().values().stream().map(House::toLog).forEach(sb::append);
-        //Nao sei se afeta os logs:
-        //sb.append("\nData: ").append(this.getData());
         return sb.toString();
     }
-    */
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true; 
@@ -146,6 +142,4 @@ public class Community implements Serializable{
     public void increaseDeviceCounter() {
         this.deviceCounter += 1;
     }
-
-
 }
