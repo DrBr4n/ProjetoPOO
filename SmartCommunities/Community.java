@@ -1,6 +1,6 @@
 import java.util.Map;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class Community implements Serializable{
@@ -10,8 +10,7 @@ public class Community implements Serializable{
     private int deviceCounter;
     private Map<String, House> houses;
     private Map<String, Supplier> suppliers;
-    //adicionei em todo o lado
-    private LocalDateTime data;
+    private LocalDate date;
 
     public Community(){
         this.name = "Aveiro";
@@ -19,7 +18,7 @@ public class Community implements Serializable{
         this.suppliers = new HashMap<>();
         this.houseCounter = 0;
         this.deviceCounter = 0;
-        this.data = LocalDateTime.now();
+        this.date = LocalDate.now();
     }
 
     public Community(String name){
@@ -28,7 +27,7 @@ public class Community implements Serializable{
         this.suppliers = new HashMap<>();
         this.houseCounter = 0;
         this.deviceCounter = 0;
-        this.data = LocalDateTime.now();
+        this.date = LocalDate.now();
     }
 
     public Community(Community o){
@@ -37,7 +36,7 @@ public class Community implements Serializable{
         this.suppliers = o.getSuppliers();
         this.houseCounter = o.getHouseCounter();
         this.deviceCounter = o.getDeviceCounter();
-        this.data = o.getData();
+        this.date = o.getDate();
     }
 
     public String getName(){
@@ -79,15 +78,15 @@ public class Community implements Serializable{
     public void setDeviceCounter(int deviceCounter) {
         this.deviceCounter = deviceCounter;
     }
-
-    public LocalDateTime getData(){
-        return this.data;
+    
+    public LocalDate getDate(){
+        return this.date;
     }
 
-    public void setData(LocalDateTime data){
-        this.data = data;
+    public void setDate(LocalDate date){
+        this.date = date;
     }
-
+    
     @Override
     public Community clone(){
         return new Community(this);
@@ -100,15 +99,15 @@ public class Community implements Serializable{
         .append(this.getName())
         .append("\nHouses: ");
         this.getHouses().values().stream().map(House::toString).forEach(sb::append);
-        sb.append("\nData: ")
-        .append(this.getData());
+        sb.append("\nDate: ")
+        .append(this.getDate());
         return sb.toString();
     }
     
     public String toLog() {
         StringBuilder sb = new StringBuilder();
         sb.append("Community:").append(this.getName()).append("\n");
-        sb.append("Date: ").append(this.getData()).append("\n");
+        sb.append("Date: ").append(this.getDate()).append("\n");
         this.getSuppliers().values().stream().map(Supplier::toLog).forEach(sb::append);
         this.getHouses().values().stream().map(House::toLog).forEach(sb::append);
         return sb.toString();
@@ -124,7 +123,7 @@ public class Community implements Serializable{
         suppliers == c.suppliers &&
         houseCounter == c.houseCounter &&
         deviceCounter == c.deviceCounter &&
-        data == c.data;
+        date == c.date;
     }
 
     public void addHouse(House house) {

@@ -9,11 +9,15 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.lang.Boolean;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.Iterator;
+
+//NAO É MELHOR DAR JAVA.UTIL.* E JAVA.IO.* E JAVA.TIME.*???
 
 public class Controller {
 
@@ -41,53 +45,68 @@ public class Controller {
     public void displayMenu() {
         int option = Integer.parseInt(this.view.menu());
         switch (option) {
-            case 0:
+            case 0: //Terminar
                 this.run = false;
                 break;
-            case 1:
+            case 1: //Criar Casas
                 createHouse();
                 break;
-            case 2:
+            case 2: //Criar Fornecedores
                 createSupplier();
                 break;
-            case 3:
+            case 3: //Modificar estado de um dispositivo
+                //NAO FUNCIONA -> nao muda no ficheiro pelo menos
                 changeDeviceState();
                 break;
-            case 8:
-                try {
-                    this.community = loadState();
-                } catch (FileNotFoundException fne) {
-                    fne.printStackTrace();
-                } catch (IOException io) {
-                    io.printStackTrace();
-                } catch (ClassNotFoundException cnf) {
-                    cnf.printStackTrace();
-                }
+            case 4: //Calcular o consumo
+                calculateConsumption();
                 break;
-            case 9:
+            case 5: //Gerar fatura
+                
+                break;
+            case 6: //Estatisticas
+                
+                break;
+            case 7: //Carregar ficheiro de objetos
+                //????
+                break;
+            case 8: //Guardar num ficheiro de objetos
+                //NAO FUNCIONA -> Apenas guarda o nome da comunidade e a data
                 try {
                     saveState();
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }
-                break;
-            case 10:
+                break;    
+            case 9: //Carregar ficheiro de texto
                 try {
                     loadFromLog();
                 } catch (FileNotFoundException fnf) {
                     fnf.printStackTrace();
                 }
+                //loadFromStorLog();
                 break;
-            case 11:
+            case 10: //Guardar num ficheiro de texto
                 try {
                     saveLog();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
-            case 99:
-                loadFromStorLog();
-                break;
+            case 11:
+                
+            /*
+                case 99:
+                    try {
+                        this.community = loadState();
+                    } catch (FileNotFoundException fne) {
+                        fne.printStackTrace();
+                    } catch (IOException io) {
+                        io.printStackTrace();
+                    } catch (ClassNotFoundException cnf) {
+                        cnf.printStackTrace();
+                    }
+                    break;
             case 100:
                 System.out.println(this.community.toLog());
                 break;
@@ -96,6 +115,7 @@ public class Controller {
                 break;
             default:
                 break;
+            */
         }
     }
 
@@ -189,10 +209,20 @@ public class Controller {
         this.community.getHouses().get(houseId).getDevices().get(deviceId).turnOn();
     }
 
-    //EU
-    public void calculateConsumption(String houseId, LocalDateTime dateI, LocalDateTime dateF){
-        long days = ChronoUnit.DAYS.between(dateI, dateF);
-        this.community.getHouses().get(houseId).calcConsumption();
+    public void calculateConsumption(){
+        String[] prop = this.view.calculateConsumption();
+        if(Integer.parseInt(prop[0]) == 1){
+            this.view.printConsumption(this.community.getHouses().get(prop[1]).calcConsumption());
+        }
+        else if(Integer.parseInt(prop[0]) == 2){
+            if(LocalDate.parse(prop[3]).isAfter(LocalDate.parse(prop[2]))){
+                if(LocalDate.parse(prop[2]).isAfter(this.community.getDate())){
+                    float consumption = 0;
+                    long days = ChronoUnit.DAYS.between(LocalDate.parse(prop[2]), LocalDate.parse(prop[3]));
+                    consumption = this.community.getHouses().get(prop[1]).calcConsumption() * days;
+                }
+            }
+        }
     }
 
     public void saveState() throws IOException{

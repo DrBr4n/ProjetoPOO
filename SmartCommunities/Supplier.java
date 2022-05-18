@@ -8,8 +8,7 @@ public class Supplier implements Serializable {
     private String name;
     private float price;
     private int dailyCost;
-    //adicionei em todo o lado
-    private int tax; //de 0% a 100% 
+    private float tax; //de 0 a 1
     /**
      * Construtor vazio do Supplier. 
      */  
@@ -17,7 +16,7 @@ public class Supplier implements Serializable {
         this.name = "EDP";
         this.price = 5;
         this.dailyCost = 50;
-        this.tax = 30;
+        this.tax = 0;
     }
 
     /**
@@ -27,7 +26,7 @@ public class Supplier implements Serializable {
      * @param dailyCost custo diário.
      * @param tax taxa de imposto
      */
-    public Supplier(String name, float price, int dailyCost, int tax){
+    public Supplier(String name, float price, int dailyCost, float tax){
         this.name = name;
         this.price = price;
         this.dailyCost = dailyCost;
@@ -92,7 +91,7 @@ public class Supplier implements Serializable {
      * Devolve o valor da taxa de imposto.
      * @return o valor da taxa de imposto.
      */
-    public int getTax() {
+    public float getTax() {
         return this.tax;
     }
 
@@ -100,7 +99,7 @@ public class Supplier implements Serializable {
      * Actualiza o valor da taxa de imposto.
      * @param nova taxa de imposto.
      */
-    public void setTax(int tax) {
+    public void setTax(float tax) {
         this.tax = tax;
     }
 

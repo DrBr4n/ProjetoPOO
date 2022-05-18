@@ -1,6 +1,9 @@
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class House implements Serializable{
 
@@ -8,9 +11,8 @@ public class House implements Serializable{
     private String address;
     private String ownerName;
     private String nif;
-    //Mudei isto para o supplier em todo o lado
     private Supplier supplier;
-    private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
+    private Map<String, Map<String, SmartDevice>> rooms;//= new HashMap<>();
 
     public House() {
         this.id = "404";
@@ -30,11 +32,10 @@ public class House implements Serializable{
         this.rooms = new HashMap<>();
     }
 
-    public House(String id, String nif, String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms, Supplier supplier){
+    public House(String id, String nif, String address, String ownerName, Map<String, Map<String, SmartDevice>> rooms, Supplier supplier){
         this.id = id;
         this.address = address;
         this.ownerName = ownerName;
-        this.nif = nif;
         this.supplier = supplier;
         this.rooms = rooms;
     }   
@@ -106,7 +107,7 @@ public class House implements Serializable{
         ownerName == h.ownerName &&  
         nif == h.nif &&
         supplier == h.supplier &&
-        rooms == h.rooms; 
+        rooms == h.rooms;
     }
     
     @Override
@@ -202,7 +203,6 @@ public class House implements Serializable{
         this.rooms.get(room).put(device.getId(), device);
     }
 
-    //EU - calcula o consumo da casa
     public float calcConsumption(){
         float consum = 0;
         //Map<String, SmartDevice> devices = (Map<String, SmartDevice>) this.rooms.values();
@@ -212,5 +212,4 @@ public class House implements Serializable{
         }
         return consum;
     }
-
 }
