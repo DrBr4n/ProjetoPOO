@@ -197,6 +197,20 @@ public class View
         System.out.println(String.valueOf(consumption));
     }
 
+    public void printReceipts(String[] receipts){
+        for (String receipt : receipts) {
+            System.out.println(receipt);
+        }
+    }
+
+    public String chooseDay() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indique o dia para o qual quer mudar: ");
+        String day = sc.nextLine();
+        sc.close();
+        return day;
+    }
+
     public int choseStatistics() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Indique o que pretende calcular: ");

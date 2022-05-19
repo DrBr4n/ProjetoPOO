@@ -2,6 +2,7 @@ import java.util.Map;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Community implements Serializable{
 
@@ -11,6 +12,7 @@ public class Community implements Serializable{
     private Map<String, House> houses;
     private Map<String, Supplier> suppliers;
     private LocalDate date;
+    private LocalDate lastDate;
 
     public Community(){
         this.name = "Aveiro";
@@ -86,6 +88,14 @@ public class Community implements Serializable{
     public void setDate(LocalDate date){
         this.date = date;
     }
+
+    public LocalDate getLastDate(){
+        return this.lastDate;
+    }
+
+    public void setLastDate(LocalDate lastDate){
+        this.lastDate = lastDate;
+    }
     
     @Override
     public Community clone(){
@@ -140,5 +150,24 @@ public class Community implements Serializable{
 
     public void increaseDeviceCounter() {
         this.deviceCounter += 1;
+    }
+
+    public String[] generateReceipts() {
+        String[] ret = new String[getHouseCounter()];
+        int index = 0;
+
+        Iterator<House> iterator = getHouses().values().iterator();
+        while (iterator.hasNext()) {
+            House house = iterator.next();
+            StringBuilder sb = new StringBuilder();
+            sb.append("HouseId: " + house.getId() + "\n")
+            .append("Consumption: " + String.valueOf(house.calcConsumption()) + "\n")
+            .append("Cost: " + String.valueOf(house.calcConsumption() * house.getSupplier().getPrice()) + "\n")
+            .append("Period: " + String.valueOf(lastDate) + " to " + String.valueOf(date) + "\n")
+            .append("Supplier: " + house.getSupplier().getName() + "\n");
+            ret[index] = sb.toString();
+            index++; 
+        }
+        return ret;
     }
 }

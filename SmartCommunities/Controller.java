@@ -15,10 +15,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Date;
 import java.util.Iterator;
 
 //NAO É MELHOR DAR JAVA.UTIL.* E JAVA.IO.* E JAVA.TIME.*???
-
+//vamos tar a importar bue modulos que nao usamos e kinda meh
 public class Controller {
 
     private View view;
@@ -55,23 +56,29 @@ public class Controller {
                 createSupplier();
                 break;
             case 3: //Modificar estado de um dispositivo
-                //NAO FUNCIONA -> nao muda no ficheiro pelo menos
                 changeDeviceState();
                 break;
             case 4: //Calcular o consumo
                 calculateConsumption();
                 break;
-            case 5: //Gerar fatura
-                
+            case 5: //Mudar data
+                changeDate();
                 break;
             case 6: //Estatisticas
                 
                 break;
             case 7: //Carregar ficheiro de objetos
-                //????
+                try {
+                    this.community = loadState();
+                } catch (FileNotFoundException fne) {
+                    fne.printStackTrace();
+                } catch (IOException io) {
+                    io.printStackTrace();
+                } catch (ClassNotFoundException cnf) {
+                    cnf.printStackTrace();
+                }
                 break;
             case 8: //Guardar num ficheiro de objetos
-                //NAO FUNCIONA -> Apenas guarda o nome da comunidade e a data
                 try {
                     saveState();
                 } catch (IOException ioe) {
@@ -94,19 +101,7 @@ public class Controller {
                 }
                 break;
             case 11:
-                
-            /*
-                case 99:
-                    try {
-                        this.community = loadState();
-                    } catch (FileNotFoundException fne) {
-                        fne.printStackTrace();
-                    } catch (IOException io) {
-                        io.printStackTrace();
-                    } catch (ClassNotFoundException cnf) {
-                        cnf.printStackTrace();
-                    }
-                    break;
+                break;
             case 100:
                 System.out.println(this.community.toLog());
                 break;
@@ -115,7 +110,6 @@ public class Controller {
                 break;
             default:
                 break;
-            */
         }
     }
 
@@ -161,8 +155,8 @@ public class Controller {
 
     public void createHouse() {
         String[] props = this.view.createHouse();
-        House house = new House('h' + String.valueOf(this.community.getHouseCounter()), props[0], props[1], props[2], props[3]);
         this.community.increaseHouseCounter();
+        House house = new House('h' + String.valueOf(this.community.getHouseCounter()), props[0], props[1], props[2], props[3]);
         this.community.addHouse(house);
         this.editHouse(house);
     }
@@ -221,6 +215,34 @@ public class Controller {
                     long days = ChronoUnit.DAYS.between(LocalDate.parse(prop[2]), LocalDate.parse(prop[3]));
                     consumption = this.community.getHouses().get(prop[1]).calcConsumption() * days;
                 }
+            }
+        }
+    }
+
+    public void changeDate() {
+        LocalDate date = LocalDate.parse(this.view.chooseDay());
+        if (date.isAfter(community.getDate())) {
+            community.setLastDate(community.getDate());
+            community.setDate(date);
+        } else {
+            //throw invalidDate?
+        }
+        String[] receipts = community.generateReceipts();
+        view.printReceipts(receipts);
+        runQueue();
+    }
+
+    public void runQueue() {
+        Iterator<String[]> iterator = pending.iterator();
+        while(iterator.hasNext()){
+            String[] cmd = iterator.next();
+
+            if (cmd[0].equalsIgnoreCase("setSupplier")) {
+                community.getHouses().get(cmd[1]).setSupplier(community.getSuppliers().get(cmd[2]));
+            } else if (cmd[0].equalsIgnoreCase("turnDeviceOn")) {
+                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOn();
+            } else if (cmd[0].equalsIgnoreCase("turnDeviceOff")) {
+                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOff();
             }
         }
     }
@@ -372,6 +394,7 @@ public class Controller {
                                         houseM.group(6));
                 this.community.addHouse(house);
                 currentHouse = new House(house);
+                this.community.increaseHouseCounter();
             } else if (roomM.find()) {
                 currentHouse.addRoom(roomM.group(2));
                 currentRoom.replace(0, currentRoom.length(), roomM.group(2));
@@ -448,18 +471,4 @@ public class Controller {
         outputStream.close();
     }
 
-    public void runQueue() {
-        Iterator<String[]> iterator = pending.iterator();
-        while(iterator.hasNext()){
-            String[] cmd = iterator.next();
-
-            if (cmd[0].equalsIgnoreCase("setSupplier")) {
-                community.getHouses().get(cmd[1]).setSupplier(community.getSuppliers().get(cmd[2]));
-            } else if (cmd[0].equalsIgnoreCase("turnDeviceOn")) {
-                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOn();
-            } else if (cmd[0].equalsIgnoreCase("turnDeviceOff")) {
-                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOff();
-            }
-        }
-    }
 }

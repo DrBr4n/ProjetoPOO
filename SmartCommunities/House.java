@@ -81,20 +81,26 @@ public class House implements Serializable{
         this.nif = nif;
     }
     
-    public void setSupplier(Supplier supplier) {
-        this.supplier = new Supplier(supplier);
-    }
-     
     public Supplier getSupplier() {
         return this.supplier;
     }
 
+    public void setSupplier(Supplier supplier) {
+        this.supplier = new Supplier(supplier);
+    }
+     
     public Map<String, Map<String, SmartDevice>> getRooms(){
         return this.rooms;
     }
 
     public void setRooms(Map<String, Map<String, SmartDevice>> rooms){
         this.rooms = rooms;
+    }
+
+    public Map<String, SmartDevice> getDevices(){
+        Map<String, SmartDevice> devicesMap = new HashMap<>();
+        this.rooms.values().stream().forEach(s -> devicesMap.putAll(s));
+        return devicesMap; 
     }
 
     @Override
@@ -145,19 +151,13 @@ public class House implements Serializable{
             .append(this.getNif() + ",")
             .append(this.getSupplier().getName())
             .append("\n");
-        for (String room : this.getRooms().keySet()) {
-            sb.append("Room:").append(room).append("\n");
-            this.getRooms().get(room).values().stream().map(SmartDevice::toLog).forEach(sb::append);
+            for (String room : this.getRooms().keySet()) {
+                sb.append("Room:").append(room).append("\n");
+                this.getRooms().get(room).values().stream().map(SmartDevice::toLog).forEach(sb::append);
+            }
+            return sb.toString();
         }
-        return sb.toString();
-    }
-    
-    public Map<String, SmartDevice> getDevices(){
-        Map<String, SmartDevice> devicesMap = new HashMap<>();
-        this.rooms.values().stream().forEach(s -> devicesMap.putAll(s));
-        return devicesMap; 
-    }
-
+        
     public boolean existsDevice(String deviceId) {
         return this.rooms.values().stream().anyMatch(room -> room.keySet().contains(deviceId));
     }

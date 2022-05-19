@@ -14,7 +14,7 @@ Supplier:Luzboa,5.0,50,30
 Supplier:Iberdrola,5.0,50,30
 Supplier:YIce,5.0,50,30
 Supplier:Enat,5.0,50,30
-House:h0,Rua Das Cruzetas,Vicente de Carvalho Castro,365597405,EDP
+House:h1,Rua Das Cruzetas,Vicente de Carvalho Castro,365597405,EDP
 Room:Sala de Jantar
 SmartBulb:d0,LG,4.57,50.0,false,2,11
 SmartBulb:d1,LG,4.73,50.0,false,1,12
