@@ -113,7 +113,11 @@ public class SmartBulb extends SmartDevice {
 
         return sb.toString();
     }
-
+    
+    /**
+     * Método que vai ter como função passar as variáveis de instância de SmartBulb. 
+     * @return String com as variáveis de instância de SmartBulb.
+     */
     @Override
     public String toLog() {
         StringBuilder sb = new StringBuilder();

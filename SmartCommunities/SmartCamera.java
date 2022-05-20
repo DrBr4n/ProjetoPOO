@@ -114,7 +114,10 @@ public class SmartCamera extends SmartDevice {
 
         return sb.toString();
     }
-
+    /**
+     * Método que vai ter como função passar as variáveis de instância de SmartCamera. 
+     * @return String com as variáveis de instância de SmartCamera.
+     */
     @Override
     public String toLog() {
         StringBuilder sb = new StringBuilder();

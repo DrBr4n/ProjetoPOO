@@ -8,7 +8,8 @@ public class Supplier implements Serializable {
     private String name;
     private float price;
     private int dailyCost;
-    private float tax; //de 0 a 1
+    //adicionei em todo o lado
+    private int tax; //de 0% a 100% 
     /**
      * Construtor vazio do Supplier. 
      */  
@@ -16,7 +17,7 @@ public class Supplier implements Serializable {
         this.name = "EDP";
         this.price = 5;
         this.dailyCost = 50;
-        this.tax = 0;
+        this.tax = 30;
     }
 
     /**
@@ -26,7 +27,7 @@ public class Supplier implements Serializable {
      * @param dailyCost custo diário.
      * @param tax taxa de imposto
      */
-    public Supplier(String name, float price, int dailyCost, float tax){
+    public Supplier(String name, float price, int dailyCost, int tax){
         this.name = name;
         this.price = price;
         this.dailyCost = dailyCost;
@@ -91,7 +92,7 @@ public class Supplier implements Serializable {
      * Devolve o valor da taxa de imposto.
      * @return o valor da taxa de imposto.
      */
-    public float getTax() {
+    public int getTax() {
         return this.tax;
     }
 
@@ -99,7 +100,7 @@ public class Supplier implements Serializable {
      * Actualiza o valor da taxa de imposto.
      * @param nova taxa de imposto.
      */
-    public void setTax(float tax) {
+    public void setTax(int tax) {
         this.tax = tax;
     }
 
@@ -144,6 +145,10 @@ public class Supplier implements Serializable {
         return sb.toString();
     }
     
+    /**
+     * Método que vai ter como função passar as variáveis de instância de Supllier. 
+     * @return String com as variáveis de instância de Supplier.
+     */
     public String toLog() {
         StringBuilder sb = new StringBuilder();
         sb.append("Supplier:")

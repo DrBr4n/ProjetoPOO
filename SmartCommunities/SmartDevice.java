@@ -10,6 +10,7 @@ public class SmartDevice implements Serializable{
     private float dailyConsumption;
     private float installationCost;
     private boolean on;
+    
     /**
      * Construtor vazio de SmartDevice 
      */
@@ -190,7 +191,12 @@ public class SmartDevice implements Serializable{
 
         return sb.toString();
     }
-
+    
+    /**
+     * Método que vai ter como função passar as variáveis de instância de SmartDevice. 
+     * @return String com as variáveis de instância de SmartDevice.
+     */
+    
     public String toLog() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getId() + ",")

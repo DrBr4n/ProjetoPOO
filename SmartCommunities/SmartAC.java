@@ -110,7 +110,10 @@ public class SmartAC extends SmartDevice {
 
         return sb.toString();
     }
-
+    /**
+     * Método que vai ter como função passar as variáveis de instância de SmartAC. 
+     * @return String com as variáveis de instância de SmartAC.
+     */
     @Override
     public String toLog() {
         StringBuilder sb = new StringBuilder();

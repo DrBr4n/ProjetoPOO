@@ -131,7 +131,11 @@ public class SmartSpeaker extends SmartDevice {
 
         return sb.toString();
     }
-
+    
+    /**
+     * Método que vai ter como função passar as variáveis de instância de SmartSpeaker. 
+     * @return String com as variáveis de instância de SmartSpeaker.
+     */
     @Override
     public String toLog() {
         StringBuilder sb = new StringBuilder();

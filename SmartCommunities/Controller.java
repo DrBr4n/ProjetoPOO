@@ -9,17 +9,12 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.lang.Boolean;
-import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Queue;
 import java.util.LinkedList;
-import java.util.Date;
 import java.util.Iterator;
 
-//NAO É MELHOR DAR JAVA.UTIL.* E JAVA.IO.* E JAVA.TIME.*???
-//vamos tar a importar bue modulos que nao usamos e kinda meh
 public class Controller {
 
     private View view;
@@ -46,28 +41,19 @@ public class Controller {
     public void displayMenu() {
         int option = Integer.parseInt(this.view.menu());
         switch (option) {
-            case 0: //Terminar
+            case 0:
                 this.run = false;
                 break;
-            case 1: //Criar Casas
+            case 1:
                 createHouse();
                 break;
-            case 2: //Criar Fornecedores
+            case 2:
                 createSupplier();
                 break;
-            case 3: //Modificar estado de um dispositivo
+            case 3:
                 changeDeviceState();
                 break;
-            case 4: //Calcular o consumo
-                calculateConsumption();
-                break;
-            case 5: //Mudar data
-                changeDate();
-                break;
-            case 6: //Estatisticas
-                
-                break;
-            case 7: //Carregar ficheiro de objetos
+            case 8:
                 try {
                     this.community = loadState();
                 } catch (FileNotFoundException fne) {
@@ -78,29 +64,29 @@ public class Controller {
                     cnf.printStackTrace();
                 }
                 break;
-            case 8: //Guardar num ficheiro de objetos
+            case 9:
                 try {
                     saveState();
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                 }
-                break;    
-            case 9: //Carregar ficheiro de texto
+                break;
+            case 10:
                 try {
                     loadFromLog();
                 } catch (FileNotFoundException fnf) {
                     fnf.printStackTrace();
                 }
-                //loadFromStorLog();
                 break;
-            case 10: //Guardar num ficheiro de texto
+            case 11:
                 try {
                     saveLog();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
-            case 11:
+            case 99:
+                loadFromStorLog();
                 break;
             case 100:
                 System.out.println(this.community.toLog());
@@ -155,8 +141,8 @@ public class Controller {
 
     public void createHouse() {
         String[] props = this.view.createHouse();
-        this.community.increaseHouseCounter();
         House house = new House('h' + String.valueOf(this.community.getHouseCounter()), props[0], props[1], props[2], props[3]);
+        this.community.increaseHouseCounter();
         this.community.addHouse(house);
         this.editHouse(house);
     }
@@ -203,48 +189,10 @@ public class Controller {
         this.community.getHouses().get(houseId).getDevices().get(deviceId).turnOn();
     }
 
-    public void calculateConsumption(){
-        String[] prop = this.view.calculateConsumption();
-        if(Integer.parseInt(prop[0]) == 1){
-            this.view.printConsumption(this.community.getHouses().get(prop[1]).calcConsumption());
-        }
-        else if(Integer.parseInt(prop[0]) == 2){
-            if(LocalDate.parse(prop[3]).isAfter(LocalDate.parse(prop[2]))){
-                if(LocalDate.parse(prop[2]).isAfter(this.community.getDate())){
-                    float consumption = 0;
-                    long days = ChronoUnit.DAYS.between(LocalDate.parse(prop[2]), LocalDate.parse(prop[3]));
-                    consumption = this.community.getHouses().get(prop[1]).calcConsumption() * days;
-                }
-            }
-        }
-    }
-
-    public void changeDate() {
-        LocalDate date = LocalDate.parse(this.view.chooseDay());
-        if (date.isAfter(community.getDate())) {
-            community.setLastDate(community.getDate());
-            community.setDate(date);
-        } else {
-            //throw invalidDate?
-        }
-        String[] receipts = community.generateReceipts();
-        view.printReceipts(receipts);
-        runQueue();
-    }
-
-    public void runQueue() {
-        Iterator<String[]> iterator = pending.iterator();
-        while(iterator.hasNext()){
-            String[] cmd = iterator.next();
-
-            if (cmd[0].equalsIgnoreCase("setSupplier")) {
-                community.getHouses().get(cmd[1]).setSupplier(community.getSuppliers().get(cmd[2]));
-            } else if (cmd[0].equalsIgnoreCase("turnDeviceOn")) {
-                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOn();
-            } else if (cmd[0].equalsIgnoreCase("turnDeviceOff")) {
-                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOff();
-            }
-        }
+    //EU
+    public void calculateConsumption(String houseId, LocalDateTime dateI, LocalDateTime dateF){
+        long days = ChronoUnit.DAYS.between(dateI, dateF);
+        this.community.getHouses().get(houseId).calcConsumption();
     }
 
     public void saveState() throws IOException{
@@ -394,7 +342,6 @@ public class Controller {
                                         houseM.group(6));
                 this.community.addHouse(house);
                 currentHouse = new House(house);
-                this.community.increaseHouseCounter();
             } else if (roomM.find()) {
                 currentHouse.addRoom(roomM.group(2));
                 currentRoom.replace(0, currentRoom.length(), roomM.group(2));
@@ -471,4 +418,18 @@ public class Controller {
         outputStream.close();
     }
 
+    public void runQueue() {
+        Iterator<String[]> iterator = pending.iterator();
+        while(iterator.hasNext()){
+            String[] cmd = iterator.next();
+
+            if (cmd[0].equalsIgnoreCase("setSupplier")) {
+                community.getHouses().get(cmd[1]).setSupplier(community.getSuppliers().get(cmd[2]));
+            } else if (cmd[0].equalsIgnoreCase("turnDeviceOn")) {
+                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOn();
+            } else if (cmd[0].equalsIgnoreCase("turnDeviceOff")) {
+                community.getHouses().get(cmd[1]).getDevices().get(cmd[2]).turnOff();
+            }
+        }
+    }
 }
