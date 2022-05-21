@@ -4,6 +4,6 @@ public class ReceiptsNotGeneratedException extends Exception
 {
     public ReceiptsNotGeneratedException()
     {
-        System.out.println("Ainda não foi gerada nenhuma fatura.");
+        System.out.println("\nAinda não foi gerada nenhuma fatura.\n");
     }
 }

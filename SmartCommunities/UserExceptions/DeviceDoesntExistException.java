@@ -7,6 +7,6 @@ public class DeviceDoesntExistException extends Exception
      */
     public DeviceDoesntExistException(String message)
     {
-        System.out.println("O dispositivo " + message + " não existe");
+        System.out.println("\nO dispositivo " + message + " não existe.\n");
     }
 }

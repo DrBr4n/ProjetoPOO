@@ -1,9 +1,4 @@
-/**
- * Write a description of class SmartAC here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class SmartAC extends SmartDevice {
     /**
      * Contrutores da classe SmartAC.
@@ -11,6 +6,7 @@ public class SmartAC extends SmartDevice {
      */
     private int mode;
     private int temperature;
+    
     /**
      * Construtor vazio de SmartAC. 
      */

@@ -4,6 +4,6 @@ public class RoomDoesntExistException extends Exception
 {
     public RoomDoesntExistException(String message)
     {
-        System.out.println("A divisão " + message + " não existe");
+        System.out.println("\nA divisão " + message + " não existe.\n");
     }
 }

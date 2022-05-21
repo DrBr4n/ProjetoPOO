@@ -22,7 +22,7 @@ public class House implements Serializable{
      * Construtor vazio de House
      */
     public House() {
-        this.id = "404";
+        this.id = "h404";
         this.address = "Rua Das Cruzetas";
         this.ownerName = "Antonio Variacoes";
         this.nif = "999999999";
@@ -234,7 +234,10 @@ public class House implements Serializable{
         }
         return sb.toString();
     }
-
+    /**
+     * Método que devolve a representação em Sting de House.
+     * @return String com parte das variáveis de instância de House.
+     */
     public String toStringShort() {
         StringBuilder sb = new StringBuilder();
         sb.append("Identificador: ")
@@ -291,7 +294,7 @@ public class House implements Serializable{
     
     /**
      * Define os dispositivos como ligados.
-     * @param deviceId
+     * @param deviceId identificadir do dispositivo.
      */
     public void turnDeviceOn(String deviceId) throws DeviceDoesntExistException{
         if (!existsDevice(deviceId)) {
@@ -306,7 +309,7 @@ public class House implements Serializable{
     
     /**
      * Define os dispositivos como desligados.
-     * @param deviceId
+     * @param deviceId identificador do dispositivo.
      */
     public void turnDeviceOff(String deviceId) throws DeviceDoesntExistException {
         if (!existsDevice(deviceId)) {
@@ -321,7 +324,7 @@ public class House implements Serializable{
     
     /**
      * Define como ligado os dispositivos existentes num determinado espaço da casa.
-     * @param room.
+     * @param room identifica o espaço da casa.
      */
     public void turnRoomOn(String room) throws RoomDoesntExistException {
         if (!existsRoom(room)) {
@@ -332,7 +335,7 @@ public class House implements Serializable{
     
     /**
      * Define como desligados os dispositivos existentes num determinado espaço da casa.
-     * @param room.
+     * @param room identifica o espaço da casa.
      */
     public void turnRoomOff(String room) throws RoomDoesntExistException {
         if (!existsRoom(room)) {
@@ -343,6 +346,7 @@ public class House implements Serializable{
      
     /** 
      * Testa se existe um espaço da casa específico.
+     * @param room identifica o espaço da casa.
      * @return se existe um espaço da casa.
      */
     public boolean existsRoom(String room){
@@ -351,7 +355,7 @@ public class House implements Serializable{
     
     /**
      * Adiciona um novo espaço à casa.
-     * @param room.
+     * @param room identifica o espaço da casa.
      */
     public void addRoom(String room) {
         Map<String, SmartDevice> emptyMap = new HashMap<>();
@@ -360,8 +364,8 @@ public class House implements Serializable{
     
     /**
      * Adiciona um novo dispositivo.
-     * @param room.
-     * @param device.
+     * @param room identifica o espaço da casa.
+     * @param device dispositivi que vai ser adicionado.
      */
     public void addDeviceToRoom (String room, SmartDevice device) throws RoomDoesntExistException {
         if (!existsRoom(room)) {
@@ -376,10 +380,12 @@ public class House implements Serializable{
      */
     public float calcConsumption(){
         float consum = 0;
-        //Map<String, SmartDevice> devices = (Map<String, SmartDevice>) this.rooms.values();
+
         Map<String, SmartDevice> devices = this.getDevices();
         for(SmartDevice sd: devices.values()){
-            consum += (this.supplier.getPrice() * sd.getDailyConsumption() * (1+this.supplier.getTax()))*0.9;
+            if (sd.getOn()) {
+                consum += (this.supplier.getPrice() * sd.getDailyConsumption() * (1+this.supplier.getTax()))*0.9;               
+            }
         }
         return consum;
     }

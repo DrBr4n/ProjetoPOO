@@ -12,11 +12,14 @@ import java.util.regex.Pattern;
 import UserExceptions.DeviceDoesntExistException;
 import UserExceptions.HouseDoesntExistException;
 import UserExceptions.InvalidDateException;
+import UserExceptions.MaxVolumeException;
+import UserExceptions.MinVolumeException;
 import UserExceptions.ReceiptsNotGeneratedException;
 import UserExceptions.RoomDoesntExistException;
 import UserExceptions.SupplierDoesntExistException;
 
 import java.lang.Boolean;
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Queue;
@@ -24,6 +27,9 @@ import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Controller {
@@ -47,8 +53,9 @@ public class Controller {
             controller.displayMenu();
             
         } while (controller.run);
-
+ 
     }
+    
     /**
      * Função Controller.
      */
@@ -60,7 +67,7 @@ public class Controller {
     }
 
     /**
-     * Menu
+     * Menu 
      */
     public void displayMenu() {
         int option = Integer.parseInt(this.view.menu());
@@ -72,9 +79,9 @@ public class Controller {
                 try {
                     createHouse();
                 } catch (RoomDoesntExistException e) {
-                    e.printStackTrace();  
+                    e.getMessage();  
                 } catch (SupplierDoesntExistException e) {
-                    e.printStackTrace();  
+                    e.getMessage(); 
                 }
                 break;
             case 2: //Criar Fornecedores
@@ -84,84 +91,82 @@ public class Controller {
                 try {
                     changeDeviceState();
                 } catch (HouseDoesntExistException e) {
-                    e.printStackTrace();  
+                    e.getMessage();
+
                 } catch (DeviceDoesntExistException e) {
-                    e.printStackTrace();  
+                    e.getMessage();  
                 }
                 break;
             case 4: //Calcular o consumo
                 try {
                     calculateConsumption();
                 } catch (HouseDoesntExistException e) {
-                    e.printStackTrace();  
+                    e.getMessage();  
                 }
                 break;
             case 5: //Mudar data
                 try {
                     changeDate();
                 } catch (InvalidDateException e) {
-                    e.printStackTrace(); 
+                    e.getMessage(); 
                 } catch (DeviceDoesntExistException e) {
-                    e.printStackTrace(); 
+                    e.getMessage(); 
                 } catch (RoomDoesntExistException e) {
-                    e.printStackTrace(); 
+                    e.getMessage(); 
                 } catch (SupplierDoesntExistException e) {
-                    e.printStackTrace(); 
+                    e.getMessage(); 
                 } catch (HouseDoesntExistException e) {
-                    e.printStackTrace(); 
+                    e.getMessage(); 
                 }
                 break;
             case 6: //Estatisticas
                 try {
                     statistics();
                 } catch (SupplierDoesntExistException e) {
-                    e.printStackTrace();  
+                    e.getMessage();  
                 } catch (ReceiptsNotGeneratedException e) {
-                    e.printStackTrace();  
+                    e.getMessage(); 
                 }
                 break;
             case 7: //Carregar ficheiro de objetos
                 try {
                     this.community = loadState();
                 } catch (FileNotFoundException fne) {
-                    fne.printStackTrace();
+                    fne.getMessage();
                 } catch (IOException io) {
-                    io.printStackTrace();
+                    io.getMessage();
                 } catch (ClassNotFoundException cnf) {
-                    cnf.printStackTrace();
+                    cnf.getMessage();
                 }
                 break;
             case 8: //Guardar num ficheiro de objetos
                 try {
                     saveState();
                 } catch (IOException ioe) {
-                    ioe.printStackTrace();
+                    ioe.getMessage();
                 }
                 break;    
             case 9: //Carregar ficheiro de texto
                 try {
                     loadFromLog();
                 } catch (FileNotFoundException fnf) {
-                    fnf.printStackTrace();
+                    fnf.getMessage();
                 } catch (RoomDoesntExistException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
-                //loadFromStorLog();
                 break;
             case 10: //Guardar num ficheiro de texto
                 try {
                     saveLog();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
                 break;
             case 100:
                 System.out.println(this.community.toLog());
                 break;
-            case 101:
-                System.out.println(this.community.toString());
-                break;
             default:
+                this.view.invalidOption();
                 break;
         }
     }
@@ -231,6 +236,8 @@ public class Controller {
             } else if (ids[2].compareTo("1") == 0) {
                 cmd[0] = "turnRoomOff";
             }
+        } else {
+            this.view.invalidOption();
         }
         pending.add(cmd);
     }
@@ -238,7 +245,7 @@ public class Controller {
     /** 
      * Cria a Casa.
      */
-    public void createHouse() throws RoomDoesntExistException, SupplierDoesntExistException{ //throws supplierDoesntExistException
+    public void createHouse() throws RoomDoesntExistException, SupplierDoesntExistException{
         String[] props = this.view.createHouse();
         this.community.increaseHouseCounter();
         if(!community.existsSupplier(props[3])) {
@@ -255,6 +262,7 @@ public class Controller {
     
     /**
      * Altera as propriedades da casa.
+     * @param house identifica a casa.
      */
     public void editHouse(House house) throws RoomDoesntExistException{
         boolean editing = true;
@@ -298,8 +306,8 @@ public class Controller {
     
     /**
      * Muda o estado de um dispositivo específico para on.
-     * @param houseId.
-     * @param deviceId. 
+     * @param houseId identificador da casa.
+     * @param deviceId identificador dos dispositivos. 
      */
     public void turnDeviceOn(String houseId, String deviceId) throws DeviceDoesntExistException {
         try {
@@ -311,8 +319,8 @@ public class Controller {
     
     /**
      * Muda o estado de um dispositivo específico para off. 
-     * @param houseId.
-     * @param deviceId. 
+     * @param houseId indentificador da casa.
+     * @param deviceId identificador dos dispositivos. 
      */
     public void turnDeviceOff(String houseId, String deviceId) throws DeviceDoesntExistException{
         try {
@@ -333,14 +341,17 @@ public class Controller {
             }
             this.view.printConsumption(this.community.getHouses().get(prop[1]).calcConsumption());
         }
-        else if(Integer.parseInt(prop[0]) == 2){
-            if(LocalDate.parse(prop[3]).isAfter(LocalDate.parse(prop[2]))){
-                if(LocalDate.parse(prop[2]).isAfter(this.community.getDate())){
-                    long days = ChronoUnit.DAYS.between(LocalDate.parse(prop[2]), LocalDate.parse(prop[3]));
+        else if(Integer.parseInt(prop[0]) == 2) {
+            LocalDate first = LocalDate.parse(prop[3]);
+            LocalDate second = LocalDate.parse(prop[2]);
+            if(first.isAfter(second)){
+                if(second.isAfter(this.community.getDate())) {
+                    long days = ChronoUnit.DAYS.between(second, first);
                     this.view.printConsumption(this.community.getHouses().get(prop[1]).calcConsumption() * days);
                 }
             }
-            
+        } else {
+            this.view.invalidOption();
         }
     }
     
@@ -355,8 +366,6 @@ public class Controller {
         } else {
             throw new InvalidDateException();
         }
-        String[] receipts = community.generateReceipts();
-        view.printReceipts(receipts);
         try {
             runQueue();
         } catch (DeviceDoesntExistException e) {
@@ -370,7 +379,10 @@ public class Controller {
         }
     }
     
-        public void statistics() throws SupplierDoesntExistException, ReceiptsNotGeneratedException {
+    /**
+     * Trata do cálculo das estatísticas.
+     */
+    public void statistics() throws SupplierDoesntExistException, ReceiptsNotGeneratedException {
         int statistic = this.view.choseStatistics();
         
         switch(statistic){
@@ -465,15 +477,37 @@ public class Controller {
             String[] cmd = iterator.next();
 
             if (cmd[0].equalsIgnoreCase("setSupplier")) {
-                community.setSupplier(cmd[1], cmd[2]);
+                try {
+                    community.setSupplier(cmd[1], cmd[2]);
+                } catch (SupplierDoesntExistException e) {
+                    throw e;
+                }
             } else if (cmd[0].equalsIgnoreCase("turnDeviceOn")) {
-                community.turnDeviceOn(cmd[1], cmd[2]);
+                try {
+                    community.turnDeviceOn(cmd[1], cmd[2]);
+                } catch (DeviceDoesntExistException e) {
+                    throw e;
+                }
             } else if (cmd[0].equalsIgnoreCase("turnDeviceOff")) {
-                community.turnDeviceOff(cmd[1], cmd[2]);
+                try {
+                    community.turnDeviceOff(cmd[1], cmd[2]);
+                } catch (DeviceDoesntExistException e) {
+                    throw e;
+                }
             } else if (cmd[0].equalsIgnoreCase("turnRoomOn")) {
-                this.community.turnRoomOn(cmd[1], cmd[2]);
+                try {
+                    this.community.turnRoomOn(cmd[1], cmd[2]);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
             } else if (cmd[0].equalsIgnoreCase("turnRoomOff")) {
+                try {
+                    this.community.turnRoomOff(cmd[1], cmd[2]);                    
                 this.community.turnRoomOff(cmd[1], cmd[2]);
+                    this.community.turnRoomOff(cmd[1], cmd[2]);                    
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
             }
         }
     }
@@ -491,96 +525,16 @@ public class Controller {
    
    /**
     * Carrega o estado a partir de um ficheiro de objetos.
+    * @return community retorna a comunidade.
     */
     public Community loadState() throws FileNotFoundException, IOException, ClassNotFoundException{
         FileInputStream fis = new FileInputStream("state.obj");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        Community c = (Community) ois.readObject();
+        Community community = (Community) ois.readObject();
         ois.close();
-        return c;
+        return community;
     }
     
-    /*
-    public void loadFromStorLog() {
-        Scanner sc = null;
-        try {
-            sc = new Scanner(new File("sLog.txt"));
-        }
-        catch (FileNotFoundException e) {
-                e.printStackTrace();
-        }
-
-        House currentHouse = new House();
-        StringBuilder currentRoom = new StringBuilder();
-
-        while (sc != null && sc.hasNextLine()) {
-            String data = sc.nextLine();
-
-            Pattern supplierP = Pattern.compile("(fornecedor):([a-z ]+)", Pattern.CASE_INSENSITIVE);
-            Matcher supplierM = supplierP.matcher(data);
-
-            Pattern houseP = Pattern.compile("(casa):([a-z ]+),(\\d+),([a-z ]+)", Pattern.CASE_INSENSITIVE);
-            Matcher houseM = houseP.matcher(data);
-
-            Pattern roomP = Pattern.compile("(divisao):([a-z0-9 ]+)", Pattern.CASE_INSENSITIVE);
-            Matcher roomM = roomP.matcher(data);
-            
-            Pattern smartBulbP = Pattern.compile("(smartbulb):([a-z0-9 ]+),(\\d++),(\\d+.\\d+)", Pattern.CASE_INSENSITIVE);
-            Matcher smartBulbM = smartBulbP.matcher(data);
-            
-            Pattern smartSpeakerP = Pattern.compile("(smartspeaker):(\\d++),([a-z0-9 ]+),([a-z0-9 ]+),(\\d+.\\d+)", Pattern.CASE_INSENSITIVE);
-            Matcher smartSpeakerM = smartSpeakerP.matcher(data);
-            
-            Pattern smartCameraP = Pattern.compile("(smartcamera):(\\(\\d+x\\d+\\)),(\\d++),(\\d+.\\d+)", Pattern.CASE_INSENSITIVE);
-            Matcher smartCameraM = smartCameraP.matcher(data);
-
-            if (supplierM.find()) {
-                Supplier supplier = new Supplier();
-                supplier.setName(supplierM.group(2));
-                this.community.addSupplier(supplier);
-            } else if (houseM.find()) {
-                House house = new House();
-                house.setId('h' + String.valueOf(this.community.getHouseCounter()));
-                house.setOwnerName(houseM.group(2));
-                house.setNif(houseM.group(3));
-                //house.setSupplier(houseM.group(4));
-                this.community.addHouse(house);
-                currentHouse = new House(house);
-            } else if (roomM.find()) {
-                currentHouse.addRoom(roomM.group(2));
-                currentRoom.replace(0, currentRoom.length(), roomM.group(2));
-            } else if (smartBulbM.find()) {
-                SmartBulb device = new SmartBulb();
-                device.setId('d' + String.valueOf(this.community.getDeviceCounter()));
-                this.community.increaseDeviceCounter();
-                if (smartBulbM.group(2).equalsIgnoreCase("cold")) device.setMode(0);
-                else if (smartBulbM.group(2).equalsIgnoreCase("neutral")) device.setMode(1);
-                else if (smartBulbM.group(2).equalsIgnoreCase("warm")) device.setMode(2);
-                device.setSize(Integer.parseInt(smartBulbM.group(3)));
-                device.setDailyConsumption(Float.parseFloat(smartBulbM.group(4)));
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
-            } else if (smartSpeakerM.find()) {
-                SmartSpeaker device = new SmartSpeaker();
-                device.setId('d' + String.valueOf(this.community.getDeviceCounter()));
-                this.community.increaseDeviceCounter();
-                device.setVolume(Integer.parseInt(smartSpeakerM.group(2)));
-                device.setRadio(smartSpeakerM.group(3));
-                device.setBrand(smartSpeakerM.group(4));
-                device.setDailyConsumption(Float.parseFloat(smartSpeakerM.group(5)));
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
-            } else if (smartCameraM.find()) {
-                SmartCamera device = new SmartCamera();
-                device.setId('d' + String.valueOf(this.community.getDeviceCounter()));
-                this.community.increaseDeviceCounter();
-                device.setResolution(smartCameraM.group(2));
-                device.setFileSize(Integer.parseInt(smartCameraM.group(3)));
-                device.setDailyConsumption(Float.parseFloat(smartCameraM.group(4)));
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
-            }
-        }
-        if (sc != null) sc.close(); 
-    }
-    */
     /**
      * Carrega estado a partir de um ficheiro log.
      */ 
@@ -594,7 +548,7 @@ public class Controller {
         while (sc != null && sc.hasNextLine()) {
             String data = sc.nextLine();
 
-            Pattern supplierP = Pattern.compile("(supplier):([a-z ]+),(\\d+.\\d+),(\\d+),(\\d+)", Pattern.CASE_INSENSITIVE);
+            Pattern supplierP = Pattern.compile("(supplier):([a-z ]+),(\\d+.\\d+),(\\d+),(\\d+.\\d+)", Pattern.CASE_INSENSITIVE);
             Matcher supplierM = supplierP.matcher(data);
 
             Pattern houseP = Pattern.compile("(house):(h[0-9]+),([a-z0-9 ]+),([a-z ]+),(\\d+),([a-z ]+)", Pattern.CASE_INSENSITIVE);
@@ -624,7 +578,7 @@ public class Controller {
                 Supplier supplier = new Supplier(supplierM.group(2),
                                                 Float.parseFloat(supplierM.group(3)),
                                                 Integer.parseInt(supplierM.group(4)),
-                                                Integer.parseInt(supplierM.group(5)));
+                                                Float.parseFloat(supplierM.group(5)));
                 this.community.addSupplier(supplier);
             } else if (houseM.find()) {
                 currentHouse = new House(houseM.group(2),
@@ -714,13 +668,12 @@ public class Controller {
     /**
      * Salva o log.
      */
-    public void saveLog() throws IOException  {
+    public void saveLog() throws IOException, FileAlreadyExistsException  {
         String name = this.view.fileToSave();
         File file = new File(name);
         try {
             if (!file.createNewFile()) {
-                //sub for file already exists exception
-                throw new IOException();
+                throw new FileAlreadyExistsException(name);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -731,4 +684,100 @@ public class Controller {
         outputStream.write(bytes);
         outputStream.close();
     }
+
+    /**
+     * Carrega estado a partir de um ficheiro log.
+     */ 
+    /*
+    public void loadFromStorLog() throws RoomDoesntExistException, MaxVolumeException, MinVolumeException {
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new File("sLog.txt"));
+        }
+        catch (FileNotFoundException e) {
+                e.printStackTrace();
+        }
+
+        House currentHouse = new House();
+        StringBuilder currentRoom = new StringBuilder();
+
+        while (sc != null && sc.hasNextLine()) {
+            String data = sc.nextLine();
+
+            Pattern supplierP = Pattern.compile("(fornecedor):([a-z ]+)", Pattern.CASE_INSENSITIVE);
+            Matcher supplierM = supplierP.matcher(data);
+
+            Pattern houseP = Pattern.compile("(casa):([a-z ]+),(\\d+),([a-z ]+)", Pattern.CASE_INSENSITIVE);
+            Matcher houseM = houseP.matcher(data);
+
+            Pattern roomP = Pattern.compile("(divisao):([a-z0-9 ]+)", Pattern.CASE_INSENSITIVE);
+            Matcher roomM = roomP.matcher(data);
+            
+            Pattern smartBulbP = Pattern.compile("(smartbulb):([a-z0-9 ]+),(\\d++),(\\d+.\\d+)", Pattern.CASE_INSENSITIVE);
+            Matcher smartBulbM = smartBulbP.matcher(data);
+            
+            Pattern smartSpeakerP = Pattern.compile("(smartspeaker):(\\d++),([a-z0-9 ]+),([a-z0-9 ]+),(\\d+.\\d+)", Pattern.CASE_INSENSITIVE);
+            Matcher smartSpeakerM = smartSpeakerP.matcher(data);
+            
+            Pattern smartCameraP = Pattern.compile("(smartcamera):(\\(\\d+x\\d+\\)),(\\d++),(\\d+.\\d+)", Pattern.CASE_INSENSITIVE);
+            Matcher smartCameraM = smartCameraP.matcher(data);
+
+            if (supplierM.find()) {
+                Supplier supplier = new Supplier();
+                supplier.setName(supplierM.group(2));
+                this.community.addSupplier(supplier);
+            } else if (houseM.find()) {
+                House house = new House();
+                house.setId('h' + String.valueOf(this.community.getHouseCounter()));
+                house.setOwnerName(houseM.group(2));
+                house.setNif(houseM.group(3));
+                this.community.addHouse(house);
+                currentHouse = new House(house);
+            } else if (roomM.find()) {
+                currentHouse.addRoom(roomM.group(2));
+                currentRoom.replace(0, currentRoom.length(), roomM.group(2));
+            } else if (smartBulbM.find()) {
+                SmartBulb device = new SmartBulb();
+                device.setId('d' + String.valueOf(this.community.getDeviceCounter()));
+                this.community.increaseDeviceCounter();
+                if (smartBulbM.group(2).equalsIgnoreCase("cold")) device.setMode(0);
+                else if (smartBulbM.group(2).equalsIgnoreCase("neutral")) device.setMode(1);
+                else if (smartBulbM.group(2).equalsIgnoreCase("warm")) device.setMode(2);
+                device.setSize(Integer.parseInt(smartBulbM.group(3)));
+                device.setDailyConsumption(Float.parseFloat(smartBulbM.group(4)));
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
+            } else if (smartSpeakerM.find()) {
+                SmartSpeaker device = new SmartSpeaker();
+                device.setId('d' + String.valueOf(this.community.getDeviceCounter()));
+                this.community.increaseDeviceCounter();
+                device.setVolume(Integer.parseInt(smartSpeakerM.group(2)));
+                device.setRadio(smartSpeakerM.group(3));
+                device.setBrand(smartSpeakerM.group(4));
+                device.setDailyConsumption(Float.parseFloat(smartSpeakerM.group(5)));
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
+            } else if (smartCameraM.find()) {
+                SmartCamera device = new SmartCamera();
+                device.setId('d' + String.valueOf(this.community.getDeviceCounter()));
+                this.community.increaseDeviceCounter();
+                device.setResolution(smartCameraM.group(2));
+                device.setFileSize(Integer.parseInt(smartCameraM.group(3)));
+                device.setDailyConsumption(Float.parseFloat(smartCameraM.group(4)));
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
+            }
+        }
+        if (sc != null) sc.close(); 
+    }
+    */
 }

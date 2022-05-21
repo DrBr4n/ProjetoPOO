@@ -48,6 +48,8 @@ public class Community implements Serializable{
      * @param houseCounternif conta as casas existentes.
      * @param deviceCounter conta os smartdevices existentes.
      * @param date identifica a data em que se encontra.
+     * @param lastdate última data.
+     * @param receiptsSuppliers propriedades das faturas e fornecedor.
      */
     public Community(String name, Map<String, House> houses, Map<String, Supplier> suppliers, int houseCounter, int deviceCounter, LocalDate date, LocalDate lastDate, Map<String, List<String>> receiptsSuppliers){
         this.name = name;
@@ -187,6 +189,7 @@ public class Community implements Serializable{
     public LocalDate getLastDate(){
         return this.lastDate;
     }
+    
     /**
      * @param lastDate, atualiza a ultima data.
      */
@@ -194,6 +197,9 @@ public class Community implements Serializable{
         this.lastDate = lastDate;
     }
     
+    /**
+     * @return mapa de todas as faturas indexadas pelo nome do fornecedor.
+     */
     public Map<String, List<String>> getReceiptsSuppliers() {
         Map<String, List<String>> res = new HashMap<String, List<String>>();
         for (List<String> listReceipts : this.receiptsSuppliers.values()) {
@@ -202,7 +208,9 @@ public class Community implements Serializable{
         }   
         return res;
     }
-
+    /**
+     * @param receiptsSuppliers atualiza mapa de todas as faturas indexadas pelo nome do fornecedor.
+     */
     public void setReceiptsSuppliers(Map<String, List<String>> receiptsSuppliers) {
         this.receiptsSuppliers = receiptsSuppliers;
     }
@@ -270,7 +278,10 @@ public class Community implements Serializable{
         this.houses.put(house.getId(), house);
         this.increaseHouseCounter();
     }
-
+    /**
+     * Testa se a casa existe.
+     * @param houseId identificador da casa.
+     */
     public boolean existsHouse(String houseId) {
         return this.houses.keySet().contains(houseId);
     }
@@ -283,6 +294,10 @@ public class Community implements Serializable{
         this.suppliers.put(supplier.getName(), supplier);
     }
 
+    /**
+     * Testa se existe fornecedor.
+     * @param supplier identificador do fornecedor.
+     */
     public boolean existsSupplier(String supplier) {
         return this.suppliers.keySet().contains(supplier);
     }
@@ -300,6 +315,7 @@ public class Community implements Serializable{
     public void increaseDeviceCounter() {
         this.deviceCounter += 1;
     }
+    
     /**
      * Altera o estado de um dispositivo.
      * @param houseId id da casa.
@@ -328,7 +344,8 @@ public class Community implements Serializable{
 
     /**
      * Define como ligado os dispositivos existentes num determinado espaço da casa.
-     * @param room.
+     * @param room espaço da casa.
+     * @param houseId identificador da casa.
      */
     public void turnRoomOn(String houseId, String room) throws RoomDoesntExistException {
         try {
@@ -340,7 +357,8 @@ public class Community implements Serializable{
     
     /**
      * Define como desligados os dispositivos existentes num determinado espaço da casa.
-     * @param room.
+     * @param room espaço da casa.
+     * @param houseId identificador da casa.
      */
     public void turnRoomOff(String houseId, String room) throws RoomDoesntExistException {
         try {
@@ -349,7 +367,12 @@ public class Community implements Serializable{
             throw e;
         }
     }
-
+    
+    /**
+     * Atualiza as propriedades do fornecedor.
+     * @param houseId identificador da casa.
+     * @param supplier identificador do fornecedor.
+     */
     public void setSupplier(String houseId, String supplier) throws HouseDoesntExistException, SupplierDoesntExistException {
         if (!this.existsHouse(houseId)) {
             throw new HouseDoesntExistException(houseId);
@@ -381,13 +404,11 @@ public class Community implements Serializable{
             index++; 
 
             String supplierName = house.getSupplier().getName();
-            System.out.println(supplierName);
             if(!this.receiptsSuppliers.containsKey(supplierName)){
                 this.receiptsSuppliers.put(supplierName, new ArrayList<>());
             }    
             this.receiptsSuppliers.get(supplierName).add(ret[index-1]);
         }
-        System.out.println(this.receiptsSuppliers);
         return ret;
     }
 }

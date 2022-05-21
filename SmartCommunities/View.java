@@ -1,11 +1,5 @@
 import java.util.Scanner;
 
-/**
- * Write a description of class View here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class View
 {
     /**
@@ -17,7 +11,7 @@ public class View
         System.out.println("--------Smart Community--------");
         System.out.println("1 - Criar Casas");
         System.out.println("2 - Criar Fornecedores de energia");
-        System.out.println("3 - Modificar estado de um dispositivo");
+        System.out.println("3 - Modificar estado de dispositivos");
         System.out.println("4 - Calcular o consumo");
         System.out.println("5 - Mudar data");
         System.out.println("6 - Estatisticas");
@@ -250,7 +244,6 @@ public class View
             sc.nextLine();
             prop[2] = sc.nextLine();
             System.out.println("Indique o dia final da contagem: ");
-            sc.nextLine();
             prop[3] = sc.nextLine();
         }
         sc.close();
@@ -311,67 +304,84 @@ public class View
         sc.close();
         return option;
     }
-
+    
+    /**
+     * @return retorna as propriedades das datas entre as quais se calcula a casa com maior consumo.
+     */
     public String[] chooseDatesToHouseConsumedMore(){
         Scanner sc = new Scanner(System.in);
         String [] prop = new String[2];
         System.out.println("Indique o periodo sobre o qual pretende saber a casa com o maior consumo: ");
         
         System.out.println("Indique o dia inicial do periodo: ");
-        sc.nextLine();
         prop[0] = sc.nextLine();
         System.out.println("Indique o dia final do periodo: ");
-        sc.nextLine();
         prop[1] = sc.nextLine();
         
         sc.close();
         return prop;
     }
-
+    
+    /**
+     * Print da casa com maior consumo.
+     * @param house identificador da casa.
+     */
     public void printHouseConsumedMore(String house){
         System.out.println("Casa que consumiu mais: ");
         System.out.println(house);        
     }
-
+    
+    /**
+     * @param supplier nome do fornecedor.
+     */
     public void printSupplierMoreReceipts(String supplier){
         System.out.println("Comercializador que ganhou mais: ");
         System.out.println(supplier);        
     }
-
+    
+    /**
+     * @return retorna as propriedades para criação de fatura. 
+     */
     public String allReceiptsOfSupplier(){
         Scanner sc = new Scanner(System.in);
         System.out.print("Indique o comercializador do qual quer ver as faturas: ");
-        sc.nextLine();
         String prop = sc.nextLine();
         
         sc.close();
         return prop;
     }
-
+    
+    /**
+     * Print das faturas. 
+     * @param receipts recebe o um array de faturas.
+     */
     public void printAllReceiptsOfSupplier(String[] receipts){
         for (String receipt : receipts) {
             System.out.println("Fatura: ");
             System.out.println(receipt);
         }       
     }
-
+    
+    /**
+     * @return retorna as propriedades para calcular o consumo das casas.
+     */
     public String[] descOrderOfHouseConsumption(){
         Scanner sc = new Scanner(System.in);
         String [] prop = new String[2];
         System.out.println("Indique o periodo sobre o qual pretende a ordenação das casas com maior consumo: ");
         
         System.out.println("Indique o dia inicial do periodo: ");
-        sc.nextLine();
         prop[0] = sc.nextLine();
         System.out.println("Indique o dia final do periodo: ");
-        sc.nextLine();
         prop[1] = sc.nextLine();
         
         sc.close();
         return prop;
     }
+    
     /**
-     * Print das Casas
+     * Print em ordem decrescente do consumo das casas.
+     * @param houses recebe um array de casas.
      */
     public void printDescOrderHouses(Object[] houses){
         for (Object house : houses) {

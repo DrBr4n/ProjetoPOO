@@ -4,6 +4,6 @@ public class MaxVolumeException extends Exception
 {
     public MaxVolumeException()  
     {
-        System.out.println("Volume máximo excedido");
+        System.out.println("\nVolume máximo excedido.\n");
     }
 }

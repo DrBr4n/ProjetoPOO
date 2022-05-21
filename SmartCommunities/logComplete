@@ -1,0 +1,118 @@
+Community:Aveiro
+Date: 2022-05-18
+Supplier:MEO Energia,5.0,50,0.3
+Supplier:Galp Energia,5.0,50,0.3
+Supplier:Endesa,5.0,50,0.3
+Supplier:Muon,5.0,50,0.3
+Supplier:EDA,5.0,50,0.3
+Supplier:Energia Simples,5.0,50,0.3
+Supplier:SU Electricidade,5.0,50,0.3
+Supplier:Gold Energy,5.0,50,0.3
+Supplier:Coopernico,5.0,50,0.3
+Supplier:EDP Comercial,5.0,50,0.3
+Supplier:Luzboa,5.0,50,0.3
+Supplier:Iberdrola,5.0,50,0.3
+Supplier:YIce,5.0,50,0.3
+Supplier:Enat,5.0,50,0.3
+House:h1,Rua Das Cruzetas,Vicente de Carvalho Castro,365597405,Muon
+Room:Sala de Jantar
+SmartBulb:d0,LG,4.57,50.0,false,2,11
+SmartBulb:d1,LG,4.73,50.0,false,1,12
+Room:Garagem
+SmartBulb:d21,LG,0.12,50.0,false,1,5
+SmartBulb:d20,LG,4.24,50.0,true,2,8
+SmartCamera:d18,LG,4.41,50.0,false,(1366x768),79
+SfmartCamera:d19,LG,5.57,50.0,false,(1024x768),28
+Room:Escritorio
+SmartSpeaker:d23,Marshall,5.21,50.0,false,M80 Radio,65
+SmartSpeaker:d22,Philips,4.2,50.0,false,RFM,40
+SmartBulb:d25,LG,3.78,50.0,true,1,12
+SmartBulb:d24,LG,0.12,50.0,false,1,8
+SmartBulb:d27,LG,0.24,50.0,false,1,7
+SmartCamera:d26,LG,3.97,50.0,false,(2160x1440),71
+SmartBulb:d29,LG,4.14,50.0,false,1,5
+SmartCamera:d28,LG,4.74,50.0,false,(1366x768),63
+Room:Quarto
+SmartBulb:d10,LG,0.19,50.0,false,2,9
+SmartCamera:d12,LG,6.58,50.0,true,(1920x1080),69
+SmartSpeaker:d11,Sony,5.54,50.0,false,MEGA HITS,35
+SmartCamera:d14,LG,4.36,50.0,false,(1024x768),95
+SmartCamera:d13,LG,6.41,50.0,false,(1024x768),54
+SmartBulb:d16,LG,1.54,50.0,false,1,19
+SmartBulb:d15,LG,0.11,50.0,false,2,19
+SmartBulb:d17,LG,3.46,50.0,false,2,5
+Room:Sala de Jantar 2
+SmartBulb:d30,LG,0.22,50.0,false,1,9
+SmartBulb:d32,LG,0.11,50.0,false,1,9
+SmartBulb:d31,LG,0.14,50.0,false,1,9
+SmartBulb:d34,LG,2.76,50.0,false,1,17
+SmartBulb:d33,LG,1.09,50.0,false,1,13
+Room:Sala de Jantar 1
+SmartSpeaker:d4,LG,5.54,50.0,true,Radio Renascenca,2
+SmartBulb:d5,LG,6.36,50.0,false,1,5
+SmartBulb:d6,LG,5.87,50.0,false,1,20
+SmartBulb:d7,LG,6.1,50.0,false,1,10
+SmartCamera:d8,LG,4.0,50.0,false,(1024x768),67
+SmartBulb:d9,LG,0.28,50.0,false,1,8
+SmartBulb:d2,LG,9.35,50.0,false,1,7
+SmartCamera:d3,LG,3.84,50.0,false,(1280x720),65
+House:h2,Rua Das Cruzetas,Miguel Velho Raposo,134655929,Muon
+Room:Sala de Jantar
+Room:Sala de Estar
+SmartCamera:d41,LG,6.64,50.0,false,(1024x768),80
+SmartBulb:d40,LG,0.16,50.0,false,1,17
+SmartBulb:d43,LG,5.05,50.0,false,2,15
+SmartBulb:d42,LG,0.29,50.0,false,1,7
+SmartTV:d83,LG,4.6,30.0,false,(1376x778),20
+SmartCamera:d36,LG,6.47,50.0,false,(1920x1080),93
+SmartBulb:d35,LG,3.05,50.0,false,1,17
+SmartCamera:d38,LG,5.26,50.0,false,(2160x1440),34
+SmartBulb:d37,LG,0.2,50.0,false,2,17
+SmartBulb:d39,LG,0.16,50.0,false,0,15
+Room:Casa de Banho
+SmartBulb:d54,LG,0.15,50.0,false,2,9
+SmartBulb:d56,LG,5.38,50.0,false,0,15
+SmartBulb:d55,LG,0.18,50.0,false,1,15
+SmartBulb:d58,LG,0.17,50.0,false,1,8
+SmartCamera:d57,LG,6.98,50.0,false,(1280x720),95
+SmartCamera:d59,LG,0.33,50.0,false,(2160x1440),85
+Room:Escritorio
+SmartBulb:d52,LG,0.26,50.0,false,2,18
+SmartCamera:d53,LG,0.4,50.0,false,(3840x2160),54
+Room:Quarto
+SmartCamera:d61,LG,0.14,50.0,false,(1280x720),117
+SmartBulb:d60,LG,0.14,50.0,false,1,7
+Room:Sala de Estar 1
+SmartSpeaker:d51,LG,5.41,50.0,false,Radio Comercial,60
+SmartSpeaker:d45,Goodis,5.16,50.0,false,Cidade FM,42
+SmartBulb:d44,LG,0.13,50.0,false,1,11
+SmartBulb:d47,LG,0.18,50.0,false,1,6
+SmartBulb:d46,LG,0.14,50.0,false,1,7
+SmartBulb:d49,LG,0.13,50.0,false,1,12
+SmartBulb:d48,LG,0.25,50.0,false,1,19
+SmartAC:d82,Sony,5.67,50.0,false,1,27
+SmartBulb:d50,LG,0.16,50.0,false,1,13
+House:h3,Rua Da Universidade,Miguel Novo Lobo,365597447,Galp Energia
+Room:Escritorio 1
+SmartBulb:d74,LG,7.92,50.0,false,1,18
+SmartSpeaker:d73,Philips,5.1,50.0,false,TSF Radio Noticias,30
+SmartBulb:d76,LG,0.14,50.0,false,1,6
+SmartSpeaker:d75,Goodis,5.34,50.0,false,TSF Radio Noticias,49
+SmartCamera:d77,LG,5.55,50.0,false,(1280x720),33
+SmartBulb:d69,LG,8.9,50.0,false,1,8
+SmartBulb:d70,LG,0.13,50.0,false,1,20
+SmartBulb:d72,LG,0.12,50.0,false,1,19
+SmartBulb:d71,LG,0.14,50.0,false,1,9
+Room:Sala de Estar 2
+SmartCamera:d63,LG,4.43,50.0,false,(2160x1440),21
+SmartBulb:d62,LG,7.7,50.0,false,2,19
+SmartBulb:d65,LG,0.14,50.0,false,0,10
+SmartSpeaker:d64,JBL,5.2,50.0,false,Radio Radar,45
+SmartBulb:d67,LG,8.77,50.0,false,1,16
+SmartCamera:d66,LG,0.38,50.0,false,(1366x768),7
+SmartBulb:d68,LG,4.21,50.0,false,1,18
+Room:Sala de Jantar 1
+SmartBulb:d78,LG,0.14,50.0,false,1,7
+SmartCamera:d79,LG,6.18,50.0,false,(2160x1440),26
+SmartTV:d80,LG,4.5,40.0,false,(1377x788),50
+SmartAC:d81,Sony,5.67,50.0,false,0,30
