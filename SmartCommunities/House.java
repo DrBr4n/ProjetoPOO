@@ -1,3 +1,7 @@
+
+import UserExceptions.DeviceDoesntExistException;
+import UserExceptions.RoomDoesntExistException;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.io.Serializable;
@@ -222,7 +226,6 @@ public class House implements Serializable{
         .append(this.getOwnerName())
         .append("\nNif: ")
         .append(this.getNif())
-        .append("\nSupplier: ")
         .append(this.getSupplier().toString())
         .append("\nRooms: ");
         for (String room : this.getRooms().keySet()) {
@@ -277,10 +280,9 @@ public class House implements Serializable{
      * Define os dispositivos como ligados.
      * @param deviceId
      */
-    public void turnDeviceOn(String deviceId) {
+    public void turnDeviceOn(String deviceId) throws DeviceDoesntExistException{
         if (!existsDevice(deviceId)) {
-            //throw deviceDoesntExist
-            System.out.println("deviceDoesntExist");
+            throw new DeviceDoesntExistException(deviceId);
         }
         for (String room : this.rooms.keySet()) {
             if (this.rooms.get(room).containsKey(deviceId)) {
@@ -293,10 +295,9 @@ public class House implements Serializable{
      * Define os dispositivos como desligados.
      * @param deviceId
      */
-    public void turnDeviceOff(String deviceId) {
+    public void turnDeviceOff(String deviceId) throws DeviceDoesntExistException {
         if (!existsDevice(deviceId)) {
-            //throw deviceDoesntExist
-            System.out.println("deviceDoesntExist");
+            throw new DeviceDoesntExistException(deviceId);
         } 
         for (String room : this.rooms.keySet()) {
             if (this.rooms.get(room).containsKey(deviceId)) {
@@ -305,15 +306,13 @@ public class House implements Serializable{
         }
     }
     
-    
     /**
      * Define como ligado os dispositivos existentes num determinado espaço da casa.
      * @param room.
      */
-    public void turnRoomOn(String room) {
+    public void turnRoomOn(String room) throws RoomDoesntExistException {
         if (!existRoom(room)) {
-            //throw roomDoesNotExist
-            System.out.println("roomDoesntExist");
+            throw new RoomDoesntExistException(room);
         }
         this.rooms.get(room).values().stream().forEach(SmartDevice::turnOn);
     }
@@ -322,10 +321,9 @@ public class House implements Serializable{
      * Define como desligados os dispositivos existentes num determinado espaço da casa.
      * @param room.
      */
-    public void turnRoomOff(String room) {
+    public void turnRoomOff(String room) throws RoomDoesntExistException {
         if (!existRoom(room)) {
-            //throw roomDoesNotExist
-            System.out.println("roomDoesntExist");
+            throw new RoomDoesntExistException(room);
         } 
         this.rooms.get(room).values().stream().forEach(SmartDevice::turnOff);
     }
@@ -352,7 +350,10 @@ public class House implements Serializable{
      * @param room.
      * @param device.
      */
-    public void addDeviceToRoom (String room, SmartDevice device) {
+    public void addDeviceToRoom (String room, SmartDevice device) throws RoomDoesntExistException {
+        if (!existRoom(room)) {
+            throw new RoomDoesntExistException(room);
+        }
         this.rooms.get(room).put(device.getId(), device);
     }
 

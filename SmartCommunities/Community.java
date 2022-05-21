@@ -1,4 +1,8 @@
 import java.util.Map;
+
+import UserExceptions.DeviceDoesntExistException;
+import UserExceptions.RoomDoesntExistException;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -292,8 +296,12 @@ public class Community implements Serializable{
      * @param houseId id da casa.
      * @param deviceId id do dispositivo. 
      */
-    public void turnDeviceOn(String houseId, String deviceId) {
-        this.houses.get(houseId).turnDeviceOn(deviceId);
+    public void turnDeviceOn(String houseId, String deviceId) throws DeviceDoesntExistException {
+        try {
+            this.houses.get(houseId).turnDeviceOn(deviceId);
+        } catch (DeviceDoesntExistException e) {
+            throw e;
+        }
     }
     
    /**
@@ -301,24 +309,36 @@ public class Community implements Serializable{
      * @param houseId id da casa.
      * @param deviceId id do dispositivo. 
      */
-    public void turnDeviceOff(String houseId, String deviceId) {
-        this.houses.get(houseId).turnDeviceOff(deviceId);
+    public void turnDeviceOff(String houseId, String deviceId) throws DeviceDoesntExistException {
+        try {
+            this.houses.get(houseId).turnDeviceOff(deviceId);
+        } catch (DeviceDoesntExistException e) {
+            throw e;
+        }
     }
 
     /**
      * Define como ligado os dispositivos existentes num determinado espaço da casa.
      * @param room.
      */
-    public void turnRoomOn(String houseId, String room) {
-        this.houses.get(houseId).turnRoomOn(room);
+    public void turnRoomOn(String houseId, String room) throws RoomDoesntExistException {
+        try {
+            this.houses.get(houseId).turnRoomOn(room);
+        } catch (Exception e) {
+            throw e;
+        }
     }
     
     /**
      * Define como desligados os dispositivos existentes num determinado espaço da casa.
      * @param room.
      */
-    public void turnRoomOff(String houseId, String room) {
-        this.houses.get(houseId).turnRoomOff(room);
+    public void turnRoomOff(String houseId, String room) throws RoomDoesntExistException {
+        try {
+            this.houses.get(houseId).turnRoomOff(room);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void setSupplier(String houseId, String supplier) {

@@ -1,3 +1,6 @@
+import UserExceptions.MaxVolumeException;
+import UserExceptions.MinVolumeException;
+
 /**
  * Write a description of class SmartTV here.
  *
@@ -58,25 +61,10 @@ public class SmartTV extends SmartDevice {
      * Actualiza o volume da SmartTV.
      * @param volume valor do volume.
      */
-    public void setVolume(int volume) {
-        if (volume >= 0 && volume <= MAX)
-            this.volume = volume;
-    }
-
-    /**
-     * Aumenta o volume do SmartSpeaker sem ultrapassar o seu máximo.
-     */
-    public void volumeUp() {
-        if (this.volume < MAX) 
-            this.volume++;
-    }
-
-    /**
-     * Diminui o volume do SmartSpeaker sem ultrapassar o seu mínimo.
-     */
-    public void volumeDown() {
-        if (this.volume > 0) 
-            this.volume--;
+    public void setVolume(int volume) throws MaxVolumeException, MinVolumeException{
+        if (volume > MAX) throw new MaxVolumeException();
+        else if (volume < 0) throw new MinVolumeException();
+        this.volume = volume;
     }
 
     /**

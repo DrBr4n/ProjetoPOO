@@ -76,7 +76,7 @@ public class Controller {
                 changeDate();
                 break;
             case 6: //Estatisticas
-
+                statistics();
                 break;
             case 7: //Carregar ficheiro de objetos
                 try {

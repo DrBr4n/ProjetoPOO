@@ -28,7 +28,7 @@ public class ControllerTest
         Supplier s1 = new Supplier("Iberdrola",5.0f,50,30.0f);
     }
     
-    @Test
+    /* @Test
     public void createHouse() {
         HashMap<String, House> emptyHouses = new HashMap<>();
         HashMap<String, Supplier> emptySuppliers = new HashMap<>();
@@ -117,5 +117,5 @@ public class ControllerTest
         assertEquals(true, h1.getDevices().get("d3").getOn(), "sd3 nao ligado");
         assertEquals(true, h1.getDevices().get("d4").getOn(), "sd4 nao ligado");
         assertEquals(true, h1.getDevices().get("d5").getOn(), "sd5 nao ligado");
-    }
+    } */
 }
