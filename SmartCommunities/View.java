@@ -166,7 +166,8 @@ public class View
         return properties;
     }
     /**
-     * 
+     * Escolhe se pertende alterar uma divisão ou um dispositivo.
+     * @return a uma opção.
      */
     public int chooseIfRoomOrDevice() {
         Scanner sc = new Scanner(System.in);
@@ -184,15 +185,20 @@ public class View
      */ 
     public String[] changeDeviceState() {
         Scanner sc = new Scanner(System.in);
-        String[] ids = new String[2];
+        String[] ids = new String[3];
         System.out.print("Indique o identificador da casa do dispositivo que pertende alterar: ");
         ids[0] = sc.nextLine();
         System.out.print("Indique o identificador do dispositivo que pertende alterar: ");
         ids[1] = sc.nextLine();
+        System.out.print("Pretende ligar(0) ou desligar(1)?: ");
+        ids[2] = sc.nextLine();
         sc.close();
         return ids;
     }
-
+    /**
+     * Escolhe qual a divisão para ligar ou desligar.
+     * @return a opção escolhida.
+     */
     public String[] changeRoomState() {
         Scanner sc = new Scanner(System.in);
         String[] ids = new String[3];
@@ -364,7 +370,9 @@ public class View
         sc.close();
         return prop;
     }
-
+    /**
+     * Print das Casas
+     */
     public void printDescOrderHouses(Object[] houses){
         for (Object house : houses) {
             System.out.println("Casa: ");

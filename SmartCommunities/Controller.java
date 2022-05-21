@@ -8,6 +8,14 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import UserExceptions.DeviceDoesntExistException;
+import UserExceptions.HouseDoesntExistException;
+import UserExceptions.InvalidDateException;
+import UserExceptions.ReceiptsNotGeneratedException;
+import UserExceptions.RoomDoesntExistException;
+import UserExceptions.SupplierDoesntExistException;
+
 import java.lang.Boolean;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -61,22 +69,56 @@ public class Controller {
                 this.run = false;
                 break;
             case 1: //Criar Casas
-                createHouse();
+                try {
+                    createHouse();
+                } catch (RoomDoesntExistException e) {
+                    e.printStackTrace();  
+                } catch (SupplierDoesntExistException e) {
+                    e.printStackTrace();  
+                }
                 break;
             case 2: //Criar Fornecedores
                 createSupplier();
                 break;
             case 3: //Modificar estado de um dispositivo
-                changeDeviceState();
+                try {
+                    changeDeviceState();
+                } catch (HouseDoesntExistException e) {
+                    e.printStackTrace();  
+                } catch (DeviceDoesntExistException e) {
+                    e.printStackTrace();  
+                }
                 break;
             case 4: //Calcular o consumo
-                calculateConsumption();
+                try {
+                    calculateConsumption();
+                } catch (HouseDoesntExistException e) {
+                    e.printStackTrace();  
+                }
                 break;
             case 5: //Mudar data
-                changeDate();
+                try {
+                    changeDate();
+                } catch (InvalidDateException e) {
+                    e.printStackTrace(); 
+                } catch (DeviceDoesntExistException e) {
+                    e.printStackTrace(); 
+                } catch (RoomDoesntExistException e) {
+                    e.printStackTrace(); 
+                } catch (SupplierDoesntExistException e) {
+                    e.printStackTrace(); 
+                } catch (HouseDoesntExistException e) {
+                    e.printStackTrace(); 
+                }
                 break;
             case 6: //Estatisticas
-                statistics();
+                try {
+                    statistics();
+                } catch (SupplierDoesntExistException e) {
+                    e.printStackTrace();  
+                } catch (ReceiptsNotGeneratedException e) {
+                    e.printStackTrace();  
+                }
                 break;
             case 7: //Carregar ficheiro de objetos
                 try {
@@ -101,6 +143,8 @@ public class Controller {
                     loadFromLog();
                 } catch (FileNotFoundException fnf) {
                     fnf.printStackTrace();
+                } catch (RoomDoesntExistException e) {
+                    e.printStackTrace();
                 }
                 //loadFromStorLog();
                 break;
@@ -157,20 +201,29 @@ public class Controller {
     /**
      * Altera o estado dos dispositivos existentes.
      */
-    public void changeDeviceState() {
+    public void changeDeviceState() throws HouseDoesntExistException, DeviceDoesntExistException {
         int option = this.view.chooseIfRoomOrDevice();
         String[] cmd = new String[3];
         if (option == 1) {
             String[] ids = this.view.changeDeviceState();
+            if(!this.community.existsHouse(ids[0])) {
+                throw new HouseDoesntExistException(ids[0]);
+            }
             cmd[1] = ids[0];
             cmd[2] = ids[1];
-            if (this.community.getHouses().get(ids[0]).getDevices().get(ids[1]).getOn() == true) {
-                cmd[0] = "turnDeviceOff";
-            } else {
+            if (ids[2].compareTo("0") == 0) {
                 cmd[0] = "turnDeviceOn";
+            } else if (ids[2].compareTo("1") == 0) {
+                cmd[0] = "turnDeviceOff";
             }
         } else if (option == 2) {
             String[] ids = this.view.changeRoomState();
+            if(!this.community.existsHouse(ids[0])) {
+                throw new HouseDoesntExistException(ids[0]);
+            }
+            if (this.community.getHouses().get(ids[0]).existsDevice(ids[1])) {
+                throw new DeviceDoesntExistException(ids[1]);
+            }
             cmd[1] = ids[0];
             cmd[2] = ids[1];
             if (ids[2].compareTo("0") == 0) {
@@ -185,18 +238,25 @@ public class Controller {
     /** 
      * Cria a Casa.
      */
-    public void createHouse() { //throws supplierDoesntExistException
+    public void createHouse() throws RoomDoesntExistException, SupplierDoesntExistException{ //throws supplierDoesntExistException
         String[] props = this.view.createHouse();
         this.community.increaseHouseCounter();
+        if(!community.existsSupplier(props[3])) {
+            throw new SupplierDoesntExistException(props[3]);
+        }
         House house = new House('h' + String.valueOf(this.community.getHouseCounter()), props[0], props[1], props[2], this.community.getSuppliers().get(props[3]));
         this.community.addHouse(house);
-        this.editHouse(house);  
+        try {
+            this.editHouse(house);  
+        } catch (RoomDoesntExistException e) {
+            throw e;
+        }
     }
     
     /**
      * Altera as propriedades da casa.
      */
-    public void editHouse(House house) {
+    public void editHouse(House house) throws RoomDoesntExistException{
         boolean editing = true;
         do {
             String [] props = this.view.editHouse();
@@ -210,7 +270,11 @@ public class Controller {
                 case 2:
                     int deviceType = this.view.choseDevice();
                     SmartDevice sd = this.createDevice(deviceType, this.view.deviceProps(deviceType));
-                    house.addDeviceToRoom(props[1], sd);
+                    try {
+                        house.addDeviceToRoom(props[1], sd);
+                    } catch (RoomDoesntExistException e) {
+                        throw e;
+                    }
                     break;
                 case 3:
                     String[] cmd = {"setSupplier", house.getId() ,props[1]};
@@ -237,8 +301,12 @@ public class Controller {
      * @param houseId.
      * @param deviceId. 
      */
-    public void turnDeviceOn(String houseId, String deviceId) {
-        this.community.turnDeviceOn(houseId, deviceId);
+    public void turnDeviceOn(String houseId, String deviceId) throws DeviceDoesntExistException {
+        try {
+            this.community.turnDeviceOn(houseId, deviceId);
+        } catch (DeviceDoesntExistException e) {
+            throw e;
+        }
     }
     
     /**
@@ -246,16 +314,23 @@ public class Controller {
      * @param houseId.
      * @param deviceId. 
      */
-    public void turnDeviceOff(String houseId, String deviceId) {
-        this.community.turnDeviceOff(houseId, deviceId);
+    public void turnDeviceOff(String houseId, String deviceId) throws DeviceDoesntExistException{
+        try {
+            this.community.turnDeviceOff(houseId, deviceId);
+        } catch (DeviceDoesntExistException e) {
+            throw e;
+        }
     }
 
     /**
      * Calcula o consumo.
      */
-    public void calculateConsumption(){
+    public void calculateConsumption() throws HouseDoesntExistException {
         String[] prop = this.view.calculateConsumption();
         if(Integer.parseInt(prop[0]) == 1){
+            if (!community.existsHouse(prop[1])) {
+                throw new HouseDoesntExistException(prop[1]);
+            }
             this.view.printConsumption(this.community.getHouses().get(prop[1]).calcConsumption());
         }
         else if(Integer.parseInt(prop[0]) == 2){
@@ -272,20 +347,30 @@ public class Controller {
     /**
      * Altera a data que se encontra.  
      */
-    public void changeDate() {
+    public void changeDate() throws InvalidDateException, DeviceDoesntExistException, RoomDoesntExistException, SupplierDoesntExistException, HouseDoesntExistException{
         LocalDate date = LocalDate.parse(this.view.chooseDay());
         if (date.isAfter(community.getDate())) {
             community.setLastDate(community.getDate());
             community.setDate(date);
         } else {
-            //throw invalidDate?
+            throw new InvalidDateException();
         }
         String[] receipts = community.generateReceipts();
         view.printReceipts(receipts);
-        runQueue();
+        try {
+            runQueue();
+        } catch (DeviceDoesntExistException e) {
+            throw e;
+        } catch (RoomDoesntExistException e) {
+            throw e;
+        } catch (SupplierDoesntExistException e) {
+            throw e;
+        } catch (HouseDoesntExistException e) {
+            throw e;
+        }
     }
     
-    public void statistics(){
+        public void statistics() throws SupplierDoesntExistException, ReceiptsNotGeneratedException {
         int statistic = this.view.choseStatistics();
         
         switch(statistic){
@@ -306,7 +391,7 @@ public class Controller {
                     float consumption = h.calcConsumption() * days;
                     if(consumption > maxConsumption){
                         maxConsumption = consumption;
-                        house = h.toString();
+                        house = h.toStringShort();
                     }
                 }
                 this.view.printHouseConsumedMore(house);
@@ -314,18 +399,21 @@ public class Controller {
             case 2:
                 //Comercializador com maior volume de faturação
                 Map<String, List<String>> receiptsSuppliers = this.community.getReceiptsSuppliers();
-                int maxCost = 0;
+                if (receiptsSuppliers.values() == null) {
+                    throw new ReceiptsNotGeneratedException();
+                }
+                
+                float maxCost = 0;
                 String maxSupplier = "";
                 for(List<String> receipts : receiptsSuppliers.values()){
-                    int cost = 0;
+                    float cost = 0;
                     for(String rec : receipts){
-                        int indexCost = rec.indexOf("Cost: ");
-                        int indexEnd = rec.indexOf("\n", indexCost);
-                        cost += Integer.valueOf(rec.substring(indexCost+6, indexEnd-1));
+                        String costLine = rec.split("\n")[2];
+                        cost += Float.valueOf(costLine.substring(6));
                     }
                     if(cost > maxCost){
-                        int index = receipts.get(0).indexOf("Supplier: ");
-                        maxSupplier = receipts.get(0).substring(index+10,receipts.get(0).length() - 2); 
+                        String supplierLine = receipts.get(0).split("\n")[4];
+                        maxSupplier = supplierLine.substring(10); 
                     }
                 }
                 this.view.printSupplierMoreReceipts(maxSupplier);
@@ -333,6 +421,9 @@ public class Controller {
             case 3:
                 //Listar as faturas de um comercializador
                 String supplier = this.view.allReceiptsOfSupplier();
+                if (!this.community.existsSupplier(supplier)) {
+                    throw new SupplierDoesntExistException(supplier);
+                }
                 List<String> receipts = this.community.getReceiptsSuppliers().get(supplier);
                 String [] res = new String[receipts.size()];
                 int index = 0;
@@ -355,7 +446,7 @@ public class Controller {
                     }
                 }
                 for(House h : this.community.getHouses().values()){ 
-                    consumers.put(h.toString(), h.calcConsumption() * daysD);
+                    consumers.put(h.toStringShort(), h.calcConsumption() * daysD);
                 }
                 Object[] resOrder = consumers.entrySet().stream().sorted(Map.Entry.comparingByValue()).map(entry -> entry.getKey()).toArray();
                 this.view.printDescOrderHouses(resOrder);
@@ -368,7 +459,7 @@ public class Controller {
     /**
      * Executa os pedidos pendentes.
      */
-    public void runQueue() {
+    public void runQueue() throws DeviceDoesntExistException, RoomDoesntExistException, SupplierDoesntExistException, HouseDoesntExistException {
         Iterator<String[]> iterator = pending.iterator();
         while(iterator.hasNext()){
             String[] cmd = iterator.next();
@@ -409,6 +500,7 @@ public class Controller {
         return c;
     }
     
+    /*
     public void loadFromStorLog() {
         Scanner sc = null;
         try {
@@ -488,11 +580,11 @@ public class Controller {
         }
         if (sc != null) sc.close(); 
     }
-    
+    */
     /**
      * Carrega estado a partir de um ficheiro log.
      */ 
-    public void loadFromLog() throws FileNotFoundException{
+    public void loadFromLog() throws FileNotFoundException, RoomDoesntExistException{
         Scanner sc = null;
         String name = this.view.fileToLoad();
         sc = new Scanner(new File(name));
@@ -553,7 +645,11 @@ public class Controller {
                                                 Integer.parseInt(smartAcM.group(7)),
                                                 Integer.parseInt(smartAcM.group(8)));
                 this.community.increaseDeviceCounter();
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
             } else if (smartBulbM.find()) {
                 SmartBulb device = new SmartBulb(smartBulbM.group(2),
                                                 smartBulbM.group(3),
@@ -563,7 +659,11 @@ public class Controller {
                                                 Integer.parseInt(smartBulbM.group(7)),
                                                 Integer.parseInt(smartBulbM.group(8)));
                 this.community.increaseDeviceCounter();
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
             } else if (smartCameraM.find()) {
                 SmartCamera device = new SmartCamera(smartCameraM.group(2),
                                                 smartCameraM.group(3),
@@ -573,7 +673,11 @@ public class Controller {
                                                 smartCameraM.group(7),
                                                 Integer.parseInt(smartCameraM.group(8)));
                 this.community.increaseDeviceCounter();
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
             } else if (smartSpeakerM.find()) {
                 SmartSpeaker device = new SmartSpeaker(smartSpeakerM.group(2),
                                                 smartSpeakerM.group(3),
@@ -583,7 +687,11 @@ public class Controller {
                                                 smartSpeakerM.group(7),
                                                 Integer.parseInt(smartSpeakerM.group(8)));
                 this.community.increaseDeviceCounter();
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
             } else if (smartTvM.find()) {
                 SmartTV device = new SmartTV(smartTvM.group(2),
                                                 smartTvM.group(3),
@@ -593,7 +701,11 @@ public class Controller {
                                                 smartTvM.group(7),
                                                 Integer.parseInt(smartTvM.group(8)));
                 this.community.increaseDeviceCounter();
-                currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                try {
+                    currentHouse.addDeviceToRoom(currentRoom.toString(), device);
+                } catch (RoomDoesntExistException e) {
+                    throw e;
+                }
             }
         }
         if (sc != null) sc.close(); 

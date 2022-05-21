@@ -1,7 +1,9 @@
 import java.util.Map;
 
 import UserExceptions.DeviceDoesntExistException;
+import UserExceptions.HouseDoesntExistException;
 import UserExceptions.RoomDoesntExistException;
+import UserExceptions.SupplierDoesntExistException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,7 +21,7 @@ public class Community implements Serializable{
     private int houseCounter;
     private int deviceCounter;
     private Map<String, House> houses;
-    private Map<String, Supplier> suppliers;
+        private Map<String, Supplier> suppliers;
     private LocalDate date;
     private LocalDate lastDate;
     private Map<String, List<String>> receiptsSuppliers;
@@ -195,9 +197,8 @@ public class Community implements Serializable{
     public Map<String, List<String>> getReceiptsSuppliers() {
         Map<String, List<String>> res = new HashMap<String, List<String>>();
         for (List<String> listReceipts : this.receiptsSuppliers.values()) {
-            int index = listReceipts.get(0).indexOf("Supplier: ");
-            String supplierName = listReceipts.get(0).substring(index+10,listReceipts.get(0).length() - 2);
-            res.put(supplierName, listReceipts);
+            String supplierLine = listReceipts.get(0).split("\n")[4];
+            res.put(supplierLine.substring(10), listReceipts);
         }   
         return res;
     }
@@ -269,6 +270,10 @@ public class Community implements Serializable{
         this.houses.put(house.getId(), house);
         this.increaseHouseCounter();
     }
+
+    public boolean existsHouse(String houseId) {
+        return this.houses.keySet().contains(houseId);
+    }
     
     /**
      * Adiciona um fornecedor .
@@ -277,7 +282,11 @@ public class Community implements Serializable{
     public void addSupplier(Supplier supplier) {
         this.suppliers.put(supplier.getName(), supplier);
     }
-    
+
+    public boolean existsSupplier(String supplier) {
+        return this.suppliers.keySet().contains(supplier);
+    }
+
     /**
      * Aumenta no contador de casas o número de casas.
      */
@@ -341,7 +350,13 @@ public class Community implements Serializable{
         }
     }
 
-    public void setSupplier(String houseId, String supplier) {
+    public void setSupplier(String houseId, String supplier) throws HouseDoesntExistException, SupplierDoesntExistException {
+        if (!this.existsHouse(houseId)) {
+            throw new HouseDoesntExistException(houseId);
+        }
+        if (!this.existsSupplier(supplier)) {
+            throw new SupplierDoesntExistException(supplier);
+        }
         this.houses.get(houseId).setSupplier(this.suppliers.get(supplier));
     }
 
@@ -349,7 +364,7 @@ public class Community implements Serializable{
      * Gera um recibo.
      * @return recibo.
      */
-    public String[] generateReceipts() {
+     public String[] generateReceipts() {
         String[] ret = new String[getHouseCounter()];
         int index = 0;
 
@@ -364,14 +379,15 @@ public class Community implements Serializable{
             .append("Supplier: " + house.getSupplier().getName() + "\n");
             ret[index] = sb.toString();
             index++; 
-            if(this.receiptsSuppliers.containsKey(house.getSupplier().getName())){
-                this.receiptsSuppliers.get(house.getSupplier().getName()).add(ret[index-1]);
-            } else {
-                List<String> newList = new ArrayList<>();
-                newList.add(ret[index-1]);
-                this.receiptsSuppliers.put(house.getSupplier().getName(), newList);
-            }
+
+            String supplierName = house.getSupplier().getName();
+            System.out.println(supplierName);
+            if(!this.receiptsSuppliers.containsKey(supplierName)){
+                this.receiptsSuppliers.put(supplierName, new ArrayList<>());
+            }    
+            this.receiptsSuppliers.get(supplierName).add(ret[index-1]);
         }
+        System.out.println(this.receiptsSuppliers);
         return ret;
     }
 }

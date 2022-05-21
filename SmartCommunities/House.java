@@ -234,6 +234,19 @@ public class House implements Serializable{
         }
         return sb.toString();
     }
+
+    public String toStringShort() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Identificador: ")
+        .append(this.getId())
+        .append("\nMorada ")
+        .append(this.getAddress())
+        .append("\nDono: ")
+        .append(this.getOwnerName())
+        .append("\nNIF: ")
+        .append(this.getNif());
+        return sb.toString();
+    }
     
     /**
      * Método que vai ter como função passar as variáveis de instância de House. 
@@ -311,7 +324,7 @@ public class House implements Serializable{
      * @param room.
      */
     public void turnRoomOn(String room) throws RoomDoesntExistException {
-        if (!existRoom(room)) {
+        if (!existsRoom(room)) {
             throw new RoomDoesntExistException(room);
         }
         this.rooms.get(room).values().stream().forEach(SmartDevice::turnOn);
@@ -322,7 +335,7 @@ public class House implements Serializable{
      * @param room.
      */
     public void turnRoomOff(String room) throws RoomDoesntExistException {
-        if (!existRoom(room)) {
+        if (!existsRoom(room)) {
             throw new RoomDoesntExistException(room);
         } 
         this.rooms.get(room).values().stream().forEach(SmartDevice::turnOff);
@@ -332,7 +345,7 @@ public class House implements Serializable{
      * Testa se existe um espaço da casa específico.
      * @return se existe um espaço da casa.
      */
-    public boolean existRoom(String room){
+    public boolean existsRoom(String room){
         return this.rooms.containsKey(room);
     }
     
@@ -351,7 +364,7 @@ public class House implements Serializable{
      * @param device.
      */
     public void addDeviceToRoom (String room, SmartDevice device) throws RoomDoesntExistException {
-        if (!existRoom(room)) {
+        if (!existsRoom(room)) {
             throw new RoomDoesntExistException(room);
         }
         this.rooms.get(room).put(device.getId(), device);
