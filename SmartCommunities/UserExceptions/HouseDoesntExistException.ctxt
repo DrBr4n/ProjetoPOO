@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=HouseDoesntExistException
+comment1.params=message
+comment1.target=HouseDoesntExistException(java.lang.String)
+numComments=2

@@ -21,7 +21,7 @@ public class Community implements Serializable{
     private int houseCounter;
     private int deviceCounter;
     private Map<String, House> houses;
-        private Map<String, Supplier> suppliers;
+    private Map<String, Supplier> suppliers;
     private LocalDate date;
     private LocalDate lastDate;
     private Map<String, List<String>> receiptsSuppliers;

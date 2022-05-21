@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=DeviceDoesntExistException
+comment1.params=message
+comment1.target=DeviceDoesntExistException(java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ DeviceDoesntExistException\r\n
+numComments=2
