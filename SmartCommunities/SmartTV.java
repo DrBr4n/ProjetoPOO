@@ -38,6 +38,7 @@ public class SmartTV extends SmartDevice {
      * Construtor de cópia SmartTV.
      * Aceita como parametro um objeto SmartTV e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
+     * @param SmartTV o objeto.
      */
     public SmartTV(SmartTV o) {
         super(o);
@@ -55,7 +56,7 @@ public class SmartTV extends SmartDevice {
 
     /**
      * Actualiza o volume da SmartTV.
-     * @param novo valor do volume.
+     * @param volume valor do volume.
      */
     public void setVolume(int volume) {
         if (volume >= 0 && volume <= MAX)
@@ -88,14 +89,15 @@ public class SmartTV extends SmartDevice {
 
     /**
      * Actualiza a resolução da SmartTV.
-     * @param nova resolução.
+     * @param resolution nova resolução.
      */
     public void setResolution(int resolution) {
         this.resolution = resolution;
     }
 
     /** 
-     *Testa a veracidade entre a comparação de dois objetos.
+     * Testa a veracidade entre a comparação de dois objetos.
+     * @param Object o objeto SmartTV.
      */
     @Override
     public boolean equals(Object o) {

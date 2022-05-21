@@ -11,9 +11,8 @@ public class House implements Serializable{
     private String address;
     private String ownerName;
     private String nif;
-    //Mudei isto para o supplier em todo o lado
     private Supplier supplier;
-    private Map<String, Map<String, SmartDevice>> rooms = new HashMap<>();
+    private Map<String, Map<String, SmartDevice>> rooms;
     
     /**
      * Construtor vazio de House
@@ -36,12 +35,12 @@ public class House implements Serializable{
      * @param supplier fornecedor da casa.
      * @param rooms partes da casa existentes na casa.
      */
-    public House(String id, String address, String ownerName, String nif, String supplier){
+    public House(String id, String address, String ownerName, String nif, Supplier supplier){
         this.id = id;
         this.address = address;
         this.ownerName = ownerName;
         this.nif = nif;
-        this.supplier = new Supplier();
+        this.supplier = supplier;
         this.rooms = new HashMap<>();
     }
     
@@ -54,7 +53,7 @@ public class House implements Serializable{
      * @param supplier fornecedor da casa.
      * @param rooms partes da casa existentes na casa.
      */
-    public House(String id, String nif, String address, String ownerName, Map<String, SmartDevice> devices, Map<String, Map<String, SmartDevice>> rooms, Supplier supplier){
+    public House(String id, String nif, String address, String ownerName, Map<String, Map<String, SmartDevice>> rooms, Supplier supplier){
         this.id = id;
         this.address = address;
         this.ownerName = ownerName;
@@ -67,6 +66,7 @@ public class House implements Serializable{
      * Construtor de cópia House.
      * Aceita como parametro um objeto House e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
+     * @param House o, objeto de House.
      */
     public House(House o){
         this.id = o.getId();
@@ -87,7 +87,7 @@ public class House implements Serializable{
     
     /**
      * Actualiza o id.
-     * @param novo id.
+     * @param id novo id.
      */
     public void setId(String id){
         this.id = id;
@@ -95,7 +95,7 @@ public class House implements Serializable{
     
     /**
      * Devolve a morada da casa.
-     * @return address .
+     * @return address.
      */
     public String getAddress(){
         return this.address;
@@ -103,7 +103,7 @@ public class House implements Serializable{
     
     /**
      * Actualiza a morada.
-     * @param nova morada.
+     * @param address nova morada.
      */
     public void setAddress(String address){
         this.address = address;
@@ -119,7 +119,7 @@ public class House implements Serializable{
     
     /**
      * Actualiza o nome do dono da casa.
-     * @param novo nome do dono da casa.
+     * @param ownerName novo nome do dono da casa.
      */
     public void setOwnerName(String ownerName){
         this.ownerName = ownerName;
@@ -135,46 +135,55 @@ public class House implements Serializable{
     
     /**
      * Actualiza o nif.
-     * @param novo nif.
+     * @param nif novo nif.
      */
     public void setNif(String nif){
         this.nif = nif;
     }
-    
-    /**
-     * Actualiza o fornecedor.
-     * @param novo fornecedor.
-     */
-    public void setSupplier(Supplier supplier) {
-        this.supplier = new Supplier(supplier);
-    }
-    
+
     /**
      * Devolve o fornecedor da casa.
      * @return supplier.
      */
     public Supplier getSupplier() {
-        return this.supplier;
+        return this.supplier.clone();
+    }
+
+    /**
+     * Actualiza o fornecedor.
+     * @param supplier novo fornecedor.
+     */
+    public void setSupplier(Supplier supplier) {
+        this.supplier = new Supplier(supplier);
     }
     
+    
     /**
-     * Devolve partes da casa.
+     * Devolve um clone das partes da casa com um clone de todos os seus dispositivos associados.
      * @return rooms.
      */
     public Map<String, Map<String, SmartDevice>> getRooms(){
-        return this.rooms;
+        Map<String, Map<String, SmartDevice>> res = new HashMap<>();
+        for (String room : this.rooms.keySet()) {
+            res.put(room, new HashMap<>());
+            for (String device : this.rooms.get(room).keySet()) {
+                res.get(room).put(device, this.rooms.get(room).get(device).clone());
+            }    
+        }
+        return res;
     }
     
     /**
      * Actualiza as partes da casa existentes.
-     * @param novas partes da casa.
+     * @param rooms novas partes da casa.
      */
     public void setRooms(Map<String, Map<String, SmartDevice>> rooms){
         this.rooms = rooms;
     }
     
     /** 
-     *Testa a veracidade entre a comparação de dois objetos.
+     * Testa a veracidade entre a comparação de dois objetos.
+    * @param Object o, objeto de House.
      */
     @Override
     public boolean equals(Object o) {
@@ -216,9 +225,9 @@ public class House implements Serializable{
         .append("\nSupplier: ")
         .append(this.getSupplier().toString())
         .append("\nRooms: ");
-        for (String room : rooms.keySet()) {
-            sb.append(room);
-            this.getRooms().get(room).values().stream().map(SmartDevice::toString).forEach(sb::append);
+        for (String room : this.getRooms().keySet()) {
+            sb.append("Room:").append(room).append("\n");
+            this.getRooms().get(room).values().stream().map(SmartDevice::toLog).forEach(sb::append);
         }
         return sb.toString();
     }
@@ -242,16 +251,23 @@ public class House implements Serializable{
         }
         return sb.toString();
     }
-    
+    /**
+     * Devolve um clone de todos os dispositivos.
+     * @return mapa de dispositivos.
+     */
     public Map<String, SmartDevice> getDevices(){
-        Map<String, SmartDevice> devicesMap = new HashMap<>();
-        this.rooms.values().stream().forEach(s -> devicesMap.putAll(s));
-        return devicesMap; 
+        Map<String, SmartDevice> res = new HashMap<>();
+        for (Map<String, SmartDevice> room : this.rooms.values()) {
+            for (SmartDevice device : room.values()) {
+                res.put(device.getId(), device.clone());
+            }
+        }
+        return res; 
     }
     
     /**
      * Testa se existem dispositivos.
-     * @return 
+     * @return verifica se um dispositivo existe.
      */
     public boolean existsDevice(String deviceId) {
         return this.rooms.values().stream().anyMatch(room -> room.keySet().contains(deviceId));
@@ -259,25 +275,23 @@ public class House implements Serializable{
     
     /**
      * Define os dispositivos como ligados.
-     * @param
+     * @param deviceId
      */
     public void turnDeviceOn(String deviceId) {
         this.rooms.values().stream().forEach(room -> room.get(deviceId).turnOn());
-        //this.rooms.values().forEach(room -> room.get(deviceId).turnOn());
     }
     
     /**
      * Define os dispositivos como desligados.
-     * @param
+     * @param deviceId
      */
     public void turnDeviceOff(String deviceId) {
         this.rooms.values().stream().forEach(room -> room.get(deviceId).turnOff());
-        //this.rooms.values().forEach(room -> room.get(deviceId).turnOff());
     }
     
     /**
      * Define como ligado os dispositivos existentes num determinado espaço da casa.
-     * @param
+     * @param room.
      */
     public void turnRoomOn(String room) {
         this.rooms.get(room).values().stream().forEach(SmartDevice::turnOn);
@@ -285,33 +299,15 @@ public class House implements Serializable{
     
     /**
      * Define como desligados os dispositivos existentes num determinado espaço da casa.
-     * @param
+     * @param room.
      */
     public void turnRoomOff(String room) {
         this.rooms.get(room).values().stream().forEach(SmartDevice::turnOff);
     }
-    
-    /**
-     * Define como ligados todos os dispositivos.
-     * @param
-     */
-    public void turnAllOn() {
-        this.rooms.values().stream().forEach(room -> room.values().stream().forEach(SmartDevice::turnOn));
-        //this.rooms.values().forEach(room -> room.values().forEach(SmartDevice::turnOn));
-    }
-    
-    /**
-     * Define como desligado todos os dispositivos.
-     * @param
-     */
-    public void turnAllOff() {
-        this.rooms.values().stream().forEach(room -> room.values().stream().forEach(SmartDevice::turnOff));
-        //this.rooms.values().forEach(room -> room.values().forEach(SmartDevice::turnOff));
-    }
-    
-    /**
+     
+    /** 
      * Testa se existe um espaço da casa específico.
-     * @return 
+     * @return se existe um espaço da casa.
      */
     public boolean existRoom(String room){
         return this.rooms.containsKey(room);
@@ -319,7 +315,7 @@ public class House implements Serializable{
     
     /**
      * Adiciona um novo espaço à casa.
-     * @param adiciona um novo espaço.
+     * @param room.
      */
     public void addRoom(String room) {
         Map<String, SmartDevice> emptyMap = new HashMap<>();
@@ -328,7 +324,8 @@ public class House implements Serializable{
     
     /**
      * Adiciona um novo dispositivo.
-     * @param adiciona um novo dispositivo.
+     * @param room.
+     * @param device.
      */
     public void addDeviceToRoom (String room, SmartDevice device) {
         this.rooms.get(room).put(device.getId(), device);
@@ -338,7 +335,6 @@ public class House implements Serializable{
      * Calcula o consumo dos dispositivos.
      * @return consumo.
      */
-    //EU - calcula o consumo da casa
     public float calcConsumption(){
         float consum = 0;
         //Map<String, SmartDevice> devices = (Map<String, SmartDevice>) this.rooms.values();

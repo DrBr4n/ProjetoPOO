@@ -36,6 +36,7 @@ public class SmartCamera extends SmartDevice {
      * Construtor de cópia SmartCamera.
      * Aceita como parametro um objeto SmartCamera e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
+     * @param SmartCamera o, objeto de SmartCamera.
      */
     public SmartCamera(SmartCamera o) {
         super(o);
@@ -53,7 +54,7 @@ public class SmartCamera extends SmartDevice {
 
     /**
      * Actualiza a resolução da SmartCamera.
-     * @param novo valor de resolução.
+     * @param resolution novo valor de resolução.
      */
 
     public void setResolution(String resolution) {
@@ -70,7 +71,7 @@ public class SmartCamera extends SmartDevice {
 
     /**
      * Actualiza o tamanho do ficheiro.
-     * @param novo tamanho de ficheiro.
+     * @param fileSizze novo tamanho de ficheiro.
      */
 
     public void setFileSize(int fileSize) {
@@ -78,7 +79,8 @@ public class SmartCamera extends SmartDevice {
     }
 
     /** 
-     *Testa a veracidade entre a comparação de dois objetos.
+     * Testa a veracidade entre a comparação de dois objetos.
+     * @param Object o, objeto de SmartCamera.
      */
     @Override
     public boolean equals(Object o) {

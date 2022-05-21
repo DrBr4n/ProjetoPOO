@@ -38,6 +38,7 @@ public class SmartSpeaker extends SmartDevice {
      * Construtor de cópia SmartSpeaker.
      * Aceita como parametro um objeto SmartSpeaker e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
+     * @param SmartSpeaker o objeto de SmartSpeaker.
      */
     public SmartSpeaker(SmartSpeaker o) {
         super(o);
@@ -55,7 +56,7 @@ public class SmartSpeaker extends SmartDevice {
 
     /**
      * Actualiza a estação de rádio.
-     * @param nova estação de rádio.
+     * @param radio nova estação de rádio.
      */
     public void setRadio(String radio) {
         this.radio = radio;
@@ -71,7 +72,7 @@ public class SmartSpeaker extends SmartDevice {
 
     /**
      * Actualiza o valor volume.
-     * @param novo valor de volume.
+     * @param volume novo valor de volume.
      */
     public void setVolume(int volume) {
         if (volume >= 0 && volume <= MAX)
@@ -95,7 +96,8 @@ public class SmartSpeaker extends SmartDevice {
     }
 
     /** 
-     *Testa a veracidade entre a comparação de dois objetos.
+     * Testa a veracidade entre a comparação de dois objetos.
+     * @param Object o objeto de SmartSpeaker.
      */
     @Override
     public boolean equals(Object o) {

@@ -37,6 +37,7 @@ public class SmartBulb extends SmartDevice {
      * Construtor de cópia SmartBulb.
      * Aceita como parametro um objeto SmartBulb e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
+     * @param SmartBulb o, objeto SmartBulb.
      */
     public SmartBulb(SmartBulb o) {
         super(o);
@@ -54,7 +55,7 @@ public class SmartBulb extends SmartDevice {
 
     /**
      * Actualiza o valor do mode ou seja uma nova tonalidade.
-     * @param novo mode.
+     * @param mode novo mode.
      */
     public void setMode(int mode) {
         this.mode = mode;
@@ -70,14 +71,15 @@ public class SmartBulb extends SmartDevice {
 
     /**
      * Actualiza o valor do tamanho.
-     * @param novo tamanho.
+     * @param size novo tamanho.
      */
     public void setSize(int size) {
         this.size = size;
     }
 
     /** 
-     *Testa a veracidade entre a comparação de dois objetos.
+     * Testa a veracidade entre a comparação de dois objetos.
+     * @param Object o, objeto SmartBulb.
      */
     @Override
     public boolean equals(Object o) {

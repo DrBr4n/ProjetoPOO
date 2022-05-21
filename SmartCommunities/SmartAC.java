@@ -34,6 +34,7 @@ public class SmartAC extends SmartDevice {
      * Construtor de cópia SmartAC.
      * Aceita como parametro um objeto SmartAC e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
+     * @param SmartAC o, objeto SmartAC.
      */
     public SmartAC(SmartAC o) {
         super(o);
@@ -51,7 +52,7 @@ public class SmartAC extends SmartDevice {
 
     /**
      * Actualiza o mode para quente ou frio .
-     * @param novo mode.
+     * @param mode novo mode.
      */
     public void setMode(int mode) {
         this.mode = mode;
@@ -67,14 +68,15 @@ public class SmartAC extends SmartDevice {
 
     /**
      * Actualiza a temperatura do SmartAC.
-     * @param nova temperatura.
+     * @param temperature nova temperatura.
      */
     public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 
     /** 
-     *Testa a veracidade entre a comparação de dois objetos.
+     * Testa a veracidade entre a comparação de dois objetos.
+     * @param Object o, objeto de SmartAC.
      */
     @Override
     public boolean equals(Object o) {

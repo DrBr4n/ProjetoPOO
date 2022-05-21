@@ -56,7 +56,7 @@ SmartCamera:d8,LG,4.0,50.0,false,(1024x768),67
 SmartBulb:d9,LG,0.28,50.0,false,1,8
 SmartBulb:d2,LG,9.35,50.0,false,1,7
 SmartCamera:d3,LG,3.84,50.0,false,(1280x720),65
-House:h1,Rua Das Cruzetas,Miguel Velho Raposo,134655929,EDP
+House:h2,Rua Das Cruzetas,Miguel Velho Raposo,134655929,EDP
 Room:Sala de Jantar
 Room:Sala de Estar
 SmartCamera:d41,LG,6.64,50.0,false,(1024x768),80

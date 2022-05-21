@@ -8,20 +8,25 @@ import java.util.Scanner;
  */
 public class View
 {
+    /**
+     * Menu Principal.
+     * @return opção escolhida.
+     */
     public String menu() {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Smart Community--------");
         System.out.println("1 - Criar Casas");
         System.out.println("2 - Criar Fornecedores de energia");
         System.out.println("3 - Modificar estado de um dispositivo");
-        System.out.println("4 - Avançar o tempo");
-        System.out.println("5 - Calcular o consumo");
-        System.out.println("6 - Gerar fatura");
-        System.out.println("7 - Ver estatisticas");
-        System.out.println("8 - Carregar estado");
-        System.out.println("9 - Guardar estado");
+        System.out.println("4 - Calcular o consumo");
+        System.out.println("5 - Mudar data");
+        System.out.println("6 - Estatisticas");
+        System.out.println("7 - Carregar ficheiro de objetos");
+        System.out.println("8 - Guardar num ficheiro de objetos");
+        System.out.println("9 - Carregar ficheiro de texto");
+        System.out.println("10 - Guardar num ficheiro de texto");
         System.out.println("0 - Terminar");
-        System.out.print("Indique a opcao: ");
+        System.out.println("Indique a opcao: ");
 
         String option = sc.next();
 
@@ -29,6 +34,10 @@ public class View
         return option;
     }
 
+    /**
+     * Menu criação de casa.
+     * @return array de Strings com dados de identificação da casa.
+     */
     public String[] createHouse() {
         Scanner sc = new Scanner(System.in);
         String [] houseInput = new String[4];
@@ -45,9 +54,13 @@ public class View
         return houseInput;
     }
 
+    /**
+     * Menu criação de casa.
+     * @return array de Strings com propriedades da casa.
+     */
     public String[] editHouse() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("-------Criar Casa-------");
+        System.out.println("-------Alterar Casa-------");
         System.out.println("1 - Adicionar Divisoes");
         System.out.println("2 - Adicionar Dispositivos");
         System.out.println("3 - Alterar Fornecedor");
@@ -79,7 +92,7 @@ public class View
      */
     public int choseDevice() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Indique o dispositivo que pretende adicionar: ");
+        System.out.print("Indique o dispositivo que pretende adicionar: \n");
         System.out.println("1 - SmartAC");
         System.out.println("2 - SmartTV");
         System.out.println("3 - SmartSpeaker");
@@ -97,6 +110,11 @@ public class View
         return option;
     }
 
+    /**
+     * Identifica o dispositivo escolhido.
+     * @param option opção.
+     * @return propriedades do dispositivo.
+     */
     public String[] deviceProps(int option) {
         String[] properties = new String[6];
         Scanner sc = new Scanner(System.in);
@@ -107,7 +125,7 @@ public class View
         properties[1] = sc.nextLine();
         System.out.print("Indique o custo da instalaçao do dispositivo: ");
         properties[2] = sc.nextLine();
-        System.out.print("Indique se o dispositivo esta ligado: /n true - ligado/n false - desligado");
+        System.out.print("Indique se o dispositivo esta ligado (true - ligado, false - desligado): ");
         properties[3] = sc.nextLine();
 
         switch (option) {
@@ -147,18 +165,51 @@ public class View
         sc.close();
         return properties;
     }
-
+    /**
+     * 
+     */
+    public int chooseIfRoomOrDevice() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Indique o que   alterar: \n");
+        System.out.println("1 - Dispositivo especifico");
+        System.out.println("2 - Divisão de uma casa");
+        int option = sc.nextInt();
+        sc.close();
+        return option;
+    }
+    
+    /**
+     * Muda o estado dos dispositivos.
+     * @return propriedades do dispositivo.
+     */ 
     public String[] changeDeviceState() {
         Scanner sc = new Scanner(System.in);
         String[] ids = new String[2];
-        System.out.print("Indique o id da casa do dispositivo que pertende alterar: ");
+        System.out.print("Indique o identificador da casa do dispositivo que pertende alterar: ");
         ids[0] = sc.nextLine();
-        System.out.print("Indique o id do dispositivo que pertende alterar: ");
+        System.out.print("Indique o identificador do dispositivo que pertende alterar: ");
         ids[1] = sc.nextLine();
         sc.close();
         return ids;
     }
 
+    public String[] changeRoomState() {
+        Scanner sc = new Scanner(System.in);
+        String[] ids = new String[3];
+        System.out.print("Indique o identificador da casa do dispositivo que pertende alterar: ");
+        ids[0] = sc.nextLine();
+        System.out.print("Indique o nome da divisao que pertende alterar: ");
+        ids[1] = sc.nextLine();
+        System.out.print("Pretende ligar(0) todos os dispositivos da divisao ou desligar(1)?: ");
+        ids[2] = sc.nextLine();
+        sc.close();
+        return ids;
+    }
+    
+    /**
+     * Cria um fornecedor para a casa.
+     * @return propriedades do fornecedor.
+     */
     public String[] createSupplier() {
         Scanner sc = new Scanner(System.in);
         String [] prop = new String[4];
@@ -173,16 +224,92 @@ public class View
         sc.close();
         return prop; 
     }
-
+    
+    /**
+     * Calcula o consumo.
+     * @return propriedades de consumo.
+     */
     public String[] calculateConsumption(){
         Scanner sc = new Scanner(System.in);
-        String [] prop = new String[1];
+        String [] prop = new String[4];
         System.out.print("Indique o identificador da casa da qual pretende calcular o consumo: ");
-        prop[0] = sc.nextLine();
+        prop[1] = sc.nextLine();
+        System.out.println("1 - Calcular o consumo diario");
+        System.out.println("2 - Calcular o consumo entre dois dias");
+        System.out.println("Indique a opcao: ");
+        int option = sc.nextInt();
+        prop[0] = String.valueOf(option);
+        if (option == 2) {
+            System.out.println("Indique o dia inicial da contagem: ");
+            sc.nextLine();
+            prop[2] = sc.nextLine();
+            System.out.println("Indique o dia final da contagem: ");
+            sc.nextLine();
+            prop[3] = sc.nextLine();
+        }
         sc.close();
         return prop;
     }
 
+    
+    /**
+     * Print do Consumo.
+     * @param consumption consumo.
+     */
+    public void printConsumption(float consumption){
+        System.out.println(String.valueOf(consumption));
+    }
+
+    /**
+     * Print do recebibo.
+     * @param receipts recibo.  
+     */
+    public void printReceipts(String[] receipts){
+        for (String receipt : receipts) {
+            System.out.println("Fatura: ");
+            System.out.println(receipt);
+        }
+    }
+
+    /**
+     * Muda o dia em que se encontra.
+     * @return o dia.
+     */
+    public String chooseDay() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indique o dia para o qual quer mudar: ");
+        String day = sc.nextLine();
+        sc.close();
+        return day;
+    }
+    
+    /**
+     * Escolhe as estatísticas.
+     * @return estatísticas escolhida.
+     */
+    public int choseStatistics() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indique o que pretende calcular: ");
+        System.out.println("1 - Casa que gastou mais num período");
+        System.out.println("2 - Comercializador com maior volume de fatorização");
+        System.out.println("3 - Listar as faturas de um comercializador");
+        System.out.println("4 - Ordenar de forma decrescente os consumidores de energia num período");
+        System.out.println("Indique a opcao: ");
+        int option = sc.nextInt();
+
+        while (option < 1 || option > 4) {
+            invalidOption();
+            option = sc.nextInt();
+        }
+
+        sc.close();
+        return option;
+    }
+
+    /**
+     * Nome do ficheiro para carregar.
+     * @return nome do ficheiro.
+     */
     public String fileToLoad() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Identifique o nome do ficheiro que pretende carregar: ");
@@ -191,6 +318,10 @@ public class View
         return name;
     }
 
+    /**
+     * Nome do ficheiro para carregar.
+     * @return nome do ficheiro.
+     */
     public String fileToSave() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Identifique o nome do ficheiro em que pretende guardar o log: ");
@@ -219,5 +350,4 @@ public class View
     public void success() {
         System.out.println("Success");
     }
-
 }

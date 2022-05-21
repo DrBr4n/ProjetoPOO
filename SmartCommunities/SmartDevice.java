@@ -44,6 +44,7 @@ public class SmartDevice implements Serializable{
      * Construtor de cópia SmartDevice.
      * Aceita como parametro um objeto Smart Device e utiliza os seus métodos
      * de acesso aos valores das variáveis de instancia.
+     * @param SmartDevice o, objeto SmartDevice.
      */
     public SmartDevice(SmartDevice o) {
         this.id = o.getId();
@@ -63,7 +64,7 @@ public class SmartDevice implements Serializable{
 
     /**
      * Actualiza o valor do id.
-     * @param novo identificador.
+     * @param id novo identificador.
      */
     public void setId(String id) {
         this.id = id;
@@ -79,7 +80,7 @@ public class SmartDevice implements Serializable{
 
     /**
      * Actualiza a marca.
-     * @param nova marca.
+     * @param brand nova marca.
      */
     public void setBrand(String brand) {
         this.brand = brand;
@@ -95,7 +96,7 @@ public class SmartDevice implements Serializable{
 
     /**
      * Actualiza o valor do consumo diário.
-     * @param novo consumo diário.
+     * @param dailyConsumption novo consumo diário.
      */
     public void setDailyConsumption(float dailyConsumption) {
         this.dailyConsumption = dailyConsumption;
@@ -111,7 +112,7 @@ public class SmartDevice implements Serializable{
 
     /**
      * Actualiza o valor do custo de instalação.
-     * @param novo custo de instalação.
+     * @param installationCost novo custo de instalação.
      */
     public void setInstallationCost(float installationCost) {
         this.installationCost = installationCost;
@@ -127,7 +128,7 @@ public class SmartDevice implements Serializable{
 
     /**
      * Actualiza o estado do smartdevice.
-     * @param novo estado .
+     * @param on novo estado .
      */
     public void setOn(boolean on) {
         this.on = on;
@@ -148,7 +149,8 @@ public class SmartDevice implements Serializable{
     }
 
     /** 
-     *Testa a veracidade entre a comparação de dois objetos.
+     * Testa a veracidade entre a comparação de dois objetos.
+     * @param Object o, objeto SmartDevice.
      */
     @Override
     public boolean equals(Object o) {
