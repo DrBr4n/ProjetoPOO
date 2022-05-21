@@ -1,8 +1,10 @@
 import java.util.Map;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class Community implements Serializable{
     /**
@@ -16,6 +18,7 @@ public class Community implements Serializable{
     private Map<String, Supplier> suppliers;
     private LocalDate date;
     private LocalDate lastDate;
+    private Map<String, List<String>> receiptsSuppliers;
     
     /**
      * Construtor vazio de Community
@@ -28,6 +31,7 @@ public class Community implements Serializable{
         this.deviceCounter = 0;
         this.date = LocalDate.now();
         this.lastDate = LocalDate.now();
+        this.receiptsSuppliers = new HashMap<>();
     }
     
     /**
@@ -39,7 +43,7 @@ public class Community implements Serializable{
      * @param deviceCounter conta os smartdevices existentes.
      * @param date identifica a data em que se encontra.
      */
-    public Community(String name, Map<String, House> houses, Map<String, Supplier> suppliers, int houseCounter, int deviceCounter, LocalDate date, LocalDate lastDate){
+    public Community(String name, Map<String, House> houses, Map<String, Supplier> suppliers, int houseCounter, int deviceCounter, LocalDate date, LocalDate lastDate, Map<String, List<String>> receiptsSuppliers){
         this.name = name;
         this.houses = houses;
         this.suppliers = suppliers;
@@ -47,6 +51,7 @@ public class Community implements Serializable{
         this.deviceCounter = deviceCounter;
         this.date = date;
         this.lastDate = lastDate;
+        this.receiptsSuppliers = receiptsSuppliers;
     }
     
     /**
@@ -63,9 +68,9 @@ public class Community implements Serializable{
         this.deviceCounter = o.getDeviceCounter();
         this.date = o.getDate();
         this.lastDate = o.getLastDate();
+        this.receiptsSuppliers = o.getReceiptsSuppliers();
     }
     
-
     /**
      * Devolve o nome.
      * @return name.
@@ -183,6 +188,20 @@ public class Community implements Serializable{
         this.lastDate = lastDate;
     }
     
+    public Map<String, List<String>> getReceiptsSuppliers() {
+        Map<String, List<String>> res = new HashMap<String, List<String>>();
+        for (List<String> listReceipts : this.receiptsSuppliers.values()) {
+            int index = listReceipts.get(0).indexOf("Supplier: ");
+            String supplierName = listReceipts.get(0).substring(index+10,listReceipts.get(0).length() - 2);
+            res.put(supplierName, listReceipts);
+        }   
+        return res;
+    }
+
+    public void setReceiptsSuppliers(Map<String, List<String>> receiptsSuppliers) {
+        this.receiptsSuppliers = receiptsSuppliers;
+    }
+
     /**
      * Método que cria uma cópia do objeto Community.
      * @return objecto clone de Community.
@@ -325,6 +344,13 @@ public class Community implements Serializable{
             .append("Supplier: " + house.getSupplier().getName() + "\n");
             ret[index] = sb.toString();
             index++; 
+            if(this.receiptsSuppliers.containsKey(house.getSupplier().getName())){
+                this.receiptsSuppliers.get(house.getSupplier().getName()).add(ret[index-1]);
+            } else {
+                List<String> newList = new ArrayList<>();
+                newList.add(ret[index-1]);
+                this.receiptsSuppliers.put(house.getSupplier().getName(), newList);
+            }
         }
         return ret;
     }

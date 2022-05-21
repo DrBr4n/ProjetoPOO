@@ -306,6 +306,72 @@ public class View
         return option;
     }
 
+    public String[] chooseDatesToHouseConsumedMore(){
+        Scanner sc = new Scanner(System.in);
+        String [] prop = new String[2];
+        System.out.println("Indique o periodo sobre o qual pretende saber a casa com o maior consumo: ");
+        
+        System.out.println("Indique o dia inicial do periodo: ");
+        sc.nextLine();
+        prop[0] = sc.nextLine();
+        System.out.println("Indique o dia final do periodo: ");
+        sc.nextLine();
+        prop[1] = sc.nextLine();
+        
+        sc.close();
+        return prop;
+    }
+
+    public void printHouseConsumedMore(String house){
+        System.out.println("Casa que consumiu mais: ");
+        System.out.println(house);        
+    }
+
+    public void printSupplierMoreReceipts(String supplier){
+        System.out.println("Comercializador que ganhou mais: ");
+        System.out.println(supplier);        
+    }
+
+    public String allReceiptsOfSupplier(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Indique o comercializador do qual quer ver as faturas: ");
+        sc.nextLine();
+        String prop = sc.nextLine();
+        
+        sc.close();
+        return prop;
+    }
+
+    public void printAllReceiptsOfSupplier(String[] receipts){
+        for (String receipt : receipts) {
+            System.out.println("Fatura: ");
+            System.out.println(receipt);
+        }       
+    }
+
+    public String[] descOrderOfHouseConsumption(){
+        Scanner sc = new Scanner(System.in);
+        String [] prop = new String[2];
+        System.out.println("Indique o periodo sobre o qual pretende a ordenação das casas com maior consumo: ");
+        
+        System.out.println("Indique o dia inicial do periodo: ");
+        sc.nextLine();
+        prop[0] = sc.nextLine();
+        System.out.println("Indique o dia final do periodo: ");
+        sc.nextLine();
+        prop[1] = sc.nextLine();
+        
+        sc.close();
+        return prop;
+    }
+
+    public void printDescOrderHouses(Object[] houses){
+        for (Object house : houses) {
+            System.out.println("Casa: ");
+            System.out.println(house);
+        }       
+    }
+
     /**
      * Nome do ficheiro para carregar.
      * @return nome do ficheiro.

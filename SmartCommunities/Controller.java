@@ -14,6 +14,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Controller {
     /**
@@ -282,6 +285,86 @@ public class Controller {
         runQueue();
     }
     
+    public void statistics(){
+        int statistic = this.view.choseStatistics();
+        
+        switch(statistic){
+            case 1:
+                //Casa que gastou mais num período
+                String[] prop = this.view.chooseDatesToHouseConsumedMore();
+                LocalDate startDate = LocalDate.parse(prop[0]);
+                LocalDate endDate = LocalDate.parse(prop[1]);
+                long days = 0;
+                float maxConsumption = 0;
+                String house = "";
+                if(endDate.isAfter(startDate)){
+                    if(startDate.isAfter(this.community.getDate())){
+                        days = ChronoUnit.DAYS.between(startDate, endDate);
+                    }
+                }
+                for(House h : this.community.getHouses().values()){
+                    float consumption = h.calcConsumption() * days;
+                    if(consumption > maxConsumption){
+                        maxConsumption = consumption;
+                        house = h.toString();
+                    }
+                }
+                this.view.printHouseConsumedMore(house);
+                break;
+            case 2:
+                //Comercializador com maior volume de faturação
+                Map<String, List<String>> receiptsSuppliers = this.community.getReceiptsSuppliers();
+                int maxCost = 0;
+                String maxSupplier = "";
+                for(List<String> receipts : receiptsSuppliers.values()){
+                    int cost = 0;
+                    for(String rec : receipts){
+                        int indexCost = rec.indexOf("Cost: ");
+                        int indexEnd = rec.indexOf("\n", indexCost);
+                        cost += Integer.valueOf(rec.substring(indexCost+6, indexEnd-1));
+                    }
+                    if(cost > maxCost){
+                        int index = receipts.get(0).indexOf("Supplier: ");
+                        maxSupplier = receipts.get(0).substring(index+10,receipts.get(0).length() - 2); 
+                    }
+                }
+                this.view.printSupplierMoreReceipts(maxSupplier);
+                break;
+            case 3:
+                //Listar as faturas de um comercializador
+                String supplier = this.view.allReceiptsOfSupplier();
+                List<String> receipts = this.community.getReceiptsSuppliers().get(supplier);
+                String [] res = new String[receipts.size()];
+                int index = 0;
+                for(String r : receipts){
+                    res[index] = r;
+                    index++;
+                }
+                this.view.printAllReceiptsOfSupplier(res);
+                break;
+            case 4:
+                //Ordenar de forma decrescente os consumidores de energia num período
+                String[] propD = this.view.descOrderOfHouseConsumption();
+                LocalDate startDateD = LocalDate.parse(propD[0]);
+                LocalDate endDateD = LocalDate.parse(propD[1]);
+                long daysD = 0;
+                Map<String, Float> consumers = new HashMap<>();
+                if(endDateD.isAfter(startDateD)){
+                    if(startDateD.isAfter(this.community.getDate())){
+                        daysD = ChronoUnit.DAYS.between(startDateD, endDateD);
+                    }
+                }
+                for(House h : this.community.getHouses().values()){ 
+                    consumers.put(h.toString(), h.calcConsumption() * daysD);
+                }
+                Object[] resOrder = consumers.entrySet().stream().sorted(Map.Entry.comparingByValue()).map(entry -> entry.getKey()).toArray();
+                this.view.printDescOrderHouses(resOrder);
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * Executa os pedidos pendentes.
      */
