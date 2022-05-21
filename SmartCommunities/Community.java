@@ -244,6 +244,7 @@ public class Community implements Serializable{
      */
     public void addHouse(House house) {
         this.houses.put(house.getId(), house);
+        this.increaseHouseCounter();
     }
     
     /**

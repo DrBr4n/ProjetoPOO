@@ -130,6 +130,7 @@ public class Supplier implements Serializable {
      * Método que cria uma cópia do objecto Supplier.
      * @return objecto clone do Supplier.
      */
+    @Override
     public Supplier clone() {
         return new Supplier(this);    
     }

@@ -170,7 +170,7 @@ public class View
      */
     public int chooseIfRoomOrDevice() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Indique o que   alterar: \n");
+        System.out.print("Indique o que pretende alterar: \n");
         System.out.println("1 - Dispositivo especifico");
         System.out.println("2 - Divisão de uma casa");
         int option = sc.nextInt();

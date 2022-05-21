@@ -131,7 +131,7 @@ public class Controller {
                 this.community.increaseDeviceCounter();
                 return ac;
             case 2:
-                SmartTV tv = new SmartTV('d' + String.valueOf(this.community.getDeviceCounter()), props[0], Float.parseFloat(props[1]), Float.parseFloat(props[2]), Boolean.parseBoolean(props[3]), Integer.parseInt(props[4]), Integer.parseInt(props[5]));
+                SmartTV tv = new SmartTV('d' + String.valueOf(this.community.getDeviceCounter()), props[0], Float.parseFloat(props[1]), Float.parseFloat(props[2]), Boolean.parseBoolean(props[3]), props[4], Integer.parseInt(props[5]));
                 this.community.increaseDeviceCounter();
                 return tv;
             case 3:
@@ -182,7 +182,7 @@ public class Controller {
     /** 
      * Cria a Casa.
      */
-    public void createHouse() {
+    public void createHouse() { //throws supplierDoesntExistException
         String[] props = this.view.createHouse();
         this.community.increaseHouseCounter();
         House house = new House('h' + String.valueOf(this.community.getHouseCounter()), props[0], props[1], props[2], this.community.getSuppliers().get(props[3]));
@@ -225,7 +225,7 @@ public class Controller {
      */
     public void createSupplier() {
         String[] props = this.view.createSupplier();
-        Supplier supplier = new Supplier(props[0], Float.parseFloat(props[1]), Integer.parseInt(props[2]), Integer.parseInt(props[3]));
+        Supplier supplier = new Supplier(props[0], Float.parseFloat(props[1]), Integer.parseInt(props[2]), Float.parseFloat(props[3]));
         this.community.addSupplier(supplier);
     }
     
@@ -258,11 +258,11 @@ public class Controller {
         else if(Integer.parseInt(prop[0]) == 2){
             if(LocalDate.parse(prop[3]).isAfter(LocalDate.parse(prop[2]))){
                 if(LocalDate.parse(prop[2]).isAfter(this.community.getDate())){
-                    float consumption = 0;
                     long days = ChronoUnit.DAYS.between(LocalDate.parse(prop[2]), LocalDate.parse(prop[3]));
-                    consumption = this.community.getHouses().get(prop[1]).calcConsumption() * days;
+                    this.view.printConsumption(this.community.getHouses().get(prop[1]).calcConsumption() * days);
                 }
             }
+            
         }
     }
     
@@ -366,7 +366,6 @@ public class Controller {
             } else if (houseM.find()) {
                 House house = new House();
                 house.setId('h' + String.valueOf(this.community.getHouseCounter()));
-                this.community.increaseHouseCounter();
                 house.setOwnerName(houseM.group(2));
                 house.setNif(houseM.group(3));
                 //house.setSupplier(houseM.group(4));
@@ -409,7 +408,7 @@ public class Controller {
     
     /**
      * Carrega estado a partir de um ficheiro log.
-     */
+     */ 
     public void loadFromLog() throws FileNotFoundException{
         Scanner sc = null;
         String name = this.view.fileToLoad();
@@ -429,20 +428,20 @@ public class Controller {
             Pattern roomP = Pattern.compile("(room):([a-z0-9 ]+)", Pattern.CASE_INSENSITIVE);
             Matcher roomM = roomP.matcher(data);
             
-            //smartac:brand,dailyconsumption,instalationcost,on,mode,temperature
+            //smartac:id,brand,dailyconsumption,instalationcost,on,mode,temperature
             Pattern smartAcP = Pattern.compile("(smartac):(d[0-9]+),([a-z0-9 ]+),(\\d+.\\d+),(\\d+.\\d+),(true|false),(\\d+),(\\d+)", Pattern.CASE_INSENSITIVE);
             Matcher smartAcM = smartAcP.matcher(data);
-            //smartbulb:brand,dailyconsumption,instalationcost,on,mode,size
+            //smartbulb:id,brand,dailyconsumption,instalationcost,on,mode,size
             Pattern smartBulbP = Pattern.compile("(smartbulb):(d[0-9]+),([a-z0-9 ]+),(\\d+.\\d+),(\\d+.\\d+),(true|false),(\\d+),(\\d+)", Pattern.CASE_INSENSITIVE);
             Matcher smartBulbM = smartBulbP.matcher(data);
-            //smartcamera:brand,dailyconsumption,instalationcost,on,resolution,filesize
+            //smartcamera:id,brand,dailyconsumption,instalationcost,on,resolution,filesize
             Pattern smartCameraP = Pattern.compile("(smartcamera):(d[0-9]+),([a-z0-9 ]+),(\\d+.\\d+),(\\d+.\\d+),(true|false),(\\(\\d+x\\d+\\)),(\\d+)", Pattern.CASE_INSENSITIVE);
             Matcher smartCameraM = smartCameraP.matcher(data);
-            //smartspeaker:brand,dailyconsumption,instalationcost,on,radio,volume
+            //smartspeaker:id,brand,dailyconsumption,instalationcost,on,radio,volume
             Pattern smartSpeakerP = Pattern.compile("(smartspeaker):(d[0-9]+),([a-z0-9 ]+),(\\d+.\\d+),(\\d+.\\d+),(true|false),([a-z0-9 ]+),(\\d{1,3})", Pattern.CASE_INSENSITIVE);
             Matcher smartSpeakerM = smartSpeakerP.matcher(data);
-            //smarttv:brand,dailyconsumption,instalationcost,on,resolution,volume
-            Pattern smartTvP = Pattern.compile("(smartv):(d[0-9]+),([a-z0-9 ]+),(\\d+.\\d+),(\\d+.\\d+),(true|false),(\\(\\d+x\\d+\\)),(\\d{1,3})", Pattern.CASE_INSENSITIVE);
+            //smarttv:id,brand,dailyconsumption,instalationcost,on,resolution,volume
+            Pattern smartTvP = Pattern.compile("(smarttv):(d[0-9]+),([a-z0-9 ]+),(\\d+.\\d+),(\\d+.\\d+),(true|false),(\\(\\d+x\\d+\\)),(\\d{1,3})", Pattern.CASE_INSENSITIVE);
             Matcher smartTvM = smartTvP.matcher(data);
         
 
@@ -453,14 +452,12 @@ public class Controller {
                                                 Integer.parseInt(supplierM.group(5)));
                 this.community.addSupplier(supplier);
             } else if (houseM.find()) {
-                House house = new House(houseM.group(2),
+                currentHouse = new House(houseM.group(2),
                                         houseM.group(3),
                                         houseM.group(4),
                                         houseM.group(5),
                                         this.community.getSuppliers().get(houseM.group(6)));
-                this.community.addHouse(house);
-                currentHouse = new House(house);
-                this.community.increaseHouseCounter();
+                this.community.addHouse(currentHouse);
             } else if (roomM.find()) {
                 currentHouse.addRoom(roomM.group(2));
                 currentRoom.replace(0, currentRoom.length(), roomM.group(2));
@@ -510,7 +507,7 @@ public class Controller {
                                                 Float.parseFloat(smartTvM.group(4)),
                                                 Float.parseFloat(smartTvM.group(5)),
                                                 Boolean.parseBoolean(smartTvM.group(6)),
-                                                Integer.parseInt(smartTvM.group(7)),
+                                                smartTvM.group(7),
                                                 Integer.parseInt(smartTvM.group(8)));
                 this.community.increaseDeviceCounter();
                 currentHouse.addDeviceToRoom(currentRoom.toString(), device);

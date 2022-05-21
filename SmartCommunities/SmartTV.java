@@ -11,7 +11,7 @@ public class SmartTV extends SmartDevice {
      */
     public static final int MAX = 100;
 
-    private int resolution;
+    private String resolution;
     private int volume;
     /**
      * Construtor vazio de SmartTV. 
@@ -19,7 +19,7 @@ public class SmartTV extends SmartDevice {
     public SmartTV() {
         super();
         this.volume = 40;
-        this.resolution = 2160;
+        this.resolution = "2160x1080";
     }
 
     /**
@@ -28,7 +28,7 @@ public class SmartTV extends SmartDevice {
      * @param volume volume da SmartTv.
      * @param resolution resolução da SmartTV. 
      */
-    public SmartTV(String id, String brand, float dailyConsumption, float installationCost, boolean on,  int volume, int resolution) {
+    public SmartTV(String id, String brand, float dailyConsumption, float installationCost, boolean on, String resolution, int volume) {
         super(id, brand, dailyConsumption, installationCost, on);
         this.volume = volume;
         this.resolution = resolution;
@@ -83,7 +83,7 @@ public class SmartTV extends SmartDevice {
      * Devolve a resolução da SmartTV.
      * @return resolução.
      */
-    public int getResolution() {
+    public String getResolution() {
         return this.resolution;
     }
 
@@ -91,7 +91,7 @@ public class SmartTV extends SmartDevice {
      * Actualiza a resolução da SmartTV.
      * @param resolution nova resolução.
      */
-    public void setResolution(int resolution) {
+    public void setResolution(String resolution) {
         this.resolution = resolution;
     }
 
